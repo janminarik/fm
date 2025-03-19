@@ -2,7 +2,7 @@
 const config = {
   singleQuote: false,
   trailingComma: "all",
-  endOfLine: "auto"
+  endOfLine: "auto",
 };
 
 export default config;

@@ -49,24 +49,23 @@ export default tselint.config(
       "import/order": [
         "error",
         {
-          "groups": [
+          groups: [
             "builtin",
             "external",
             "internal",
             ["parent", "sibling"],
             "index",
             "object",
-            "type"
+            "type",
           ],
           "newlines-between": "always",
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          }
-        }
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
       ],
       "import/no-duplicates": "error",
     },
   },
 );
-

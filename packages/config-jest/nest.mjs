@@ -1,6 +1,4 @@
 /** @type {import('jest').Config} */
-const config = {
-  };
-  
+const config = {};
+
 export default config;
-  
