@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "files": [
-        "base.js",
-        "nest.js"
+        "base.mjs",
+        "nest.mjs"
     ],
     "devDependencies": {
         "@jest/types": "^29.6.3",

@@ -1,14 +1,14 @@
-import { type Config } from "@jest/types";
+import baseConfig from "@repo/config-jest/nest.mjs";
 
-const config: Config.InitialOptions = {
-  displayName: "test-fm-api",
-  preset: "ts-jest",
+const config  = {
+  ...baseConfig,
+  displayName: "test-fm-auth",
   testEnvironment: "node",
   rootDir: ".",
   roots: ["<rootDir>/src"],
   testRegex: ".*\\.spec\\.ts$|.*\\.test\\.ts$",
   collectCoverageFrom: ["**/*.(t|j)s"],
-  coverageDirectory: "../coverage",
+  coverageDirectory: "../../coverage/packages/fm-auth",
 };
 
 export default config;
