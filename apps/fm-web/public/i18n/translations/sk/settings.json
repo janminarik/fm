@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "title": "Nastavenia",
+    "theme": {
+      "label": "Téma",
+      "options": {
+        "light": "Svetlá",
+        "dark": "Tmavá"
+      }
+    },
+    "language": {
+      "label": "Jazyk",
+      "options": {
+        "en": "Angličtina",
+        "sk": "Slovenčina"
+      }
+    }
+  }
+}

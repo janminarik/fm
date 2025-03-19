@@ -1,0 +1,35 @@
+{
+    "appName": "Hive",
+    "loader":{
+        "messages": {
+            "default": "Načítavam..."
+        }
+    },
+    "settings": {
+        "title": "Nastavenia",
+        "theme": {
+            "label": "Téma",
+            "options": {
+                "light": "Svetlá",
+                "dark": "Tmavá"
+            }
+        },
+        "language": {
+            "label": "Jazyk",
+            "options": {
+                "en": "Angličtina",
+                "sk": "Slovenčina"
+            }
+        }
+    },
+    "errorPage": {
+        "title": "Chyba",
+        "message": "Vyskytla sa neočakávaná chyba.",
+        "unexpectedTitle":"Neočakávaná chyba"
+    },
+    "notFoundPage": {
+        "title": "Ups! Stránka nenájdená",
+        "message": "Stránka, ktorú hľadáte, neexistuje.",
+        "button": "Prejsť na domovskú stránku"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "name": "@repo/fm-mock-data",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "build": "tsc -b -v",
+        "dev": "pnpm build --watch",
+        "lint": "eslint \"src/**/*.ts\"",
+        "lint:fix": "eslint --fix \"src/**/*.ts\"",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "clean": "pnpm dlx rimraf node_modules dist .turbo",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:cov": "jest --coverage",
+        "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    },
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "dependencies": {
+        "@faker-js/faker": "^9.6.0",
+        "@repo/fm-domain": "workspace:*"
+    },
+    "devDependencies": {
+        "@repo/config-eslint": "workspace:*",
+        "@repo/config-typescript": "workspace:*",
+        "typescript": "5.8.2"
+    }
+}

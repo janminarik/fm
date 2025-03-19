@@ -1,0 +1,31 @@
+{
+  "name": "@repo/config-eslint",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "base.mjs",
+    "nest.mjs",
+    "prettier.mjs",
+    "react-internal.mjs"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@next/eslint-plugin-next": "^15.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "add": "^2.0.6",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-turbo": "^2.4.4",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^16.0.0",
+    "pnpm": "^10.6.4",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
+  }
+}

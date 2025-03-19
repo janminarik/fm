@@ -1,0 +1,185 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id              String     @id @default(uuid())
+  email           String     @unique
+  passwordHash    String
+  role            Role       @default(USER)
+  firstName       String
+  lastName        String
+  userName        String?
+  phoneNumber     String?
+  disabled        Boolean
+  lastLogin       DateTime?
+  passwordAttempt Int        @default(0)
+  verified        Boolean
+  deletedAt       DateTime?
+  createdAt       DateTime?  @default(now())
+  updatedAt       DateTime?  @updatedAt
+  refreshTokens   AppToken[]
+}
+
+enum AppTokenType {
+  REFRESH_TOKEN
+  PASSWORD_RESET_TOKEN
+  EMAIL_VERIFICATION_TOKEN
+}
+
+model AppToken {
+  id        String       @id @default(uuid())
+  type      AppTokenType @default(REFRESH_TOKEN)
+  publicId  String       @unique
+  value     String?
+  revoked   Boolean      @default(false)
+  revokedAt DateTime?
+  expiresAt DateTime?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime?    @updatedAt
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+}
+
+//!----------------------------------------------------------  Apps
+
+//#region Garmin Connect
+//#region Garmin Connect
+model GarminActivity {
+  id                     String    @id @default(uuid()) // Unikátny identifikátor aktivity, automaticky generovaný.
+  activityType           String? // Typ aktivity (napr. beh, cyklistika, turistika).
+  aerobicTE              Float? // Aeróbny tréningový efekt - miera zaťaženia počas aeróbneho tréningu.
+  ascent                 Float? // Celkové stúpanie počas aktivity (v metroch).
+  avgCadence             Float? // Priemerná kadencia (otáčky za minútu pri behu alebo cyklistike).
+  avgGAP                 Int? // Priemerné tempo upravené podľa stúpania (grade-adjusted pace).
+  avgGCTBalance          String? // Priemerná rovnováha doby kontaktu s podložkou (napr. % pre ľavú a pravú nohu).
+  avgGroundContactTime   Int? // Priemerná doba kontaktu s podložkou počas aktivity (v milisekundách).
+  avgHR                  Int? // Priemerná srdcová frekvencia počas aktivity (v úderoch za minútu).
+  avgPace                Int? // Priemerné tempo aktivity (v sekundách na kilometer).
+  avgPower               Int? // Priemerný výkon počas aktivity (vo wattoch).
+  avgResp                Int? // Priemerná frekvencia dýchania počas aktivity (vdychy za minútu).
+  avgRunCadence          Int? // Priemerná bežecká kadencia (kroky za minútu).
+  avgStrideLength        Float? // Priemerná dĺžka kroku počas aktivity (v metroch).
+  avgVerticalOscillation Float? // Priemerná vertikálna oscilácia - pohyb tela hore a dole (v centimetroch).
+  avgVerticalRatio       Float? // Priemerný vertikálny pomer (vertikálna oscilácia k dĺžke kroku).
+  bestLapTime            Float? // Najlepší čas na kolo počas aktivity (v sekundách).
+  bestPace               Int? // Najlepšie zaznamenané tempo počas aktivity (v sekundách na kilometer).
+  calories               Int? // Celkový počet spálených kalórií.
+  date                   DateTime? // Dátum a čas začiatku aktivity.
+  decompression          Boolean // Možná hodnota indikujúca decompression (TODO: zvážiť zmenu na boolean).
+  distance               Float? // Celková vzdialenosť aktivity (v kilometroch alebo metroch).
+  elapsedTime            Int? // Celkový čas od začiatku do konca aktivity (v sekundách, vrátane prestávok).
+  favorite               Boolean // Indikátor, či je aktivita označená ako obľúbená.
+  maxCadence             Int? // Maximálna dosiahnutá kadencia počas aktivity.
+  maxElevation           Float? // Najvyššia nadmorská výška zaznamenaná počas aktivity (v metroch).
+  maxHR                  Int? // Maximálna dosiahnutá srdcová frekvencia počas aktivity.
+  maxPower               Int? // Maximálny výkon dosiahnutý počas aktivity (vo wattoch).
+  maxResp                Int? // Maximálna frekvencia dýchania počas aktivity.
+  maxRunCadence          Int? // Maximálna bežecká kadencia (kroky za minútu).
+  maxTemp                Float? // Najvyššia teplota zaznamenaná počas aktivity (v stupňoch Celzia).
+  minElevation           Float? // Najnižšia nadmorská výška zaznamenaná počas aktivity (v metroch).
+  minResp                Int? // Najnižšia frekvencia dýchania počas aktivity.
+  minTemp                Float? // Najnižšia teplota zaznamenaná počas aktivity (v stupňoch Celzia).
+  movingTime             Int? // Celkový čas pohybu počas aktivity (v sekundách, nezahŕňa prestávky).
+  normalizedPower        Int? // Normalizovaný výkon počas aktivity (vo wattoch).
+  numberOfLaps           Int? // Počet kôl zaznamenaných počas aktivity.
+  steps                  Int? // Počet krokov vykonaných počas aktivity.
+  time                   Int? // Celkový čas aktivity (v sekundách).
+  title                  String? // Názov aktivity.
+  totalAscent            Int? // Celkové stúpanie (v metroch).
+  totalDescent           Int? // Celkové klesanie (v metroch).
+  trainingStressScore    Int? // Tréningové zaťaženie, vypočítané na základe výkonu a trvania aktivity.
+}
+
+//#endregion
+
+//#region qexy
+enum AdSpaceType {
+  BILLBOARD
+  CITYBOARD
+  DIGITAL_CITYLIGHT
+  INTERACTIVE_MONITOR
+  OUTDOOR_DCL
+  DIGITAL_KIOSK
+}
+
+enum AdSpaceStatus {
+  AVAILABLE
+  RESERVED
+  INACTIVE
+  UNDER_MAINTENANCE
+}
+
+enum AdSpaceVisibility {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum AdContentType {
+  STATIC
+  DYNAMIC
+  INTERACTIVE
+}
+
+model Address {
+  id         String    @id @default(uuid())
+  street     String
+  city       String
+  postalcode String
+  country    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  adSpace    AdSpace?
+}
+
+model DigitalContent {
+  id        String        @id @default(uuid())
+  type      AdContentType
+  url       String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime?     @updatedAt
+  isActive  Boolean
+
+  adSpaceId String
+  adSpace   AdSpace @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
+}
+
+model AdSpace {
+  id         String            @id @default(uuid())
+  name       String
+  type       AdSpaceType
+  status     AdSpaceStatus
+  visibility AdSpaceVisibility
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime?         @updatedAt
+
+  addressId String  @unique
+  address   Address @relation(fields: [addressId], references: [id])
+
+  contents    DigitalContent[]
+  maintenance Maintenance[]
+}
+
+model Maintenance {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  description String
+
+  adSpaceId String
+  adSpace   AdSpace @relation(fields: [adSpaceId], references: [id], onDelete: Cascade)
+}
+
+//#endregion

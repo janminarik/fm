@@ -1,0 +1,55 @@
+{
+    "name": "@repo/fm-db",
+    "version": "0.0.0",
+    "private": true,
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist",
+        "prisma"
+    ],
+    "scripts": {
+        "build": "pnpm run generate && tsc -b -v",
+        "clean": "pnpm dlx rimraf node_modules dist .turbo",
+        "db:migrate:dev": "pnpm use-dev-env prisma migrate dev",
+        "db:migrate:e2e": "pnpm use-e2e-env prisma migrate dev",
+        "db:migrate:force:dev": "pnpm use-dev-env prisma migrate dev reset --force",
+        "db:migrate:force:e2e": "pnpm use-e2e-env prisma migrate dev reset --force",
+        "db:seed:dev": "pnpm use-dev-env tsx ./src/seed/seed.ts",
+        "db:seed:e2e": "pnpm use-e2e-env tsx ./src/seed/seed.ts",
+        "dev": "pnpm build --watch",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "generate": "pnpm use-dev-env prisma generate",
+        "lint": "eslint \"src/**/*.ts\"",
+        "lint:fix": "eslint --fix \"src/**/*.ts\"",
+        "studio": "pnpm with-env prisma studio",
+        "test": "jest",
+        "test:cov": "jest --coverage",
+        "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+        "test:watch": "jest --watch",
+        "use-dev-env": "dotenv -e ../../.env.development --",
+        "use-e2e-env": "dotenv -e ../../.env.test --"
+    },
+    "dependencies": {
+        "@faker-js/faker": "^9.6.0",
+        "@nestjs-cls/transactional": "^2.5.0",
+        "@nestjs-cls/transactional-adapter-prisma": "^1.2.16",
+        "@nestjs/common": "^11.0.11",
+        "@nestjs/config": "^4.0.1",
+        "@prisma/client": "^6.5.0",
+        "@repo/config-eslint": "workspace:*",
+        "@repo/fm-domain": "workspace:*",
+        "@repo/fm-shared": "workspace:*",
+        "@repo/config-typescript": "workspace:*",
+        "bcryptjs": "^3.0.2",
+        "type-fest": "^4.37.0"
+    },
+    "devDependencies": {
+        "@repo/config-eslint": "workspace:*",
+        "@repo/config-typescript": "workspace:*",
+        "dotenv-cli": "^8.0.0",
+        "prisma": "^6.5.0",
+        "tsx": "^4.19.3",
+        "typescript": "5.8.2"
+    }
+}

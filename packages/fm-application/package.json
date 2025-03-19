@@ -1,0 +1,35 @@
+{
+    "name": "@repo/fm-application",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        ".": {
+            "types": "./src/index.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "build": "tsc -b -v",
+        "clean": "pnpm dlx rimraf node_modules dist .turbo",
+        "dev": "pnpm build --watch",
+        "format": "prettier --write \"src/**/*.ts\"",
+        "lint": "eslint \"src/**/*.ts\"",
+        "lint:fix": "eslint --fix \"src/**/*.ts\"",
+        "test": "jest",
+        "test:cov": "jest --coverage",
+        "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+        "test:watch": "jest --watch"
+    },
+    "dependencies": {
+        "@nestjs-cls/transactional": "^2.5.0",
+        "@nestjs/common": "^11.0.11",
+        "@repo/fm-domain": "workspace:*",
+        "@repo/fm-shared": "workspace:*",
+        "type-fest": "^4.37.0"
+    },
+    "devDependencies": {
+        "@repo/config-eslint": "workspace:*",
+        "@repo/config-typescript": "workspace:*",
+        "typescript": "5.8.2"
+    }
+}

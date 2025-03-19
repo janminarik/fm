@@ -1,0 +1,107 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV",
+    "API_NAME",
+    "API_PORT",
+    "API_CORS_ORIGIN",
+    "API_DEBUG",
+    "API_LOG_LEVEL",
+    "API_LOG_DIR",
+    "API_DOCS_ENABLED",
+    "AUTH_JWT_SECRET",
+    "AUTH_JWT_TOKEN_EXPIRES_IN",
+    "DB_URL"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ]
+    },
+    "clean": {
+      "cache": false
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "./packages/eslint-config/**"
+      ]
+    },
+    "lint:fix": {
+      "dependsOn": [
+        "^lint:fix"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "./packages/eslint-config/**"
+      ]
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "outputs": []
+    },
+    "test:e2e": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [],
+      "cache": false
+    },
+    "generate": {
+      "dependsOn": [
+        "^generate"
+      ]
+    },
+    "db:migrate:dev": {
+      "outputs": [],
+      "cache": false
+    },
+    "db:migrate:force:dev": {
+      "outputs": [],
+      "cache": false
+    },
+    "db:seed:dev": {
+      "outputs": [],
+      "cache": false
+    },
+    "db:migrate:e2e": {
+      "outputs": [],
+      "cache": false
+    },
+    "db:migrate:force:e2e": {
+      "outputs": [],
+      "cache": false
+    },
+    "db:seed:e2e": {
+      "outputs": [],
+      "cache": false
+    }
+  }
+}

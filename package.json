@@ -1,0 +1,46 @@
+{
+  "name": "flowmate",
+  "private": true,
+  "scripts": {
+    "build": "turbo watch build",
+    "build-nowatch": "turbo build",
+    "clean": "turbo run clean --continue",
+    "clean:all": "pnpm dlx rimraf node_modules pnpm-lock.yaml && pnpm run clean && pnpm dlx rimraf ./.turbo",
+    "db:migrate:dev": "turbo run db:migrate:dev",
+    "db:migrate:e2e": "turbo run db:migrate:e2e",
+    "db:seed:dev": "turbo run db:seed:dev",
+    "db:seed:e2e": "turbo run db:seed:e2e",
+    "db:setup": "pnpm run db:setup:dev && pnpm run db:setup:e2e",
+    "db:setup:dev": "turbo run db:migrate:force:dev && turbo run db:seed:dev",
+    "db:setup:e2e": "turbo run db:migrate:force:e2e && turbo run db:seed:e2e",
+    "dev": "turbo dev --concurrency=11",
+    "format": "turbo run format",
+    "generate": "turbo run generate",
+    "lint": "turbo run lint --continue",
+    "lint:fix": "turbo run lint:fix --continue",
+    "rebuild": "pnpm run clean:all && pnpm run reinstall && turbo run build --force",
+    "reinstall": "pnpm run clean:all && pnpm install",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "upgrade": "pnpm up --latest -r"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "turbo": "^2.4.4",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@10.6.4",
+  "engines": {
+    "node": ">=18"
+  },
+  "pnpm": {
+    "overrides": {
+      "braces@<2.3.1": ">=2.3.1",
+      "braces@<3.0.3": ">=3.0.3",
+      "micromatch@<4.0.8": ">=4.0.8"
+    }
+  }
+}

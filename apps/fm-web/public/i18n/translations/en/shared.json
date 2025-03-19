@@ -1,0 +1,18 @@
+{
+  "appName": "Hive",
+  "loader": {
+    "messages": {
+      "default": "Loading..."
+    }
+  },
+  "errorPage": {
+    "title": "Error",
+    "message": "An unexpected error occurred.",
+    "unexpectedTitle": "Unexpected Error"
+  },
+  "notFoundPage": {
+    "title": "Oops! Page Not Found",
+    "message": "The page you are looking for does not exist.",
+    "button": "Go to Homepage"
+  }
+}
