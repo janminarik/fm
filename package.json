@@ -5,7 +5,7 @@
     "build": "turbo watch build",
     "build-nowatch": "turbo build",
     "clean": "turbo run clean --continue",
-    "clean:all": "pnpm dlx rimraf node_modules pnpm-lock.yaml && pnpm run clean && pnpm dlx rimraf ./.turbo",
+    "clean:all": "pnpm dlx rimraf node_modules pnpm-lock.yaml coverage && pnpm run clean && pnpm dlx rimraf ./.turbo",
     "db:migrate:dev": "turbo run db:migrate:dev",
     "db:migrate:e2e": "turbo run db:migrate:e2e",
     "db:migrate:reset:dev": "turbo run db:migrate:reset:dev",
@@ -24,6 +24,7 @@
     "rebuild": "pnpm run clean:all && pnpm run reinstall && turbo run build --force",
     "reinstall": "pnpm run clean:all && pnpm install",
     "test": "turbo run test",
+    "test:cov": "turbo run test:cov --continue",
     "test:e2e": "turbo run test:e2e",
     "upgrade": "pnpm up --latest -r"
   },
