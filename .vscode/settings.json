@@ -8,8 +8,8 @@
     "**/*.tsbuildinfo": true
   },
   "editor.codeActionsOnSave": {
-  "source.fixAll.eslint": "always",
-  "source.sortPackageJson":"always"
+    "source.fixAll.eslint": "always",
+    "source.sortPackageJson": "always"
   },
   "eslint.format.enable": true,
   "editor.formatOnSave": true,

@@ -1,35 +1,35 @@
 {
-    "appName": "flowmate",
-    "loader": {
-        "messages": {
-            "default": "Loading..."
-        }
-    },
-    "settings": {
-        "title": "Settings",
-        "theme": {
-            "label": "Theme",
-            "options": {
-                "light": "Light",
-                "dark": "Dark"
-            }
-        },
-        "language": {
-            "label": "Language",
-            "options": {
-                "en": "English",
-                "sk": "Slovak"
-            }
-        }
-    },
-    "errorPage": {
-        "title": "Error",
-        "message": "An unexpected error occurred.",
-        "unexpectedTitle": "Unexpected Error"
-    },
-    "notFoundPage": {
-        "title": "Oops! Page Not Found",
-        "message": "The page you are looking for does not exist.",
-        "button": "Go to Homepage"
+  "appName": "flowmate",
+  "loader": {
+    "messages": {
+      "default": "Loading..."
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": {
+      "label": "Theme",
+      "options": {
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "language": {
+      "label": "Language",
+      "options": {
+        "en": "English",
+        "sk": "Slovak"
+      }
+    }
+  },
+  "errorPage": {
+    "title": "Error",
+    "message": "An unexpected error occurred.",
+    "unexpectedTitle": "Unexpected Error"
+  },
+  "notFoundPage": {
+    "title": "Oops! Page Not Found",
+    "message": "The page you are looking for does not exist.",
+    "button": "Go to Homepage"
+  }
 }

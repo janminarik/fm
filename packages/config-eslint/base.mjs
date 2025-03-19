@@ -1,15 +1,15 @@
-import js from '@eslint/js';
-import tselint from 'typescript-eslint';
+import js from "@eslint/js";
+import tselint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
-import prettierConfig  from "./prettier.mjs"
-import prettierPlugin from "eslint-plugin-prettier"; 
+import prettierConfig from "./prettier.mjs";
+import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
-import turboPlugin from "eslint-plugin-turbo"
+import turboPlugin from "eslint-plugin-turbo";
 
 export default tselint.config(
   {
     ignores: [
-      'eslint.config.mjs', 
+      "eslint.config.mjs",
       "dist/**",
       ".*.?(c|m)js",
       "*.setup*.?(c|m)js",
@@ -20,7 +20,7 @@ export default tselint.config(
       "build/",
       "dist/",
       "coverage/",
-      "node_modules/"
+      "node_modules/",
     ],
   },
   js.configs.recommended,
@@ -29,13 +29,13 @@ export default tselint.config(
   {
     plugins: {
       turbo: turboPlugin,
-      prettier: prettierPlugin, 
-      "unused-imports" : unusedImportsPlugin,
+      prettier: prettierPlugin,
+      "unused-imports": unusedImportsPlugin,
     },
     rules: {
       "turbo/no-undeclared-env-vars": "warn",
-      "prettier/prettier": ["error", prettierConfig], 
-      'unused-imports/no-unused-imports': 'error',
+      "prettier/prettier": ["error", prettierConfig],
+      "unused-imports/no-unused-imports": "error",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -47,4 +47,3 @@ export default tselint.config(
     },
   },
 );
-
