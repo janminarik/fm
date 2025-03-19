@@ -32,12 +32,12 @@ export default tselint.config(
       turbo: turboPlugin,
       prettier: prettierPlugin,
       import: importPlugin,
-      // "unused-imports": unusedImportsPlugin,
+      "unused-imports": unusedImportsPlugin,
     },
     rules: {
       "turbo/no-undeclared-env-vars": "warn",
       "prettier/prettier": ["error", prettierConfig],
-      // "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-imports": "error",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {

@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-import { UserUseCasesModule } from "@repo/fm-application";
 
 import { AdSpaceModule } from "./adspace/adspace.module";
 import { AuthModule } from "./auth/auth.module";
