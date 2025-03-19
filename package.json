@@ -8,6 +8,8 @@
     "clean:all": "pnpm dlx rimraf node_modules pnpm-lock.yaml && pnpm run clean && pnpm dlx rimraf ./.turbo",
     "db:migrate:dev": "turbo run db:migrate:dev",
     "db:migrate:e2e": "turbo run db:migrate:e2e",
+    "db:migrate:force:dev": "turbo run db:migrate:force:dev",
+    "db:migrate:force:e2e": "turbo run db:migrate:force:e2e",
     "db:seed:dev": "turbo run db:seed:dev",
     "db:seed:e2e": "turbo run db:seed:e2e",
     "db:setup": "pnpm run db:setup:dev && pnpm run db:setup:e2e",

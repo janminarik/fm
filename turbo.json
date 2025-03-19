@@ -17,7 +17,8 @@
   "tasks": {
     "build": {
       "dependsOn": [
-        "^build"
+        "^build",
+        "generate"
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
@@ -29,8 +30,13 @@
         "dist/**"
       ]
     },
-    "clean": {
-      "cache": false
+    "dev": {
+      "dependsOn": [
+        "^build",
+        "generate"
+      ],
+      "cache": false,
+      "persistent": true
     },
     "lint": {
       "dependsOn": [
@@ -55,23 +61,7 @@
         "^format"
       ]
     },
-    "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "test": {
-      "outputs": []
-    },
-    "test:e2e": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [],
+    "clean": {
       "cache": false
     },
     "generate": {
@@ -100,6 +90,16 @@
       "cache": false
     },
     "db:seed:e2e": {
+      "outputs": [],
+      "cache": false
+    },
+    "test": {
+      "outputs": []
+    },
+    "test:e2e": {
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": [],
       "cache": false
     }
