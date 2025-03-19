@@ -13,7 +13,6 @@
     "@next/eslint-plugin-next": "^15.2.3",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
-    "add": "^2.0.6",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-import": "^2.31.0",
@@ -25,7 +24,6 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.0.0",
     "pnpm": "^10.6.4",
-    "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.1"
   }

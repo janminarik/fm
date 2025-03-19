@@ -2,9 +2,7 @@
 const config = {
   singleQuote: false,
   trailingComma: "all",
-  endOfLine: "auto",
-  // organizeImportsSkipDestructiveCodeActions: true,
-  // plugins: ["prettier-plugin-organize-imports"],
+  endOfLine: "auto"
 };
 
 export default config;
