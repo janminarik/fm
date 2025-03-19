@@ -1,14 +1,14 @@
 import { type Config } from "@jest/types";
 
 const config: Config.InitialOptions = {
-  displayName: "test-fm-api",
+  displayName: "fm-api",
   preset: "ts-jest",
   testEnvironment: "node",
   rootDir: ".",
   roots: ["<rootDir>/src", "<rootDir>/e2e"],
   testRegex: ".*\\.spec\\.ts$|.*\\.e2e.spec\\.ts$",
   collectCoverageFrom: ["**/*.(t|j)s"],
-  coverageDirectory: "../coverage",
+  coverageDirectory: "../../coverage/app/fm-api",
 };
 
 export default config;

@@ -1,7 +1,7 @@
 import { type Config } from "@jest/types";
 
 const config: Config.InitialOptions = {
-  displayName: "test-e2e-fm-api",
+  displayName: "fm-api-e2e",
   preset: "ts-jest",
   testEnvironment: "node",
   rootDir: ".",
