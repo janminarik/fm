@@ -1,6 +1,8 @@
 #! Jan
 !.vscode/
 !.vscode/**
+!.env.development
+!.env.testing
 
 # Dependencies
 node_modules
