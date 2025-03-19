@@ -1,10 +1,10 @@
 import { type Config } from "@jest/types";
-// import { baseJestPreset } from "@repo/config-jest/nest.mjs";
+import baseConfig from "@repo/config-jest/nest";
 
 const config: Config.InitialOptions = {
-  preset: "ts-jest",
-  displayName: "fm-api-e2e",
+  ...baseConfig,
   // preset: "ts-jest",
+  displayName: "fm-api-e2e",
   testEnvironment: "node",
   rootDir: ".",
   testRegex: ".*\\.e2e.spec\\.ts$",

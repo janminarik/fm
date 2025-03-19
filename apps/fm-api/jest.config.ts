@@ -1,10 +1,9 @@
 import { type Config } from "@jest/types";
-import { config as baseJestPreset } from "@repo/config-jest/nest.js";
+import baseConfig from "@repo/config-jest/nest";
 
 const config: Config.InitialOptions = {
   // preset: "ts-jest",
-
-  ...baseJestPreset,
+  ...baseConfig,
   displayName: "fm-api",
   testEnvironment: "node",
 
