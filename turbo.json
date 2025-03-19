@@ -73,7 +73,7 @@
       "outputs": [],
       "cache": false
     },
-    "db:migrate:force:dev": {
+    "db:migrate:reset:dev": {
       "outputs": [],
       "cache": false
     },
@@ -85,7 +85,7 @@
       "outputs": [],
       "cache": false
     },
-    "db:migrate:force:e2e": {
+    "db:migrate:reset:e2e": {
       "outputs": [],
       "cache": false
     },
