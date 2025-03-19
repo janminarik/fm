@@ -8,10 +8,10 @@ const config = {
 
   rootDir: ".",
   roots: ["<rootDir>/src", "<rootDir>/e2e"],
+
   testRegex: ".*\\.spec\\.ts$|.*\\.e2e.spec\\.ts$",
 
   coverageDirectory: "../../coverage/app/fm-api",
-
   collectCoverage: true,
   collectCoverageFrom: ["**/*.{ts,tsx}"],
 };

@@ -23,9 +23,9 @@
     "lint:fix": "turbo run lint:fix --continue",
     "rebuild": "pnpm run clean:all && pnpm run reinstall && turbo run build --force",
     "reinstall": "pnpm run clean:all && pnpm install",
-    "test": "turbo run test",
+    "test": "turbo run test --continue",
     "test:cov": "turbo run test:cov --continue",
-    "test:e2e": "turbo run test:e2e",
+    "test:e2e": "turbo run test:e2e --continue",
     "upgrade": "pnpm up --latest -r"
   },
   "devDependencies": {
