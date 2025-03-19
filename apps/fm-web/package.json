@@ -11,8 +11,9 @@
     "i18n-copy": "cpx \"src/i18n/translations/**/*\" public/i18n/translations",
     "i18n-generate-types": "i18next-resources-for-ts interface -i ./src/i18n/translations -o ./src/i18n/resources.d.ts",
     "i18n-watch": "cpx \"src/i18n/translations/**/*\" public/i18n/translations --watch",
-    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "preview": "vite preview"
   },
   "dependencies": {
