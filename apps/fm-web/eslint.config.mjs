@@ -5,7 +5,7 @@ export default [
   {
     languageOptions: {
       parserOptions: {
-        projectService: true, //!@typescript-eslint/parser bude hladat najblizsi tsconfig.json
+        projectService: true,
       },
     },
   },
