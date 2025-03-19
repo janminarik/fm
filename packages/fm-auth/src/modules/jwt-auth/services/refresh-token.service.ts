@@ -1,4 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
+import { Transactional } from "@nestjs-cls/transactional";
 import {
   APP_TOKEN_REPOSITORY,
   AppTokenType,
@@ -7,17 +8,16 @@ import {
   User,
   USER_REPOSITORY,
 } from "@repo/fm-domain";
-import { AUTH_CONFIG, JwtAuthConfig } from "../config";
-import { JwtRefreshPayloadDto } from "../dto";
-
-import { Transactional } from "@nestjs-cls/transactional";
 import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
 import { generateId } from "@repo/nest-common";
 import { addMilliseconds } from "date-fns";
-import { IJwtOptions } from "../interfaces/jwt.interfaces";
+
+import { AUTH_CONFIG, JwtAuthConfig } from "../config";
+import { JwtRefreshPayloadDto } from "../dto";
 import { AuthToken } from "../types/auth-token";
 import { createUnixTimespan } from "../utils";
 import { JwtWrapperService } from "./jwt-wrapper.service";
+import { IJwtOptions } from "../interfaces/jwt.interfaces";
 
 export const REFRESH_TOKEN_SERVICE = Symbol("REFRESH_TOKEN_SERVICE");
 

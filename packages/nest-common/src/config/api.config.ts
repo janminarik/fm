@@ -10,9 +10,10 @@ import {
   Max,
   Min,
 } from "class-validator";
+
+import { ApiConfig } from "./api-config.type";
 import { Environment } from "../constants/app.constant";
 import { validateConfig } from "../utils/config.utils";
-import { ApiConfig } from "./api-config.type";
 
 export const API_CONFIG_NAMESPACE = "app";
 export const API_CONFIG = "API_CONFIG";

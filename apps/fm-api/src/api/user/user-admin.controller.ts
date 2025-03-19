@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CreateUserUseCase } from "@repo/fm-application";
+
 import { UserMapper } from "./common/user.mapper";
 import { CreateUserDoc } from "./docs/user.doc";
 import { CreateUserDto, UserDto } from "./dtos";

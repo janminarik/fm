@@ -5,11 +5,11 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 
+import router from "./routes";
+import { persistor, store } from "./store";
 import i18n from "../i18n/i18n";
 import SuspenseWrapper from "../shared/components/SuspenseWrapper";
 import { AppThemeProvider } from "../theme/AppThemeProvider";
-import router from "./routes";
-import { persistor, store } from "./store";
 
 const cache = createCache({ key: "mui", prepend: true });
 

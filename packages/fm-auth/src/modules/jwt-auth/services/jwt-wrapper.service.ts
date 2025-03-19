@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { JwtService as NestJwtService } from "@nestjs/jwt";
+
 import { IJwtOptions, IJwtVerifyOptions } from "../interfaces";
 
 @Injectable()

@@ -2,6 +2,7 @@ import { Controller, Get, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { GetUserByIdUseCase } from "@repo/fm-application";
 import { JwtAccessGuard, JwtAccessPayloadDto, JwtPayload } from "@repo/fm-auth";
+
 import { UserMapper } from "./common/user.mapper";
 import { GetUserProfileDoc } from "./docs/user.doc";
 import { UserDto } from "./dtos";

@@ -6,6 +6,7 @@ import {
   USER_REPOSITORY,
 } from "@repo/fm-domain";
 import { IBaseModuleOptions } from "@repo/fm-shared";
+
 import { AdSpaceMapper, prismaAdSpaceRepositoryProvider } from "./repositories";
 import {
   AppTokenMapper,

@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
+import NavigationMenu from "./NavigationMenu";
+import Sidebar, { SidebarProps } from "./Sidebar";
 import { AppDispatch, RootState } from "../../app/store";
 import { useAppTheme } from "../hooks/useAppTheme";
 import useNavigationPanelResponsiveWidth from "../hooks/useNavigationPanelResponsiveWidth";
 import { closeNavigationPanel } from "../slices/navigationPanelSlice";
 import { NavigationMenuItem } from "../types/commonTypes";
-import NavigationMenu from "./NavigationMenu";
-import Sidebar, { SidebarProps } from "./Sidebar";
 
 export interface NavigationPanelProps extends SidebarProps {
   menuItems: NavigationMenuItem[];

@@ -1,5 +1,6 @@
 import { DynamicModule, Provider } from "@nestjs/common";
 import { ConfigModule, ConfigService, registerAs } from "@nestjs/config";
+
 import { LoggerConfigProvider } from "./types/logger-config-provider";
 
 export interface LoggersConfigModuleOptions {

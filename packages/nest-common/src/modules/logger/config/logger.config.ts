@@ -1,4 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+
 import { Environment } from "../../../constants/app.constant";
 import { validateConfig } from "../../../utils";
 import { LoggerConfigProvider } from "../types/logger-config-provider";

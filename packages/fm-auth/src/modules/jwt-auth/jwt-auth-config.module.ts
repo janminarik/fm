@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+
 import { AUTH_CONFIG, jwyAuthConfigService } from "./config";
 
 @Module({

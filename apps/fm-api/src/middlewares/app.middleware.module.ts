@@ -9,6 +9,7 @@ import {
   TextBodyParserMiddleware,
   UrlencodedBodyParserMiddleware,
 } from "@repo/nest-common";
+
 import { AppConfig } from "../config/app.config";
 
 @Module({

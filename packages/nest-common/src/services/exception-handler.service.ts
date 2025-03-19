@@ -1,3 +1,5 @@
+import { STATUS_CODES } from "http";
+
 import {
   HttpException,
   HttpStatus,
@@ -5,7 +7,7 @@ import {
   UnprocessableEntityException,
   ValidationError,
 } from "@nestjs/common";
-import { STATUS_CODES } from "http";
+
 import { ErrorDto, ValidatioErrorDto } from "../dto";
 
 @Injectable()

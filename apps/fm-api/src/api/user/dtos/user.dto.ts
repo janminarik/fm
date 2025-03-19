@@ -9,6 +9,7 @@ import {
   IsPhoneNumber,
   IsString,
 } from "class-validator";
+
 import { BaseEntityDto } from "../../../common/dto";
 
 export class UserDto extends BaseEntityDto {

@@ -2,6 +2,7 @@ import { INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AuthCookieService } from "@repo/fm-auth";
+
 import { AppConfig } from "./config/app.config";
 
 export function configureSwagger(app: INestApplication) {

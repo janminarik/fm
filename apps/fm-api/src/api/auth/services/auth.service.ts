@@ -1,5 +1,5 @@
-import { Transactional } from "@nestjs-cls/transactional";
 import { Inject, UnauthorizedException } from "@nestjs/common";
+import { Transactional } from "@nestjs-cls/transactional";
 import {
   ACCESS_TOKEN_SERVICE,
   IAccessTokenService,
@@ -8,6 +8,7 @@ import {
 } from "@repo/fm-auth";
 import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
 import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
+
 import { AuthTokenPairDto } from "../dto/auth-token-pair.dto";
 
 export class AuthService {

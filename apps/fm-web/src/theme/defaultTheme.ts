@@ -1,7 +1,7 @@
 import { createTheme, Theme } from "@mui/material";
 
-import { ThemeName } from "../shared/types/commonTypes";
 import { CustomThemeAttributes } from "./customThemeAttributes";
+import { ThemeName } from "../shared/types/commonTypes";
 
 declare module "@mui/material/styles" {
   interface Theme {

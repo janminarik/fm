@@ -5,6 +5,7 @@ import prettierConfig from "./prettier.mjs";
 import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import turboPlugin from "eslint-plugin-turbo";
+import importPlugin from "eslint-plugin-import";
 
 export default tselint.config(
   {
@@ -30,12 +31,13 @@ export default tselint.config(
     plugins: {
       turbo: turboPlugin,
       prettier: prettierPlugin,
-      "unused-imports": unusedImportsPlugin,
+      import: importPlugin,
+      // "unused-imports": unusedImportsPlugin,
     },
     rules: {
       "turbo/no-undeclared-env-vars": "warn",
       "prettier/prettier": ["error", prettierConfig],
-      "unused-imports/no-unused-imports": "error",
+      // "unused-imports/no-unused-imports": "error",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -44,6 +46,27 @@ export default tselint.config(
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            ["parent", "sibling"],
+            "index",
+            "object",
+            "type"
+          ],
+          "newlines-between": "always",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }
+      ],
+      "import/no-duplicates": "error",
     },
   },
 );
+

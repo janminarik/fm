@@ -1,5 +1,6 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
+
 import { IRequestContext } from "../interfaces";
 
 export class RequestContextInterceptor implements NestInterceptor {

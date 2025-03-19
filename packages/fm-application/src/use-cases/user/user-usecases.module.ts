@@ -1,5 +1,6 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { CryptoModule, IBaseModuleOptions } from "@repo/fm-shared";
+
 import { CreateUserUseCase } from "./create-user.usecase";
 import { GetUserByEmailUseCase } from "./get-user-by-email.usecase";
 import { GetUserByIdUseCase } from "./get-user-by-id.usecase";

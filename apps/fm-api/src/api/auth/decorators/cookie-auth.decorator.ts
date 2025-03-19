@@ -1,4 +1,5 @@
 import { UseInterceptors } from "@nestjs/common";
+
 import { LoginInterceptor, LogoutInterceptor } from "../interceptors";
 
 export default function CookieAuthentication(

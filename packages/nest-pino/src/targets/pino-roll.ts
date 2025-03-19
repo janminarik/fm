@@ -1,5 +1,6 @@
-import { FileLoggerConfig } from "@repo/nest-common";
 import { join } from "path";
+
+import { FileLoggerConfig } from "@repo/nest-common";
 import { TransportTargetOptions } from "pino";
 
 export const createPinoRoll = (

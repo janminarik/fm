@@ -1,3 +1,5 @@
+import { afterEach } from "node:test";
+
 import { UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
@@ -10,12 +12,12 @@ import {
   RENEW_TOKEN_SERVICE,
 } from "@repo/fm-auth";
 import { plainToInstance } from "class-transformer";
-import { afterEach } from "node:test";
-import { validateDto } from "../../utils/test-utils";
+
 import { AuthController } from "./auth.controller";
 import { LoginRequestDto } from "./dto";
 import { AuthTokenPairDto } from "./dto/auth-token-pair.dto";
 import { AuthService } from "./services/auth.service";
+import { validateDto } from "../../utils/test-utils";
 
 describe("AuthController", () => {
   let controller: AuthController;

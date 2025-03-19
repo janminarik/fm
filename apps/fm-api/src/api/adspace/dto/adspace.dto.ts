@@ -2,8 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { AdSpaceStatus, AdSpaceType, AdSpaceVisibility } from "@repo/fm-domain";
 import { Expose, Type } from "class-transformer";
 import { IsEnum, IsNotEmpty, IsString, ValidateNested } from "class-validator";
-import { BaseEntityDto } from "../../../common/dto";
+
 import { AddressDto } from "./address.dto";
+import { BaseEntityDto } from "../../../common/dto";
 
 export class AdSpaceDto extends BaseEntityDto {
   @ApiProperty({ type: () => String, required: true })

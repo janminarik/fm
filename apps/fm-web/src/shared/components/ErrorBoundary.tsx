@@ -6,8 +6,8 @@ import {
   useRouteError,
 } from "react-router-dom";
 
-import { TRANSLATIONS_NAMESPACES } from "../../i18n/config";
 import ErrorBox from "./ErrorBox";
+import { TRANSLATIONS_NAMESPACES } from "../../i18n/config";
 
 interface ErrorBoundaryProps {
   isRoot?: boolean;

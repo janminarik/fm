@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
 import { addMilliseconds } from "date-fns";
+
 import { AUTH_CONFIG, JwtAuthConfig } from "../config";
 import { IJwtOptions } from "../interfaces/jwt.interfaces";
 import { AuthToken } from "../types/auth-token";

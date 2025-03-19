@@ -1,7 +1,7 @@
+import { persistor, store } from "./store";
 import { setLanguage } from "../features/settings/slices/uiSettingsSlice";
 import i18n from "../i18n/i18n";
 import { Language } from "../shared/types/commonTypes";
-import { persistor, store } from "./store";
 
 export const initializeApp = async () => {
   await new Promise<void>((resolve) => {

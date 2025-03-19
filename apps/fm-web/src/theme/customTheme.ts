@@ -2,8 +2,8 @@ import ArrowDropDownRounded from "@mui/icons-material/ArrowDropDownRounded";
 import { alpha, createTheme, Theme, ThemeOptions } from "@mui/material/styles";
 import { deepmerge } from "@mui/utils";
 
-import { ThemeName } from "../shared/types/commonTypes";
 import { CustomThemeAttributes } from "./customThemeAttributes";
+import { ThemeName } from "../shared/types/commonTypes";
 
 declare module "@mui/material/styles/createPalette" {
   interface ColorRange {

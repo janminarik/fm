@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { CryptoModule, IBaseModuleOptions } from "@repo/fm-shared";
 import { ClsModule } from "nestjs-cls";
+
 import { JwtAuthConfig } from "./config";
 import { AUTH_CONFIG } from "./config/jwt-auth.config";
 import { AuthConfigModule } from "./jwt-auth-config.module";

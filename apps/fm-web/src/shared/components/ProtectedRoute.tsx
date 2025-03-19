@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { RootState } from "../../app/store";
 import Loader from "./Loader";
+import { RootState } from "../../app/store";
 
 function ProtectedRoute() {
   // const { error, isLoading } = useCheckAuthQuery(undefined, {

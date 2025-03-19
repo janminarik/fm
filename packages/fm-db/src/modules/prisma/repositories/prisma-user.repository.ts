@@ -1,6 +1,6 @@
+import { ConflictException, Injectable, Provider } from "@nestjs/common";
 import { TransactionHost } from "@nestjs-cls/transactional";
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
-import { ConflictException, Injectable, Provider } from "@nestjs/common";
 import { Prisma, User } from "@prisma/client";
 import {
   IUserRepository,
@@ -10,6 +10,7 @@ import {
 } from "@repo/fm-domain";
 import { BaseMapper } from "@repo/fm-shared";
 import { PartialDeep } from "type-fest";
+
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
 type PrismaUserRepositoryType = PrismaBaseRepository<

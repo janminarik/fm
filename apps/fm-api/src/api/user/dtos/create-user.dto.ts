@@ -1,7 +1,8 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
-import { UserPasswordOptions } from "../../../common/password.options";
+
 import { UserDto } from "./user.dto";
+import { UserPasswordOptions } from "../../../common/password.options";
 
 export class CreateUserDto extends OmitType(UserDto, [
   "id",

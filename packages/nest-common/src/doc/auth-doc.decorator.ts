@@ -1,5 +1,6 @@
 import { applyDecorators } from "@nestjs/common";
 import { ApiBearerAuth, ApiUnauthorizedResponse } from "@nestjs/swagger";
+
 import { ErrorDto } from "../dto";
 import { GetDefaultDescription } from "./response-doc.decorator";
 

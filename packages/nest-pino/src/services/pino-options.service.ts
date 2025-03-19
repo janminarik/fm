@@ -1,3 +1,5 @@
+import { IncomingMessage, ServerResponse } from "http";
+
 import { Injectable } from "@nestjs/common";
 import {
   BaseLoggerConfig,
@@ -9,8 +11,8 @@ import {
   REQUEST_ID_HEADER,
 } from "@repo/nest-common";
 import { Response } from "express";
-import { IncomingMessage, ServerResponse } from "http";
 import { TransportTargetOptions } from "pino";
+
 import type { Options as PinoHttpOptions } from "pino-http";
 
 export interface PinoOptions {

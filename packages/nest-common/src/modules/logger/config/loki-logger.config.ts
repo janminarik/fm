@@ -1,11 +1,12 @@
 import { IsOptional, IsString } from "class-validator";
-import { validateConfig } from "../../../utils";
-import { LoggerConfigProvider } from "../types/logger-config-provider";
+
 import {
   BaseLoggerConfig,
   BaseLoggerEnvVarsValidationSchema,
   createBaseLoggerConfig,
 } from "./logger.config";
+import { validateConfig } from "../../../utils";
+import { LoggerConfigProvider } from "../types/logger-config-provider";
 
 export const LOKI_LOGGER_CONFIG = "LOKI_LOGGER_CONFIG";
 

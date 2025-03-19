@@ -1,7 +1,7 @@
 import PersonIcon from "@mui/icons-material/Person";
 
-import { NavigationMenuItem } from "../../../shared/types/commonTypes";
 import { ROUTES } from "./routes";
+import { NavigationMenuItem } from "../../../shared/types/commonTypes";
 
 export const menuItems: NavigationMenuItem[] = [
   {

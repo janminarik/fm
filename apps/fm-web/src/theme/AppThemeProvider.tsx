@@ -3,8 +3,8 @@ import { Theme } from "@mui/material/styles";
 import React, { createContext, ReactNode } from "react";
 import { useSelector } from "react-redux";
 
-import { RootState } from "../app/store";
 import { getTheme } from "./defaultTheme";
+import { RootState } from "../app/store";
 
 export const ThemeContext = createContext<Theme | undefined>(undefined);
 

@@ -1,12 +1,12 @@
+import { Address } from "./address.entity";
+import { BaseEntity, ICreateBaseEntityProps, ID } from "./base.entity";
+import { DigitalContent } from "./digital-content.entity";
+import { Maintenance } from "./maintenance.entity";
 import {
   AdSpaceStatus,
   AdSpaceType,
   AdSpaceVisibility,
 } from "../enums/ad-space.enum";
-import { Address } from "./address.entity";
-import { BaseEntity, ICreateBaseEntityProps, ID } from "./base.entity";
-import { DigitalContent } from "./digital-content.entity";
-import { Maintenance } from "./maintenance.entity";
 
 export interface ICreateAdSpaceProps extends ICreateBaseEntityProps {
   id: ID;

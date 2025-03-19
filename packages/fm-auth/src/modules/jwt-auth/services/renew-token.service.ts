@@ -1,14 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common";
+import { Transactional } from "@nestjs-cls/transactional";
 import {
   APP_TOKEN_REPOSITORY,
   IAppTokenRepository,
   IUserRepository,
   USER_REPOSITORY,
 } from "@repo/fm-domain";
-import { JwtRefreshPayloadDto } from "../dto";
 
-import { Transactional } from "@nestjs-cls/transactional";
-import { AuthTokenPair } from "../types/auth-token";
+import { JwtRefreshPayloadDto } from "../dto";
 import {
   ACCESS_TOKEN_SERVICE,
   IAccessTokenService,
@@ -18,6 +17,7 @@ import {
   IRefreshTokenService,
   REFRESH_TOKEN_SERVICE,
 } from "./refresh-token.service";
+import { AuthTokenPair } from "../types/auth-token";
 
 export const RENEW_TOKEN_SERVICE = Symbol("RENEW_TOKEN_SERVICE");
 

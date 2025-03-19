@@ -1,4 +1,5 @@
 import { PartialDeep } from "type-fest";
+
 import { BaseEntity } from "../../entities";
 
 export type BaseEntityCreateOmitKeys = "id" | "createdAt" | "updatedAt";

@@ -7,8 +7,8 @@ import {
 } from "@reduxjs/toolkit/query";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { AppError } from "../types/commonTypes";
 import { capitalize } from "./commonUtils";
+import { AppError } from "../types/commonTypes";
 
 // #region Base
 

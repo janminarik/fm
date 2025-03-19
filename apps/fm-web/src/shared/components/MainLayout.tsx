@@ -3,12 +3,12 @@ import Grid from "@mui/material/Grid2";
 import { ElementType, Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
-import { useAppTheme } from "../hooks/useAppTheme";
-import useNavigationPanelResponsiveWidth from "../hooks/useNavigationPanelResponsiveWidth";
-import { NavigationMenuItem } from "../types/commonTypes";
 import AppSnackbar from "./AppSnackbar";
 import Loader from "./Loader";
 import { NavigationPanelProps } from "./NavigationPanel";
+import { useAppTheme } from "../hooks/useAppTheme";
+import useNavigationPanelResponsiveWidth from "../hooks/useNavigationPanelResponsiveWidth";
+import { NavigationMenuItem } from "../types/commonTypes";
 
 const Offset = styled("div")(({ theme }: { theme: Theme }) => ({
   ...theme.mixins.toolbar,

@@ -1,6 +1,6 @@
-import { AdContentType } from "../enums/ad-space.enum";
 import { AdSpace } from "./ad-space.entity";
 import { BaseEntity, ICreateBaseEntityProps } from "./base.entity";
+import { AdContentType } from "../enums/ad-space.enum";
 
 export interface ICreateDigitalContent extends ICreateBaseEntityProps {
   type: AdContentType;

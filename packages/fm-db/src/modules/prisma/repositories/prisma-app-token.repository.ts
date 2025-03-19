@@ -1,6 +1,6 @@
+import { Injectable, Provider } from "@nestjs/common";
 import { TransactionHost } from "@nestjs-cls/transactional";
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
-import { Injectable, Provider } from "@nestjs/common";
 import { AppToken, Prisma } from "@prisma/client";
 import {
   APP_TOKEN_REPOSITORY,
@@ -11,6 +11,7 @@ import {
 } from "@repo/fm-domain";
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 import { PartialDeep } from "type-fest";
+
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
 type PrismaAppTokenRepositoryType = PrismaBaseRepository<

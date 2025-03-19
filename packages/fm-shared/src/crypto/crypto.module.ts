@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+
 import { HASH_SERVICE, hashServiceProvider } from "./services";
 
 @Module({

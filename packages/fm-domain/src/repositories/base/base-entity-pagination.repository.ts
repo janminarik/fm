@@ -1,9 +1,9 @@
-import { BaseEntity } from "../../entities";
 import {
   CreateEntity,
   IBaseEntityRepository,
   UpdateEntity,
 } from "./base-entity-repository";
+import { BaseEntity } from "../../entities";
 
 export enum SortDirection {
   ASC = "ASC",

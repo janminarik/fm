@@ -7,9 +7,10 @@ import {
   ListAdSpaceUseCase,
   UpdateAdSpaceUseCase,
 } from "@repo/fm-application";
-import Authentication from "../../common/decorators/authentication.decorator";
+
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
 import { AdSpaceMapper } from "./adspace.mapper";
+import Authentication from "../../common/decorators/authentication.decorator";
 
 @ApiTags("adspace")
 @Authentication()

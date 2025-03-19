@@ -18,6 +18,7 @@ import {
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import { Logger as PinoLogger } from "nestjs-pino";
+
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./common/global-exception.filter";
 import { AppConfig } from "./config/app.config";
