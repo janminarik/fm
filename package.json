@@ -20,6 +20,7 @@
     "format:all": "prettier --write \"**/*.{ts,tsx,js,mjs,jsx,json,css,scss,md,html}\"",
     "generate": "turbo run generate",
     "lint": "turbo run lint --continue",
+    "lint-fix2": "turbo run lint -- --fix --continue",
     "lint:fix": "turbo run lint:fix --continue",
     "rebuild": "pnpm run clean:all && pnpm run reinstall && turbo run build --force",
     "reinstall": "pnpm run clean:all && pnpm install",

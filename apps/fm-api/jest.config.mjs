@@ -2,6 +2,7 @@ import baseConfig from "@repo/config-jest/nest.mjs";
 
 const config = {
   ...baseConfig,
+  //!preset dat do base confogu node-jest.config.mjs
   preset: "ts-jest",
   displayName: "fm-api",
   testEnvironment: "node",
