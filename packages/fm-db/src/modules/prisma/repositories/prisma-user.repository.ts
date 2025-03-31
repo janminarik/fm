@@ -77,7 +77,7 @@ export class PrismaUserRepository implements IUserRepository {
 
   async update(userPayload: UpdateEntity<UserEntity>): Promise<UserEntity> {
     const { id } = userPayload;
-    const prismaUser = await this.client.update(id!, {
+    const prismaUser = await this.client.update(id, {
       email: userPayload.email,
       firstName: userPayload.firstName,
       lastName: userPayload.lastName,

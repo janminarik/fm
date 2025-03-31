@@ -75,18 +75,18 @@ export const jwtAuthConfig = registerAs<JwtAuthConfig>(
     validateConfig(process.env, JwtAuthEnvironmentVariablesValidationSchema);
 
     return {
-      appName: process.env.API_NAME!,
+      appName: process.env.API_NAME,
       nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
 
-      issuer: process.env.AUTH_JWT_ISSUER!,
-      audience: process.env.AUTH_JWT_AUDIENCE!,
+      issuer: process.env.AUTH_JWT_ISSUER,
+      audience: process.env.AUTH_JWT_AUDIENCE,
 
-      accessTokenSecret: process.env.AUTH_JWT_ACCESS_TOKEN_SECRET!,
+      accessTokenSecret: process.env.AUTH_JWT_ACCESS_TOKEN_SECRET,
       accessTokenExpiresIn: parseTimeToSeconds(
         process.env.AUTH_JWT_ACCESS_TOKEN_EXPIRES_IN || "15m",
       ),
 
-      refreshTokenSecret: process.env.AUTH_JWT_REFRESH_TOKEN_SECRET!,
+      refreshTokenSecret: process.env.AUTH_JWT_REFRESH_TOKEN_SECRET,
       refreshTokenExpiresIn: parseTimeToSeconds(
         process.env.AUTH_JWT_REFRESH_TOKEN_EXPIRES_IN || "7d",
       ),

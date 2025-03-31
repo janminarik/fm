@@ -33,7 +33,7 @@ export const lokiLoggerConfigProvider: LoggerConfigProvider<LokiLoggerConfig> =
       validateConfig(process.env, LokiLoggerEnvVarsValidationSchema);
       return {
         ...createBaseLoggerConfig(),
-        host: process.env.LOKI_HOST as string,
+        host: process.env.LOKI_HOST,
         batching: false,
       };
     },

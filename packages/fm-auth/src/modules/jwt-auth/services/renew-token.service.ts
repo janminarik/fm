@@ -86,7 +86,7 @@ export class RenewTokenService implements IRenewTokenService {
 
     await this.refreshTokenRepository.revokeToken(
       user.id,
-      refreshTokenPayload.jti!,
+      refreshTokenPayload.jti,
     );
 
     return {

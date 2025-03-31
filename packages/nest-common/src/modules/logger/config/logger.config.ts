@@ -28,7 +28,7 @@ export class BaseLoggerEnvVarsValidationSchema {
 
 export const createBaseLoggerConfig = () => {
   return {
-    appName: process.env.API_NAME as string,
+    appName: process.env.API_NAME,
     nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
     logLevel: process.env.API_LOG_LEVEL || "info",
   };

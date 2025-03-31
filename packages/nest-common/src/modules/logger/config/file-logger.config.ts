@@ -33,7 +33,7 @@ export const fileLoggerConfigProvider: LoggerConfigProvider<FileLoggerConfig> =
       validateConfig(process.env, FileLoggerEnvVarsValidationSchema);
       return {
         ...createBaseLoggerConfig(),
-        logDir: process.env.API_LOG_DIR as string,
+        logDir: process.env.API_LOG_DIR,
         logSize: process.env.API_LOG_SIZE || "100mb",
       };
     },
