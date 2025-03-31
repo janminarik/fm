@@ -20,7 +20,11 @@ export class AuthHeaderService {
 
     const auth = req.headers[headerName];
 
-    return this.getHeaderValue(auth, this.authSchema);
+    if (auth) {
+      return this.getHeaderValue(auth, this.authSchema);
+    } else {
+      return undefined;
+    }
   }
 
   private getHeaderName(authHeader: string, req: Request) {
@@ -40,7 +44,7 @@ export class AuthHeaderService {
       : authorization;
 
     const regex = new RegExp(`^${scheme} (.+)$`, "i");
-    const match = header.match(regex);
-    return match ? match[1] : null;
+    const match = header ? header.match(regex) : null;
+    return match && match[1] !== undefined ? match[1] : null;
   }
 }

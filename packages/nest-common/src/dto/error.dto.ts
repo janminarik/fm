@@ -21,7 +21,7 @@ export class ErrorDto {
   /**
    * Onlye for debug mode
    */
-  trace?: Error | unknown;
+  trace?: Error;
 }
 
 export class ValidatioErrorDto extends ErrorDto {

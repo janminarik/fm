@@ -3,8 +3,8 @@ import { Transactional } from "@nestjs-cls/transactional";
 import {
   AD_SPACE_REPOSITORY,
   AdSpace,
-  IAdSpaceRepository,
-  IListPaginationParams,
+  type IAdSpaceRepository,
+  type IListPaginationParams,
   IListPaginationResult,
 } from "@repo/fm-domain";
 

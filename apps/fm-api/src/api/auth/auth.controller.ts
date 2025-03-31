@@ -9,7 +9,7 @@ import {
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import {
-  IRenewTokenService,
+  type IRenewTokenService,
   JwtAccessGuard,
   JwtPayload,
   JwtRefreshGuard,

@@ -3,11 +3,11 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
-import { AUTH_CONFIG, JwtAuthConfig } from "../config";
+import { AUTH_CONFIG, type JwtAuthConfig } from "../config";
 import { JwtRefreshPayloadDto } from "../dto";
 import {
   AuthTokenExtractorService,
-  IRefreshTokenService,
+  type IRefreshTokenService,
   REFRESH_TOKEN_SERVICE,
 } from "../services";
 

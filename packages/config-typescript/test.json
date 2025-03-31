@@ -1,0 +1,36 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "./base.json",
+    "compilerOptions": {
+        "types": [
+            "jest",
+            "node"
+        ],
+        "allowJs": true,
+        "checkJs": false,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "isolatedModules": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.js",
+        "src/**/*.jsx",
+        "src/**/*.spec.ts",
+        "src/**/*.test.ts",
+        "src/**/*.spec.tsx",
+        "src/**/*.test.tsx"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        ".turbo",
+        "coverage"
+    ]
+}

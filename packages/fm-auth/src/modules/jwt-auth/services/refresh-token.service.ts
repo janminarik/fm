@@ -3,28 +3,30 @@ import { Transactional } from "@nestjs-cls/transactional";
 import {
   APP_TOKEN_REPOSITORY,
   AppTokenType,
-  IAppTokenRepository,
-  IUserRepository,
-  User,
   USER_REPOSITORY,
+  User,
+  type IAppTokenRepository,
+  type IUserRepository,
 } from "@repo/fm-domain";
-import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
+import { HASH_SERVICE } from "@repo/fm-shared";
 import { generateId } from "@repo/nest-common";
 import { addMilliseconds } from "date-fns";
 
-import { AUTH_CONFIG, JwtAuthConfig } from "../config";
+import { AUTH_CONFIG, type JwtAuthConfig } from "../config";
 import { JwtRefreshPayloadDto } from "../dto";
 import { AuthToken } from "../types/auth-token";
 import { createUnixTimespan } from "../utils";
 import { JwtWrapperService } from "./jwt-wrapper.service";
 import { IJwtOptions } from "../interfaces/jwt.interfaces";
 
+import type { IHashService } from "@repo/fm-shared";
+
 export const REFRESH_TOKEN_SERVICE = Symbol("REFRESH_TOKEN_SERVICE");
 
 export interface IRefreshTokenService {
   createToken(userId: string): Promise<AuthToken>;
   validateToken(token: string): Promise<User>;
-  revokeToken(token: string);
+  revokeToken(token: string): Promise<void>;
 }
 
 @Injectable()
@@ -72,7 +74,7 @@ export class RefreshTokenService implements IRefreshTokenService {
       subject: userId,
     };
 
-    const token = await this.jwtService.jwtEncrypt({ ...payload }, options);
+    const token = this.jwtService.jwtEncrypt({ ...payload }, options);
 
     await this.refreshTokenRepository.create({
       type: AppTokenType.RefreshToken,
@@ -100,13 +102,17 @@ export class RefreshTokenService implements IRefreshTokenService {
       subject: userId,
     };
 
-    const isValid = await this.jwtService.jwtVerify(token, options);
+    const isValid = this.jwtService.jwtVerify(token, options);
 
     if (!isValid) throw new UnauthorizedException("Invalid refresh token");
 
     const user = await this.userRepository.findById(userId);
 
     if (!user) throw new UnauthorizedException("User not found");
+
+    if (!jti) {
+      throw new UnauthorizedException("Token ID (jti) is missing");
+    }
 
     const tokenRecord = await this.refreshTokenRepository.findToken(
       userId,
@@ -130,6 +136,9 @@ export class RefreshTokenService implements IRefreshTokenService {
     const { userId, jti } =
       this.jwtService.jwtDecrypt<JwtRefreshPayloadDto>(token);
 
+    if (!jti) {
+      throw new UnauthorizedException("Token ID (jti) is missing");
+    }
     await this.refreshTokenRepository.revokeToken(userId, jti);
   }
 }

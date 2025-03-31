@@ -1,10 +1,10 @@
 import { Inject, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
+import { type IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
 import { Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 
-import { AUTH_CONFIG, JwtAuthConfig } from "../config";
+import { AUTH_CONFIG, type JwtAuthConfig } from "../config";
 import { JwtAccessPayloadDto } from "../dto";
 import { AuthTokenExtractorService } from "../services";
 
@@ -33,6 +33,9 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, "jwtAccess") {
   async validate(
     tokenPayload: JwtAccessPayloadDto,
   ): Promise<JwtAccessPayloadDto> {
+    if (!tokenPayload.sub) {
+      throw new UnauthorizedException("Token payload is missing 'sub' field");
+    }
     const user = await this.userRepository.findById(tokenPayload.sub);
     if (!user) throw new UnauthorizedException("User not found");
     return tokenPayload;

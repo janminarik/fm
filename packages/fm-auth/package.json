@@ -9,7 +9,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -b -v",
+    "build": "tsc -b",
     "clean": "pnpm dlx rimraf node_modules dist .turbo",
     "dev": "pnpm build --watch",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -51,6 +51,7 @@
     "@repo/config-typescript": "workspace:*",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
+    "@types/ms": "^2.1.0",
     "@types/passport-jwt": "^4.0.1",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.6",

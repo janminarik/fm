@@ -6,6 +6,9 @@ import {
   AdSpaceStatus,
   AdSpaceType,
   AdSpaceVisibility,
+} from "@repo/fm-domain";
+
+import type {
   IAdSpaceRepository,
   IListPaginationParams,
 } from "@repo/fm-domain";

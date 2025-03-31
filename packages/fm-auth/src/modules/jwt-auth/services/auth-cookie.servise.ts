@@ -5,7 +5,7 @@ import {
   AUTH_CONFIG,
   JWT_COOKIE_OPTIONS,
   JWT_COOKIES,
-  JwtAuthConfig,
+  type JwtAuthConfig,
 } from "../config";
 import { AuthTokenPair } from "../types/auth-token";
 

@@ -19,7 +19,7 @@ export interface IBaseEntityRepository<
   TUpdateEntity = UpdateEntity<TEntity>,
 > {
   create(entity: TCreateEntity): Promise<TEntity>;
-  findById(id: TEntity["id"]): Promise<TEntity>;
+  findById(id: TEntity["id"]): Promise<TEntity | null>;
   update(entity: TUpdateEntity): Promise<TEntity>;
   delete(id: TEntity["id"]): Promise<TEntity>;
 }

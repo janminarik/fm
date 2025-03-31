@@ -18,7 +18,7 @@ export class ExceptionHandlerService {
     return {
       timestamp: new Date().toISOString(),
       statusCode,
-      error: statusCode[statusCode],
+      error: STATUS_CODES[statusCode] ?? "Unknow error",
       message: exception.message,
     };
   }
@@ -29,22 +29,22 @@ export class ExceptionHandlerService {
     return {
       timestamp: new Date().toISOString(),
       statusCode,
-      error: STATUS_CODES[statusCode],
+      error: STATUS_CODES[statusCode] ?? "Unknow error",
       message: error?.message || "An unexpected error occurred",
     };
   }
 
   protected flattenValidationErrors(errors: ValidationError[]): string[] {
-    const messages = errors?.map(
-      (error) =>
-        `${error.property} has wrong value ${error.value}, ${Object.values(
-          error.constraints,
-        )}`,
-    );
+    const messages = errors?.map((error) => {
+      const constraints = error.constraints
+        ? Object.values(error.constraints).join(", ")
+        : "unknown constraint";
 
-    return messages;
+      return `${error.property} has wrong value ${error.value}, ${constraints}`;
+    });
+
+    return messages || [];
   }
-
   protected handleUnprocessableEntityException(
     exception: UnprocessableEntityException,
   ): ValidatioErrorDto {
@@ -56,7 +56,7 @@ export class ExceptionHandlerService {
     return {
       timestamp: new Date().toISOString(),
       statusCode,
-      error: STATUS_CODES[statusCode],
+      error: STATUS_CODES[statusCode] ?? "Unknow error",
       message: "Validation error",
       details: this.flattenValidationErrors(validationErrors),
     };

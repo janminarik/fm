@@ -6,7 +6,7 @@ import {
   AdSpaceStatus,
   AdSpaceType,
   AdSpaceVisibility,
-  IAdSpaceRepository,
+  type IAdSpaceRepository,
 } from "@repo/fm-domain";
 
 import { IBaseUseCase } from "../../common";

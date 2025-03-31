@@ -1,20 +1,22 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import bodyParser from "body-parser";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, urlencoded } from "express";
 
 //! application/x-www-form-urlencoded
 @Injectable()
 export class UrlencodedBodyParserMiddleware implements NestMiddleware {
   private readonly maxSize: string;
   constructor(private readonly configService: ConfigService) {
-    this.maxSize = this.configService.get("app.bodyUrlEncodedMaxSize");
+    this.maxSize =
+      this.configService.get("app.bodyUrlEncodedMaxSize") || "10mb";
   }
 
   use(req: Request, res: Response, next: NextFunction) {
-    bodyParser.urlencoded({
+    const middleware = urlencoded({
       extended: true,
       limit: this.maxSize,
-    })(req, res, next);
+    });
+
+    middleware(req, res, next);
   }
 }

@@ -9,7 +9,6 @@ import {
   User as UserEntity,
 } from "@repo/fm-domain";
 import { BaseMapper } from "@repo/fm-shared";
-import { PartialDeep } from "type-fest";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
@@ -26,8 +25,15 @@ type PrismaUserRepositoryType = PrismaBaseRepository<
 @Injectable()
 export class UserMapper extends BaseMapper {
   toDomain(userDao: User): UserEntity {
-    if (!userDao) return null;
-    return new UserEntity({ ...userDao });
+    // if (!userDao) return null;
+    return new UserEntity({
+      ...userDao,
+      userName: userDao.userName ?? undefined,
+      phoneNumber: userDao.phoneNumber ?? undefined,
+      lastLogin: userDao.lastLogin ?? undefined,
+      deletedAt: userDao.deletedAt ?? undefined,
+      createdAt: userDao.createdAt ?? undefined,
+    });
   }
 }
 
@@ -50,19 +56,9 @@ export class PrismaUserRepository implements IUserRepository {
     >("user", txHost);
   }
 
-  async create(userPayload: PartialDeep<UserEntity>): Promise<UserEntity> {
+  async create(userPayload: UserEntity): Promise<UserEntity | undefined> {
     try {
-      const data = {
-        email: userPayload.email,
-        passwordHash: userPayload.passwordHash,
-        firstName: userPayload.firstName,
-        lastName: userPayload.lastName,
-        userName: userPayload.userName,
-        verified: userPayload?.verified ?? false,
-        disabled: userPayload?.disabled ?? false,
-      };
-
-      const prismaUser = await this.client.create(data);
+      const prismaUser = await this.client.create(userPayload);
       return this.mapper.toDomain(prismaUser);
     } catch (error) {
       if (
@@ -81,7 +77,7 @@ export class PrismaUserRepository implements IUserRepository {
 
   async update(userPayload: UpdateEntity<UserEntity>): Promise<UserEntity> {
     const { id } = userPayload;
-    const prismaUser = await this.client.update(id, {
+    const prismaUser = await this.client.update(id!, {
       email: userPayload.email,
       firstName: userPayload.firstName,
       lastName: userPayload.lastName,
@@ -96,7 +92,7 @@ export class PrismaUserRepository implements IUserRepository {
     return this.mapper.toDomain(prismaUser);
   }
 
-  async findUserByEmail(email: string): Promise<UserEntity> {
+  async findUserByEmail(email: string): Promise<UserEntity | null> {
     const prismaUser = await this.client.findUnique({ email });
     return this.mapper.toDomain(prismaUser);
   }

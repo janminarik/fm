@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import bodyParser from "body-parser";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, json } from "express";
+// Import json z express namiesto body-parser
 
 //TODO: clean up
 
@@ -22,14 +22,17 @@ export class JsonBodyParserMiddleware implements NestMiddleware {
   private readonly maxSize: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.maxSize = this.configService.get("app.bodyJsonMaxSize");
+    this.maxSize =
+      this.configService.get<string>("app.bodyJsonMaxSize") || "100kb";
   }
 
   use(req: Request, res: Response, next: NextFunction) {
     if (req.readable) {
-      bodyParser.json({
+      const middleware = json({
         limit: this.maxSize,
-      })(req, res, next);
+      });
+
+      middleware(req, res, next);
     } else {
       next();
     }

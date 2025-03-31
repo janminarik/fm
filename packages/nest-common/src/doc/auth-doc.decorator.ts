@@ -18,7 +18,7 @@ export function DocAuth<TError>(
 ): MethodDecorator {
   const docs: Array<ClassDecorator | MethodDecorator> = [];
 
-  if (options.jwtAccessToken) {
+  if (options?.jwtAccessToken) {
     docs.push(ApiBearerAuth(options.jwtAccessTokenName));
     docs.push(
       ApiUnauthorizedResponse({
@@ -28,7 +28,7 @@ export function DocAuth<TError>(
     );
   }
 
-  if (options.jwtRefreshToken) {
+  if (options?.jwtRefreshToken) {
     docs.push(ApiBearerAuth(options.jwtRefreshTokenName));
     ApiUnauthorizedResponse({
       description: GetDefaultDescription(401),

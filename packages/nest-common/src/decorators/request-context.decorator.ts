@@ -8,7 +8,7 @@ export const RequestContext = createParamDecorator(
       .switchToHttp()
       .getRequest<Request & { customContext: IRequestContext }>();
 
-    if (data) return request.customContext[data];
+    if (data) return request.customContext[data as keyof IRequestContext];
 
     return request.customContext;
   },

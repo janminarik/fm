@@ -2,12 +2,12 @@ import { Inject, UnauthorizedException } from "@nestjs/common";
 import { Transactional } from "@nestjs-cls/transactional";
 import {
   ACCESS_TOKEN_SERVICE,
-  IAccessTokenService,
-  IRefreshTokenService,
+  type IAccessTokenService,
+  type IRefreshTokenService,
   REFRESH_TOKEN_SERVICE,
 } from "@repo/fm-auth";
-import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
-import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
+import { type IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
+import { HASH_SERVICE, type IHashService } from "@repo/fm-shared";
 
 import { AuthTokenPairDto } from "../dto/auth-token-pair.dto";
 

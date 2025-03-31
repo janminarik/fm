@@ -2,22 +2,19 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Transactional } from "@nestjs-cls/transactional";
 import {
   APP_TOKEN_REPOSITORY,
-  IAppTokenRepository,
-  IUserRepository,
+  type IAppTokenRepository,
+  type IUserRepository,
   USER_REPOSITORY,
 } from "@repo/fm-domain";
 
 import { JwtRefreshPayloadDto } from "../dto";
-import {
-  ACCESS_TOKEN_SERVICE,
-  IAccessTokenService,
-} from "./access-token.service";
+import { ACCESS_TOKEN_SERVICE } from "./access-token.service";
 import { JwtWrapperService } from "./jwt-wrapper.service";
-import {
-  IRefreshTokenService,
-  REFRESH_TOKEN_SERVICE,
-} from "./refresh-token.service";
+import { REFRESH_TOKEN_SERVICE } from "./refresh-token.service";
 import { AuthTokenPair } from "../types/auth-token";
+
+import type { IAccessTokenService } from "./access-token.service";
+import type { IRefreshTokenService } from "./refresh-token.service";
 
 export const RENEW_TOKEN_SERVICE = Symbol("RENEW_TOKEN_SERVICE");
 
@@ -62,7 +59,11 @@ export class RenewTokenService implements IRenewTokenService {
       accessToken: accessToken,
       refreshToken: {
         token: refreshTokenFromReq,
-        expiresAt: refreshTokenPayload.exp,
+        expiresAt:
+          refreshTokenPayload.exp ??
+          (() => {
+            throw new Error("Refresh token payload is missing 'exp'");
+          })(),
       },
     };
   }
@@ -85,7 +86,7 @@ export class RenewTokenService implements IRenewTokenService {
 
     await this.refreshTokenRepository.revokeToken(
       user.id,
-      refreshTokenPayload.jti,
+      refreshTokenPayload.jti!,
     );
 
     return {

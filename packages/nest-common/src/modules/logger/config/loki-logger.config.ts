@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 import {
   BaseLoggerConfig,
@@ -17,6 +17,7 @@ export interface LokiLoggerConfig extends BaseLoggerConfig {
 
 export class LokiLoggerEnvVarsValidationSchema extends BaseLoggerEnvVarsValidationSchema {
   @IsString()
+  @IsNotEmpty()
   LOKI_HOST: string;
 
   @IsString()
@@ -32,7 +33,7 @@ export const lokiLoggerConfigProvider: LoggerConfigProvider<LokiLoggerConfig> =
       validateConfig(process.env, LokiLoggerEnvVarsValidationSchema);
       return {
         ...createBaseLoggerConfig(),
-        host: process.env.LOKI_HOST,
+        host: process.env.LOKI_HOST as string,
         batching: false,
       };
     },

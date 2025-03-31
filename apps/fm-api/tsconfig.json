@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/config-typescript/nest.json",
+  "extends": "@repo/config-typescript/base.json",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
