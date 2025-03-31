@@ -37,7 +37,7 @@ export class AppTokenMapper extends BaseMapper {
 
 @Injectable()
 export class PrismaAppTokenRepository implements IAppTokenRepository {
-  private entityName = "AppToken";
+  private entityName = "appToken";
   private client: PrismaAppTokenRepositoryType;
 
   constructor(
@@ -76,11 +76,16 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
   }
 
   async findToken(userId: string, publicId: string): Promise<AppTokenEntity> {
-    const tokens = await this.txHost.tx[this.entityName].findMany({
-      where: { userId, publicId },
-      orderBy: { createdAt: "desc" },
-      take: 1,
-    });
+    const tokens = await this.client.findMany(
+      { userId, publicId }, // where
+      undefined, // include
+      undefined, // select
+      {
+        // options
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+    );
 
     const token = tokens?.length >= 1 ? tokens[0] : null;
 

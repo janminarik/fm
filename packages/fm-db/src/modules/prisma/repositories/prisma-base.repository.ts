@@ -32,6 +32,11 @@ export interface IPrismaBaseRepository<
     where?: TWhere,
     include?: TInclude,
     select?: TSelect,
+    options?: {
+      orderBy?: any;
+      take?: number;
+      skip?: number;
+    },
   ): Promise<TEntity[]>;
   update(
     id: string,
@@ -54,6 +59,23 @@ export interface IPrismaBaseRepository<
   deleteBatch(ids: string[], where?: TWhere): Promise<Prisma.BatchPayload>;
 }
 
+// Typ pre Prisma model delegate
+type PrismaModelDelegate<T, TC, TM, TU, TW> = {
+  findMany: (args: any) => Promise<T[]>;
+  findUnique: (args: any) => Promise<T>;
+  create: (args: { data: TC; include?: any; select?: any }) => Promise<T>;
+  createMany: (args: { data: TM; skipDuplicates?: boolean }) => Promise<any>;
+  update: (args: {
+    where: any;
+    data: TU;
+    include?: any;
+    select?: any;
+  }) => Promise<T>;
+  delete: (args: { where: any; include?: any; select?: any }) => Promise<T>;
+  deleteMany: (args: { where: any }) => Promise<Prisma.BatchPayload>;
+  count: (args: any) => Promise<number>;
+};
+
 export class PrismaBaseRepository<
   TEntity extends Record<string, any>,
   TCreate extends Record<string, any>,
@@ -73,10 +95,28 @@ export class PrismaBaseRepository<
       TUpdate
     >
 {
+  private readonly delegate: PrismaModelDelegate<
+    TEntity,
+    TCreate,
+    TCreateMany,
+    TUpdate,
+    TWhere
+  >;
+
   constructor(
     protected entityName: string,
     protected txHost: TransactionHost<TransactionalAdapterPrisma>,
-  ) {}
+  ) {
+    this.delegate = txHost.tx[
+      entityName as keyof typeof txHost.tx
+    ] as unknown as PrismaModelDelegate<
+      TEntity,
+      TCreate,
+      TCreateMany,
+      TUpdate,
+      TWhere
+    >;
+  }
 
   async listPagination(
     paginationParams: IListPaginationParams,
@@ -101,7 +141,7 @@ export class PrismaBaseRepository<
       },
     };
 
-    let where: TWhere;
+    let where: TWhere | undefined;
 
     if (paginationParams.filter)
       where = parseFilterQuery<TWhere>(paginationParams.filter);
@@ -114,12 +154,12 @@ export class PrismaBaseRepository<
     };
 
     const [data, total] = await Promise.all([
-      this.txHost.tx[this.entityName].findMany(findArgs),
-      this.txHost.tx[this.entityName].count({ where }),
+      this.delegate.findMany(findArgs),
+      this.delegate.count({ where }),
     ]);
 
     const meta: IPaginationMeta = {
-      count: data?.length,
+      count: data?.length ?? 0,
       total: total,
       page: page,
       totalPage: Math.ceil(total / limit),
@@ -128,7 +168,7 @@ export class PrismaBaseRepository<
     return {
       meta,
       data,
-    };
+    } as IListPaginationResult<TEntity>;
   }
 
   async create(
@@ -136,7 +176,7 @@ export class PrismaBaseRepository<
     include?: TInclude,
     select?: TSelect,
   ): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].create({
+    return await this.delegate.create({
       data,
       include,
       select,
@@ -144,32 +184,38 @@ export class PrismaBaseRepository<
   }
 
   async createMany(data: TCreateMany): Promise<TEntity[]> {
-    await this.txHost.tx[this.entityName].findMany({ where: {} });
+    await this.delegate.findMany({ where: {} });
 
-    return await this.txHost.tx[this.entityName].createMany({
+    return (await this.delegate.createMany({
       data,
-    });
+    })) as unknown as TEntity[];
   }
 
   async findById(id: string): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].findUnique({
+    return await this.delegate.findUnique({
       where: { id },
     });
   }
 
   async findUnique(where: TWhere): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].findUnique({ where });
+    return await this.delegate.findUnique({ where });
   }
 
   async findMany(
     where?: TWhere,
     include?: TInclude,
     select?: TSelect,
+    options?: {
+      orderBy?: any;
+      take?: number;
+      skip?: number;
+    },
   ): Promise<TEntity[]> {
-    return await this.txHost.tx[this.entityName].findMany({
+    return await this.delegate.findMany({
       where,
-      select,
       include,
+      select,
+      ...(options || {}), // Pridanie options ako orderBy, take, atď.
     });
   }
 
@@ -179,7 +225,7 @@ export class PrismaBaseRepository<
     include?: TInclude,
     select?: TSelect,
   ): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].update({
+    return await this.delegate.update({
       where: { id },
       data,
       include,
@@ -193,7 +239,7 @@ export class PrismaBaseRepository<
     include?: TInclude,
     select?: TSelect,
   ): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].update({
+    return await this.delegate.update({
       where,
       data,
       include,
@@ -207,7 +253,7 @@ export class PrismaBaseRepository<
     include?: TInclude,
     select?: TSelect,
   ): Promise<TEntity> {
-    return await this.txHost.tx[this.entityName].delete({
+    return await this.delegate.delete({
       where: { id, ...where },
       include,
       select,
@@ -218,7 +264,7 @@ export class PrismaBaseRepository<
     ids: string[],
     where?: TWhere,
   ): Promise<Prisma.BatchPayload> {
-    return await this.txHost.tx[this.entityName].deleteMany({
+    return await this.delegate.deleteMany({
       where: {
         id: {
           in: ids,
