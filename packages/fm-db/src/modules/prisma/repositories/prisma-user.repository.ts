@@ -9,6 +9,7 @@ import {
   User as UserEntity,
 } from "@repo/fm-domain";
 import { BaseMapper } from "@repo/fm-shared";
+import { PartialDeep } from "type-fest";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
@@ -25,15 +26,8 @@ type PrismaUserRepositoryType = PrismaBaseRepository<
 @Injectable()
 export class UserMapper extends BaseMapper {
   toDomain(userDao: User): UserEntity {
-    // if (!userDao) return null;
-    return new UserEntity({
-      ...userDao,
-      userName: userDao.userName ?? undefined,
-      phoneNumber: userDao.phoneNumber ?? undefined,
-      lastLogin: userDao.lastLogin ?? undefined,
-      deletedAt: userDao.deletedAt ?? undefined,
-      createdAt: userDao.createdAt ?? undefined,
-    });
+    if (!userDao) return null;
+    return new UserEntity({ ...userDao });
   }
 }
 
@@ -56,9 +50,19 @@ export class PrismaUserRepository implements IUserRepository {
     >("user", txHost);
   }
 
-  async create(userPayload: UserEntity): Promise<UserEntity | undefined> {
+  async create(userPayload: PartialDeep<UserEntity>): Promise<UserEntity> {
     try {
-      const prismaUser = await this.client.create(userPayload);
+      const data = {
+        email: userPayload.email,
+        passwordHash: userPayload.passwordHash,
+        firstName: userPayload.firstName,
+        lastName: userPayload.lastName,
+        userName: userPayload.userName,
+        verified: userPayload?.verified ?? false,
+        disabled: userPayload?.disabled ?? false,
+      };
+
+      const prismaUser = await this.client.create(data);
       return this.mapper.toDomain(prismaUser);
     } catch (error) {
       if (
@@ -92,7 +96,7 @@ export class PrismaUserRepository implements IUserRepository {
     return this.mapper.toDomain(prismaUser);
   }
 
-  async findUserByEmail(email: string): Promise<UserEntity | null> {
+  async findUserByEmail(email: string): Promise<UserEntity> {
     const prismaUser = await this.client.findUnique({ email });
     return this.mapper.toDomain(prismaUser);
   }

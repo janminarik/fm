@@ -1,10 +1,11 @@
-import baseConfig from "@repo/config-jest/nest.mjs";
+import baseConfig from "@repo/config-jest/base";
 
+/** @type {import('jest').Config} */
 const config = {
   ...baseConfig,
-  preset: "ts-jest",
+  // preset: "ts-jest",
   displayName: "fm-api-e2e",
-  testEnvironment: "node",
+  // testEnvironment: "node",
   rootDir: ".",
   testRegex: ".*\\.e2e.spec\\.ts$",
   testTimeout: 9999999,

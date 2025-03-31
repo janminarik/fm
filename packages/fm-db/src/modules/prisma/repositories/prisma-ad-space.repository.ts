@@ -37,7 +37,7 @@ type AdSpaceRepositoryType = PrismaBaseRepository<
 @Injectable()
 export class AdSpaceMapper extends BaseMapper {
   toDomain(adSpaceDao: AdSpace): AdSpaceEntity {
-    // if (!adSpaceDao) return null;
+    if (!adSpaceDao) return null;
 
     return new AdSpaceEntity({
       ...adSpaceDao,
@@ -96,10 +96,10 @@ export class AdSpaceRepository implements IAdSpaceRepository {
       visibility: mapEnumValue(adSpacePayload.visibility, AdSpaceVisibility),
       address: {
         create: {
-          street: address?.street,
-          city: address?.city,
-          postalcode: address?.postalcode,
-          country: address?.country,
+          street: address.street,
+          city: address.city,
+          postalcode: address.postalcode,
+          country: address.country,
         },
       },
     };

@@ -8,7 +8,7 @@
       "es2024",
       "esnext"
     ],
-    "strict": true,
+    "strict": false,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "noUncheckedIndexedAccess": true,

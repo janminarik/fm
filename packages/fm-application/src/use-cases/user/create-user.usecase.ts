@@ -26,12 +26,14 @@ export class CreateUserUseCase implements IBaseUseCase {
       createUserPayload.password,
     );
 
-    return await this.userRepository.create({
+    const user = this.userRepository.create({
       email: createUserPayload.email,
       firstName: createUserPayload.firstName,
       lastName: createUserPayload.lastName,
       userName: createUserPayload.userName,
       passwordHash: passwordHash,
     });
+
+    return user;
   }
 }
