@@ -33,9 +33,18 @@ export type CreateUser = {
 };
 @Injectable()
 export class UserMapper extends BaseMapper {
-  toDomain(userDao: User): UserEntity {
+  toDomain(userDao: User): UserEntity | null {
     if (!userDao) return null;
-    return new UserEntity({ ...userDao });
+
+    return new UserEntity({
+      ...userDao,
+      userName: userDao.userName ?? undefined,
+      phoneNumber: userDao.phoneNumber ?? undefined,
+      lastLogin: userDao.lastLogin ?? undefined,
+      deletedAt: userDao.deletedAt ?? undefined,
+      createdAt: userDao.createdAt ?? undefined,
+      updatedAt: userDao.updatedAt ?? undefined,
+    });
   }
 }
 
@@ -83,13 +92,18 @@ export class PrismaUserRepository implements IUserRepository {
     }
   }
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | null> {
     const prismaUser = await this.client.findById(id);
     return this.mapper.toDomain(prismaUser);
   }
 
-  async update(userPayload: UpdateEntity<UserEntity>): Promise<UserEntity> {
+  async update(
+    userPayload: UpdateEntity<UserEntity>,
+  ): Promise<UserEntity | null> {
     const { id } = userPayload;
+    if (!id) {
+      throw new Error("User ID is required for update");
+    }
     const prismaUser = await this.client.update(id, {
       email: userPayload.email,
       firstName: userPayload.firstName,
@@ -100,12 +114,12 @@ export class PrismaUserRepository implements IUserRepository {
     return this.mapper.toDomain(prismaUser);
   }
 
-  async delete(id: string): Promise<UserEntity> {
+  async delete(id: string): Promise<UserEntity | null> {
     const prismaUser = await this.client.delete(id);
     return this.mapper.toDomain(prismaUser);
   }
 
-  async findUserByEmail(email: string): Promise<UserEntity> {
+  async findUserByEmail(email: string): Promise<UserEntity | null> {
     const prismaUser = await this.client.findUnique({ email });
     return this.mapper.toDomain(prismaUser);
   }
