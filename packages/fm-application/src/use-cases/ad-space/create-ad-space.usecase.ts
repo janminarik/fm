@@ -16,8 +16,6 @@ export type CreateAddressPayload = {
   city: string;
   postalcode: string;
   country: string;
-  latitude?: number;
-  longitude?: number;
 };
 
 export type CreateAdSpacePayload = {
@@ -37,6 +35,9 @@ export class CreateAdSpaceUseCase implements IBaseUseCase {
 
   @Transactional()
   async execute(adSpacePayload: CreateAdSpacePayload): Promise<AdSpace> {
-    return await this.adSpaceRepository.create(adSpacePayload);
+    return await this.adSpaceRepository.create({
+      ...adSpacePayload,
+      address: { ...adSpacePayload.address },
+    });
   }
 }

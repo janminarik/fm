@@ -6,6 +6,7 @@ import {
   APP_TOKEN_REPOSITORY,
   AppToken as AppTokenEntity,
   AppTokenType as AppTokenEntityType,
+  CreateAppToken,
   IAppTokenRepository,
   UpdateEntity,
 } from "@repo/fm-domain";
@@ -22,13 +23,6 @@ type PrismaAppTokenRepositoryType = PrismaBaseRepository<
   Prisma.AppTokenSelect,
   Prisma.AppTokenUpdateInput
 >;
-
-export type CreateAppToken = {
-  publicId: string;
-  value: string;
-  expiresAt: Date;
-  userId: string;
-};
 
 @Injectable()
 export class AppTokenMapper extends BaseMapper {

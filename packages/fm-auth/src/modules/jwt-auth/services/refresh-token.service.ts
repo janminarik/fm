@@ -77,6 +77,7 @@ export class RefreshTokenService implements IRefreshTokenService {
     const token = this.jwtService.jwtEncrypt({ ...payload }, options);
 
     await this.refreshTokenRepository.create({
+      value: token,
       type: AppTokenType.RefreshToken,
       userId,
       publicId: payload.jti,

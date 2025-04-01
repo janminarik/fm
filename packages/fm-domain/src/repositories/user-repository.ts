@@ -1,11 +1,18 @@
 import { User } from "../entities";
 import { IBaseEntityRepository } from "./base/base-entity-repository";
 
-// export type CreateUser = PartialDeep<User> &
-//   Pick<User, "email" | "firstName" | "lastName" | : | "passwordHash">;
+export type CreateUser = {
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  verified?: boolean;
+  disabled?: boolean;
+};
 
-export interface IUserRepository extends IBaseEntityRepository<User> {
-  // create(user: CreateUser): Promise<User>;
+export interface IUserRepository
+  extends IBaseEntityRepository<User, CreateUser> {
   findUserByEmail(email: string): Promise<User | null>;
 }
 

@@ -14,11 +14,11 @@ import {
   AdSpaceStatus as AdSpaceEntityStatus,
   AdSpaceType as AdSpaceEntityType,
   AdSpaceVisibility as AdSpaceEntityVisibility,
+  CreateAdSpace,
   IAdSpaceRepository,
   IListPaginationParams,
   IListPaginationResult,
   UpdateEntity,
-  Address as AdressEntity,
 } from "@repo/fm-domain";
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
@@ -33,14 +33,6 @@ type AdSpaceRepositoryType = PrismaBaseRepository<
   Prisma.AdSpaceSelect,
   Prisma.AdSpaceUpdateInput
 >;
-
-export type CreateAdSpace = {
-  name: string;
-  type: AdSpaceEntityType;
-  status: AdSpaceEntityStatus;
-  visibility: AdSpaceEntityVisibility;
-  address: AdressEntity;
-};
 
 @Injectable()
 export class AdSpaceMapper extends BaseMapper {

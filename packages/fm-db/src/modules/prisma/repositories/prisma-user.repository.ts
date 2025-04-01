@@ -3,6 +3,7 @@ import { TransactionHost } from "@nestjs-cls/transactional";
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import { Prisma, User } from "@prisma/client";
 import {
+  CreateUser,
   IUserRepository,
   UpdateEntity,
   USER_REPOSITORY,
@@ -22,15 +23,6 @@ type PrismaUserRepositoryType = PrismaBaseRepository<
   Prisma.UserUpdateInput
 >;
 
-export type CreateUser = {
-  email: string;
-  passwordHash: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  verified?: boolean;
-  disabled?: boolean;
-};
 @Injectable()
 export class UserMapper extends BaseMapper {
   toDomain(userDao: User): UserEntity | null {
