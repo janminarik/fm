@@ -66,7 +66,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
 
   async create(tokenPayload: CreateAppToken): Promise<AppTokenEntity | null> {
     const token = await this.client.create({
-      publicId: tokenPayload.publicId,
+      publicId: tokenPayload.publicId ?? undefined,
       value: tokenPayload.value ?? undefined,
       expiresAt: tokenPayload.expiresAt,
       user: {
@@ -105,13 +105,13 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
   }
 
   async update(
-    tokenPayload: UpdateEntity<AppToken>,
+    tokenPayload: UpdateEntity<AppTokenEntity>,
   ): Promise<AppTokenEntity | null> {
     if (!tokenPayload.id) {
       throw new Error("Token ID is required for update");
     }
     const token = await this.client.update(tokenPayload.id, {
-      publicId: tokenPayload.publicId,
+      publicId: tokenPayload.publicId ?? undefined,
       value: tokenPayload.value ?? undefined,
       expiresAt: tokenPayload.expiresAt,
     });
