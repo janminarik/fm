@@ -9,7 +9,6 @@ import {
   User as UserEntity,
 } from "@repo/fm-domain";
 import { BaseMapper } from "@repo/fm-shared";
-import { PartialDeep } from "type-fest";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
@@ -23,6 +22,15 @@ type PrismaUserRepositoryType = PrismaBaseRepository<
   Prisma.UserUpdateInput
 >;
 
+export type CreateUser = {
+  email: string;
+  passwordHash: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  verified?: boolean;
+  disabled?: boolean;
+};
 @Injectable()
 export class UserMapper extends BaseMapper {
   toDomain(userDao: User): UserEntity {
@@ -50,7 +58,7 @@ export class PrismaUserRepository implements IUserRepository {
     >("user", txHost);
   }
 
-  async create(userPayload: PartialDeep<UserEntity>): Promise<UserEntity> {
+  async create(userPayload: CreateUser): Promise<UserEntity> {
     try {
       const data = {
         email: userPayload.email,
@@ -71,6 +79,7 @@ export class PrismaUserRepository implements IUserRepository {
       ) {
         throw new ConflictException("User with provided email already exists");
       }
+      throw error;
     }
   }
 
