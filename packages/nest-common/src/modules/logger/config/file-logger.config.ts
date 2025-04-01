@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 import {
   BaseLoggerConfig,
@@ -17,12 +17,12 @@ export interface FileLoggerConfig extends BaseLoggerConfig {
 
 export class FileLoggerEnvVarsValidationSchema extends BaseLoggerEnvVarsValidationSchema {
   @IsString()
-  @IsOptional()
-  LOG_DIR: string;
+  @IsNotEmpty()
+  API_LOG_DIR: string;
 
   @IsString()
   @IsOptional()
-  LOG_SIZE: string;
+  API_LOG_SIZE: string;
 }
 
 export const fileLoggerConfigProvider: LoggerConfigProvider<FileLoggerConfig> =
