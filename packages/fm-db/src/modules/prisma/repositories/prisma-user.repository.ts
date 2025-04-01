@@ -59,7 +59,7 @@ export class PrismaUserRepository implements IUserRepository {
     >("user", txHost);
   }
 
-  async create(userPayload: CreateUser): Promise<UserEntity> {
+  async create(userPayload: CreateUser): Promise<UserEntity | null> {
     try {
       const data = {
         email: userPayload.email,

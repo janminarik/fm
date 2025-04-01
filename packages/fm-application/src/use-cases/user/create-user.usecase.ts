@@ -21,7 +21,7 @@ export class CreateUserUseCase implements IBaseUseCase {
   ) {}
 
   @Transactional()
-  async execute(createUserPayload: CreateUserPayload): Promise<User> {
+  async execute(createUserPayload: CreateUserPayload): Promise<User | null> {
     const passwordHash = await this.hashService.hash(
       createUserPayload.password,
     );

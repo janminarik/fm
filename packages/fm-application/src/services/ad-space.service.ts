@@ -59,7 +59,7 @@ export class AdSpaceService {
   }
 
   @Transactional()
-  async create(adSpacePayload: CreateAdSpacePayload): Promise<AdSpace> {
+  async create(adSpacePayload: CreateAdSpacePayload): Promise<AdSpace | null> {
     return await this.adSpaceRepository.create(adSpacePayload);
   }
 
@@ -67,12 +67,12 @@ export class AdSpaceService {
   async update(
     id: string,
     adSpacePayload: UpdateAdSpacePayload,
-  ): Promise<AdSpace> {
+  ): Promise<AdSpace | null> {
     return await this.adSpaceRepository.update({ ...adSpacePayload, id });
   }
 
   @Transactional()
-  async delete(id: string): Promise<AdSpace> {
+  async delete(id: string): Promise<AdSpace | null> {
     return await this.adSpaceRepository.delete(id);
   }
 }

@@ -34,7 +34,7 @@ export class CreateAdSpaceUseCase implements IBaseUseCase {
   ) {}
 
   @Transactional()
-  async execute(adSpacePayload: CreateAdSpacePayload): Promise<AdSpace> {
+  async execute(adSpacePayload: CreateAdSpacePayload): Promise<AdSpace | null> {
     return await this.adSpaceRepository.create({
       ...adSpacePayload,
       address: { ...adSpacePayload.address },

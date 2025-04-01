@@ -29,7 +29,7 @@ export class UpdateAdSpaceUseCase implements IBaseUseCase {
   async execute(
     id: string,
     adSpacePayload: UpdateAdSpacePayload,
-  ): Promise<AdSpace> {
+  ): Promise<AdSpace | null> {
     const adSpace = await this.adSpaceRepository.findById(id);
     if (!adSpace) throw new NotFoundException("Ad space not found");
 

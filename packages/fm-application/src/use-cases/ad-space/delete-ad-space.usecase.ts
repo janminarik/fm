@@ -16,7 +16,7 @@ export class DeleteAdSpaceUseCase implements IBaseUseCase {
   ) {}
 
   @Transactional()
-  async execute(id: string): Promise<AdSpace> {
+  async execute(id: string): Promise<AdSpace | null> {
     const adSpace = await this.adSpaceRepository.findById(id);
 
     if (!adSpace) throw new NotFoundException("Ad space not found");

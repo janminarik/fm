@@ -11,7 +11,6 @@ export default function CookieAuthentication(
     method === "refresh-access-token"
   ) {
     return UseInterceptors(LoginInterceptor);
-  } else if (method === "logout") {
-    return UseInterceptors(LogoutInterceptor);
   }
+  return UseInterceptors(LogoutInterceptor);
 }
