@@ -9,7 +9,7 @@
       "esnext"
     ],
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "noUncheckedIndexedAccess": true,
     "esModuleInterop": true,
