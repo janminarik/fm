@@ -26,11 +26,13 @@ export class BaseLoggerEnvVarsValidationSchema {
   API_LOG_LEVEL: string;
 }
 
-export const createBaseLoggerConfig = () => {
+export const createBaseLoggerConfig = (
+  config: BaseLoggerEnvVarsValidationSchema,
+) => {
   return {
-    appName: process.env.API_NAME || "app",
-    nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
-    logLevel: process.env.API_LOG_LEVEL || "info",
+    appName: config.API_NAME,
+    nodeEnv: config.NODE_ENV || Environment.DEVELOPMENT,
+    logLevel: config.API_LOG_LEVEL || "info",
   };
 };
 
@@ -38,7 +40,10 @@ export const loggerConfigProvider: LoggerConfigProvider<BaseLoggerConfig> = {
   namespace: "logger",
   provideToken: BASE_LOGGER_CONFIG,
   configFactory: () => {
-    validateConfig(process.env, BaseLoggerEnvVarsValidationSchema);
-    return createBaseLoggerConfig();
+    const config = validateConfig(
+      process.env,
+      BaseLoggerEnvVarsValidationSchema,
+    );
+    return createBaseLoggerConfig(config);
   },
 };

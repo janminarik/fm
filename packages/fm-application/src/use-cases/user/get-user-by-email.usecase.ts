@@ -10,7 +10,7 @@ export class GetUserByEmailUseCase implements IBaseUseCase {
   ) {}
 
   @Transactional()
-  async execute(email: string): Promise<User> {
+  async execute(email: string): Promise<User | null> {
     return await this.userRepository.findUserByEmail(email);
   }
 }

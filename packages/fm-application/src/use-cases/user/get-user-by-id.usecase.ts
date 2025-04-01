@@ -10,7 +10,7 @@ export class GetUserByIdUseCase implements IBaseUseCase {
   ) {}
 
   @Transactional()
-  async execute(id: string): Promise<User> {
+  async execute(id: string): Promise<User | null> {
     return await this.userRepository.findById(id);
   }
 }

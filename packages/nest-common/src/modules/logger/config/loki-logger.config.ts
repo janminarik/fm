@@ -26,10 +26,13 @@ export const lokiLoggerConfigProvider: LoggerConfigProvider<LokiLoggerConfig> =
     namespace: "loki-logger",
     provideToken: LOKI_LOGGER_CONFIG,
     configFactory: () => {
-      validateConfig(process.env, LokiLoggerEnvVarsValidationSchema);
+      const config = validateConfig(
+        process.env,
+        LokiLoggerEnvVarsValidationSchema,
+      );
       return {
-        ...createBaseLoggerConfig(),
-        host: process.env.LOKI_HOST || "http://localhost:3100",
+        ...createBaseLoggerConfig(config),
+        host: config.LOKI_HOST,
         batching: false,
       };
     },

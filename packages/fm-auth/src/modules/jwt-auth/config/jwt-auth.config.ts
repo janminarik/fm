@@ -1,7 +1,11 @@
 import { Provider } from "@nestjs/common";
 import { ConfigService, registerAs } from "@nestjs/config";
-import { Environment, validateConfig } from "@repo/nest-common";
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  BaseLoggerEnvVarsValidationSchema,
+  createBaseLoggerConfig,
+  validateConfig,
+} from "@repo/nest-common";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export const AUTH_CONFIG = "AUTH_CONFIG";
 export const AUTH_CONFIG_NAMESPACE = "auth";
@@ -17,15 +21,7 @@ export type JwtAuthConfig = {
   refreshTokenExpiresIn: number;
 };
 
-class JwtAuthEnvironmentVariablesValidationSchema {
-  @IsString()
-  @IsNotEmpty()
-  API_NAME: string;
-
-  @IsEnum(Environment)
-  @IsOptional()
-  NODE_ENV: Environment;
-
+class JwtAuthEnvironmentVariablesValidationSchema extends BaseLoggerEnvVarsValidationSchema {
   @IsString()
   @IsNotEmpty()
   AUTH_JWT_ISSUER: string;
@@ -72,23 +68,22 @@ function parseTimeToSeconds(timeStr: string): number {
 export const jwtAuthConfig = registerAs<JwtAuthConfig>(
   AUTH_CONFIG_NAMESPACE,
   () => {
-    validateConfig(process.env, JwtAuthEnvironmentVariablesValidationSchema);
+    const config = validateConfig(
+      process.env,
+      JwtAuthEnvironmentVariablesValidationSchema,
+    );
 
     return {
-      appName: process.env.API_NAME,
-      nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
-
-      issuer: process.env.AUTH_JWT_ISSUER,
-      audience: process.env.AUTH_JWT_AUDIENCE,
-
-      accessTokenSecret: process.env.AUTH_JWT_ACCESS_TOKEN_SECRET,
+      ...createBaseLoggerConfig(config),
+      issuer: config.AUTH_JWT_ISSUER,
+      audience: config.AUTH_JWT_AUDIENCE,
+      accessTokenSecret: config.AUTH_JWT_ACCESS_TOKEN_SECRET,
       accessTokenExpiresIn: parseTimeToSeconds(
-        process.env.AUTH_JWT_ACCESS_TOKEN_EXPIRES_IN || "15m",
+        config.AUTH_JWT_ACCESS_TOKEN_EXPIRES_IN,
       ),
-
-      refreshTokenSecret: process.env.AUTH_JWT_REFRESH_TOKEN_SECRET,
+      refreshTokenSecret: config.AUTH_JWT_REFRESH_TOKEN_SECRET,
       refreshTokenExpiresIn: parseTimeToSeconds(
-        process.env.AUTH_JWT_REFRESH_TOKEN_EXPIRES_IN || "7d",
+        config.AUTH_JWT_REFRESH_TOKEN_EXPIRES_IN,
       ),
     };
   },

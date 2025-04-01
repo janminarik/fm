@@ -75,6 +75,10 @@ export class RenewTokenService implements IRenewTokenService {
   ): Promise<AuthTokenPair> {
     const user = await this.userRepository.findById(userId);
 
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
     await this.refreshTokenService.validateToken(refreshTokenFromReq);
 
     const accessToken = await this.accessTokenService.createToken(userId);

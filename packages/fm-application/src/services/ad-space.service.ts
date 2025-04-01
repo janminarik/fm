@@ -54,7 +54,7 @@ export class AdSpaceService {
   }
 
   @Transactional()
-  async findOne(id: string): Promise<AdSpace> {
+  async findOne(id: string): Promise<AdSpace | null> {
     return await this.adSpaceRepository.findById(id);
   }
 

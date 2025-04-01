@@ -30,11 +30,14 @@ export const fileLoggerConfigProvider: LoggerConfigProvider<FileLoggerConfig> =
     namespace: "file-logger",
     provideToken: FILE_LOGGER_CONFIG,
     configFactory: () => {
-      validateConfig(process.env, FileLoggerEnvVarsValidationSchema);
+      const config = validateConfig(
+        process.env,
+        FileLoggerEnvVarsValidationSchema,
+      );
       return {
-        ...createBaseLoggerConfig(),
-        logDir: process.env.API_LOG_DIR || "./logs",
-        logSize: process.env.API_LOG_SIZE || "100mb",
+        ...createBaseLoggerConfig(config),
+        logDir: config.API_LOG_DIR,
+        logSize: config.API_LOG_SIZE,
       };
     },
   };

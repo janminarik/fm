@@ -4,7 +4,7 @@ export class JwtAccessPayloadDto {
    * A unique identifier for the token.
    * Standard claim (jti) used for tracking and revoking tokens if necessary.
    */
-  jti?: string;
+  jti: string;
 
   /**
    * User ID
