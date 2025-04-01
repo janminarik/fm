@@ -1,4 +1,4 @@
-import { Injectable, Provider } from "@nestjs/common";
+import { Injectable, NotFoundException, Provider } from "@nestjs/common";
 import { TransactionHost } from "@nestjs-cls/transactional";
 import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import { AppToken, Prisma } from "@prisma/client";
@@ -10,7 +10,6 @@ import {
   UpdateEntity,
 } from "@repo/fm-domain";
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
-import { PartialDeep } from "type-fest";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
@@ -24,12 +23,22 @@ type PrismaAppTokenRepositoryType = PrismaBaseRepository<
   Prisma.AppTokenUpdateInput
 >;
 
+export type CreateAppToken = {
+  publicId: string;
+  value: string;
+  expiresAt: Date;
+  userId: string;
+};
+
 @Injectable()
 export class AppTokenMapper extends BaseMapper {
-  toDomain(appTokenDao: AppToken): AppTokenEntity {
+  toDomain(appTokenDao: AppToken): AppTokenEntity | null {
     if (!appTokenDao) return null;
     return new AppTokenEntity({
       ...appTokenDao,
+      value: appTokenDao.value ?? undefined,
+      expiresAt: appTokenDao.expiresAt ?? undefined,
+      revokedAt: appTokenDao.revokedAt ?? undefined,
       type: mapEnumValue(appTokenDao.type, AppTokenEntityType),
     });
   }
@@ -55,9 +64,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
     >(this.entityName, txHost);
   }
 
-  async create(
-    tokenPayload: PartialDeep<AppTokenEntity>,
-  ): Promise<AppTokenEntity> {
+  async create(tokenPayload: CreateAppToken): Promise<AppTokenEntity | null> {
     const token = await this.client.create({
       publicId: tokenPayload.publicId,
       value: tokenPayload.value ?? undefined,
@@ -70,12 +77,15 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
     return this.mapper.toDomain(token);
   }
 
-  async findById(id: string): Promise<AppTokenEntity> {
+  async findById(id: string): Promise<AppTokenEntity | null> {
     const token = await this.client.findById(id);
     return this.mapper.toDomain(token);
   }
 
-  async findToken(userId: string, publicId: string): Promise<AppTokenEntity> {
+  async findToken(
+    userId: string,
+    publicId: string,
+  ): Promise<AppTokenEntity | null> {
     const tokens = await this.client.findMany(
       { userId, publicId }, // where
       undefined, // include
@@ -89,10 +99,17 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
 
     const token = tokens?.length >= 1 ? tokens[0] : null;
 
+    if (!token) throw new NotFoundException("Token not found");
+
     return this.mapper.toDomain(token);
   }
 
-  async update(tokenPayload: UpdateEntity<AppToken>): Promise<AppTokenEntity> {
+  async update(
+    tokenPayload: UpdateEntity<AppToken>,
+  ): Promise<AppTokenEntity | null> {
+    if (!tokenPayload.id) {
+      throw new Error("Token ID is required for update");
+    }
     const token = await this.client.update(tokenPayload.id, {
       publicId: tokenPayload.publicId,
       value: tokenPayload.value ?? undefined,
@@ -101,21 +118,28 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
     return this.mapper.toDomain(token);
   }
 
-  async delete(id: string): Promise<AppTokenEntity> {
+  async delete(id: string): Promise<AppTokenEntity | null> {
     const token = await this.client.delete(id);
     return this.mapper.toDomain(token);
   }
 
-  async revokeToken(userId: string, publicId: string): Promise<AppTokenEntity> {
-    const { id } = await this.findToken(userId, publicId);
+  async revokeToken(
+    userId: string,
+    publicId: string,
+  ): Promise<AppTokenEntity | null> {
+    const token = await this.findToken(userId, publicId);
 
-    const revokedToken = await this.client.updateWhere(
-      {
-        revoked: true,
-      },
-      { id },
-    );
-    return this.mapper.toDomain(revokedToken);
+    if (token) {
+      const revokedToken = await this.client.updateWhere(
+        {
+          revoked: true,
+        },
+        { id: token.id },
+      );
+      return this.mapper.toDomain(revokedToken);
+    } else {
+      throw new NotFoundException("Token not found");
+    }
   }
 }
 

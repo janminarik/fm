@@ -18,9 +18,9 @@ import {
   IListPaginationParams,
   IListPaginationResult,
   UpdateEntity,
+  Address as AdressEntity,
 } from "@repo/fm-domain";
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
-import { PartialDeep } from "type-fest";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
 
@@ -34,9 +34,17 @@ type AdSpaceRepositoryType = PrismaBaseRepository<
   Prisma.AdSpaceUpdateInput
 >;
 
+export type CreateAdSpace = {
+  name: string;
+  type: AdSpaceEntityType;
+  status: AdSpaceEntityStatus;
+  visibility: AdSpaceEntityVisibility;
+  address: AdressEntity;
+};
+
 @Injectable()
 export class AdSpaceMapper extends BaseMapper {
-  toDomain(adSpaceDao: AdSpace): AdSpaceEntity {
+  toDomain(adSpaceDao: AdSpace): AdSpaceEntity | null {
     if (!adSpaceDao) return null;
 
     return new AdSpaceEntity({
@@ -77,16 +85,14 @@ export class AdSpaceRepository implements IAdSpaceRepository {
         maintenance: true,
       });
 
-    const adSpaces = prismaAdSpaces.data.map((prismaAdSpace) =>
-      this.mapper.toDomain(prismaAdSpace),
-    );
+    const adSpaces = prismaAdSpaces.data
+      .map((prismaAdSpace) => this.mapper.toDomain(prismaAdSpace))
+      .filter((adSpace): adSpace is AdSpaceEntity => adSpace !== null);
 
     return { ...prismaAdSpaces, data: adSpaces };
   }
 
-  async create(
-    adSpacePayload: PartialDeep<AdSpaceEntity>,
-  ): Promise<AdSpaceEntity> {
+  async create(adSpacePayload: CreateAdSpace): Promise<AdSpaceEntity | null> {
     const { address } = adSpacePayload;
 
     const prismaCreateAdSpace = {
@@ -96,10 +102,10 @@ export class AdSpaceRepository implements IAdSpaceRepository {
       visibility: mapEnumValue(adSpacePayload.visibility, AdSpaceVisibility),
       address: {
         create: {
-          street: address.street,
-          city: address.city,
-          postalcode: address.postalcode,
-          country: address.country,
+          street: address?.street,
+          city: address?.city,
+          postalcode: address?.postalcode,
+          country: address?.country,
         },
       },
     };
@@ -113,13 +119,13 @@ export class AdSpaceRepository implements IAdSpaceRepository {
     return adSpace;
   }
 
-  async findById(id: string): Promise<AdSpaceEntity> {
+  async findById(id: string): Promise<AdSpaceEntity | null> {
     const prismaAdSpace = await this.client.findById(id);
     return this.mapper.toDomain(prismaAdSpace);
   }
   async update(
     adSpacePayload: UpdateEntity<AdSpaceEntity>,
-  ): Promise<AdSpaceEntity> {
+  ): Promise<AdSpaceEntity | null> {
     const { id, address } = adSpacePayload;
 
     const prismaUpdateAdSpace: Prisma.AdSpaceUpdateInput = {
@@ -134,6 +140,10 @@ export class AdSpaceRepository implements IAdSpaceRepository {
       }),
     };
 
+    if (!id) {
+      throw new Error("AdSpace ID is required for update.");
+    }
+
     const prismaAdSpace = await this.client.update(id, prismaUpdateAdSpace, {
       address: true,
     });
@@ -143,7 +153,7 @@ export class AdSpaceRepository implements IAdSpaceRepository {
     return adSpace;
   }
 
-  async delete(id: string): Promise<AdSpaceEntity> {
+  async delete(id: string): Promise<AdSpaceEntity | null> {
     const prismaAdSpace = await this.client.delete(id);
     return this.mapper.toDomain(prismaAdSpace);
   }
