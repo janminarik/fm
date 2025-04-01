@@ -66,22 +66,23 @@ class ApiEnvironmentVariablesValidationSchema {
 }
 
 export const apiConfig = registerAs<ApiConfig>(API_CONFIG_NAMESPACE, () => {
-  validateConfig(process.env, ApiEnvironmentVariablesValidationSchema);
+  const config = validateConfig(
+    process.env,
+    ApiEnvironmentVariablesValidationSchema,
+  );
 
-  const config: ApiConfig = {
-    nodeEnv: process.env.NODE_ENV || Environment.DEVELOPMENT,
-    name: process.env.API_NAME || "app",
-    port: process.env.API_PORT ? parseInt(process.env.API_PORT, 10) : 3000,
-    debug: process.env.API_DEBUG === "true",
+  return {
+    nodeEnv: config.NODE_ENV || Environment.DEVELOPMENT,
+    name: config.API_NAME,
+    port: config.API_PORT ? config.API_PORT : 3000,
+    debug: config.API_DEBUG,
     corsOrigin: getCorsOrigin(),
-    apiDocsEnabled: process.env.API_DOCS_ENABLED === "true",
-    bodyJsonMaxSize: process.env.API_BODY_JSON_MAX_SIZE || "1mb",
-    bodyUrlEncodedMaxSize: process.env.API_BODY_URLENCODED_MAX_SIZE || "1mb",
-    bodyUrlTextMaxSize: process.env.API_BODY_TEXT_MAX_SIZE || "1mb",
-    bodyUrlRawMaxSize: process.env.API_BODY_RAW_MAX_SIZE || "1mb",
+    apiDocsEnabled: config.API_DOCS_ENABLED,
+    bodyJsonMaxSize: config.API_BODY_JSON_MAX_SIZE || "1mb",
+    bodyUrlEncodedMaxSize: config.API_BODY_URLENCODED_MAX_SIZE || "1mb",
+    bodyUrlTextMaxSize: config.API_BODY_TEXT_MAX_SIZE || "1mb",
+    bodyUrlRawMaxSize: config.API_BODY_RAW_MAX_SIZE || "1mb",
   };
-
-  return config;
 });
 
 export const apiConfigService: Provider = {
