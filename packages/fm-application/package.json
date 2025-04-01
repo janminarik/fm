@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "tsc -b -v",
-    "clean": "pnpm dlx rimraf node_modules dist .turbo",
+    "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "dev": "pnpm build --watch",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\"",

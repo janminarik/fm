@@ -9,7 +9,7 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/*.tsbuildinfo": true
+    "**/*.tsbuildinfo": false
   },
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#fa1b49",

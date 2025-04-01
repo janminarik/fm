@@ -8,7 +8,7 @@
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\"",
-    "clean": "pnpm dlx rimraf node_modules dist .turbo",
+    "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",

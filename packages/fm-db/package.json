@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "pnpm run generate && tsc -b -v",
-    "clean": "pnpm dlx rimraf node_modules dist .turbo",
+    "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "db:migrate:dev": "pnpm use-dev-env prisma migrate dev",
     "db:migrate:e2e": "pnpm use-e2e-env prisma migrate dev",
     "db:migrate:reset:dev": "pnpm use-dev-env prisma migrate reset --force",

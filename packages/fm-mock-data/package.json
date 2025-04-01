@@ -2,23 +2,23 @@
   "name": "@repo/fm-mock-data",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "build": "tsc -b -v",
-    "dev": "pnpm build --watch",
-    "lint": "eslint \"src/**/*.ts\"",
-    "lint:fix": "eslint --fix \"src/**/*.ts\"",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "clean": "pnpm dlx rimraf node_modules dist .turbo",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
-  },
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./dist/index.js"
     }
+  },
+  "scripts": {
+    "build": "tsc -b -v",
+    "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
+    "dev": "pnpm build --watch",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint --fix \"src/**/*.ts\"",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
-    "clean": "pnpm dlx rimraf node_modules dist .turbo",
+    "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "generate:component": "turbo gen react-component"
