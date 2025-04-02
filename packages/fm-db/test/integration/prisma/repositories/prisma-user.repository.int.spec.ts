@@ -1,6 +1,8 @@
-import { beforeAll, describe, expect, it } from "@jest/globals";
+import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { Test } from "@nestjs/testing";
 import { USER_REPOSITORY } from "@repo/fm-domain";
+import { createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
+import { HashService } from "@repo/fm-shared";
 
 import { PrismaContexProvider } from "../../../../src/modules/prisma/providers";
 import {
@@ -44,14 +46,37 @@ describe("PrismaUserRepository (Integration)", () => {
     userRepository = moduleFixture.get(USER_REPOSITORY);
   });
 
-  it("should init", async () => {
+  beforeEach(async () => {
+    await prismaService.user.deleteMany({
+      where: {
+        email: {
+          not: TEST_DEFAULT_USER,
+        },
+      },
+    });
+  });
+
+  it("should init", () => {
     expect(prismaService).toBeDefined();
     expect(userRepository).toBeDefined();
+  });
 
-    const user = await userRepository.findById(
-      "17e9961a-ca66-4ffe-b8b0-fed29c1afb21",
-    );
+  describe("create", () => {
+    it("should create a new user", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
 
-    expect(user).toBeDefined();
+      const createdUser = await userRepository.create({
+        ...userData,
+        passwordHash,
+      });
+
+      expect(createdUser).toBeDefined();
+      expect(createdUser?.email).toBe(userData.email);
+      expect(createdUser?.firstName).toBe(userData.firstName);
+      expect(createdUser?.lastName).toBe(userData.lastName);
+      expect(createdUser?.passwordHash).toBe(passwordHash);
+    });
   });
 });

@@ -612,6 +612,9 @@ importers:
       '@repo/config-jest':
         specifier: workspace:*
         version: link:../config-jest
+      '@repo/fm-mock-data':
+        specifier: workspace:*
+        version: link:../fm-mock-data
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7

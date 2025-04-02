@@ -1,6 +1,7 @@
 import { UserFakes } from "../fakes/user.fakes";
 
-const TEST_DEFAULT_PASSWORD = "H3slo123456*";
+export const TEST_DEFAULT_USER = "jozef@mak.sk";
+export const TEST_DEFAULT_PASSWORD = "H3slo123456*";
 
 export function createUserPayload() {
   const fakes = new UserFakes();
