@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, Provider } from "@nestjs/common";
+import { Injectable, Provider } from "@nestjs/common";
 import { Prisma, User } from "@prisma/client";
 import {
   CreateUser,
@@ -59,28 +59,18 @@ export class PrismaUserRepository implements IUserRepository {
   }
 
   async create(userPayload: CreateUser): Promise<UserEntity | null> {
-    try {
-      const data = {
-        email: userPayload.email,
-        passwordHash: userPayload.passwordHash,
-        firstName: userPayload.firstName,
-        lastName: userPayload.lastName,
-        userName: userPayload.userName,
-        verified: userPayload?.verified ?? false,
-        disabled: userPayload?.disabled ?? false,
-      };
+    const data = {
+      email: userPayload.email,
+      passwordHash: userPayload.passwordHash,
+      firstName: userPayload.firstName,
+      lastName: userPayload.lastName,
+      userName: userPayload.userName,
+      verified: userPayload?.verified ?? false,
+      disabled: userPayload?.disabled ?? false,
+    };
 
-      const prismaUser = await this.client.create(data);
-      return this.mapper.toDomain(prismaUser);
-    } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        throw new ConflictException("User with provided email already exists");
-      }
-      throw error;
-    }
+    const prismaUser = await this.client.create(data);
+    return this.mapper.toDomain(prismaUser);
   }
 
   async findById(id: string): Promise<UserEntity | null> {

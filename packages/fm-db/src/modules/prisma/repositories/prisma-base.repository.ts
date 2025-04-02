@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import {
-  IListPaginationParams,
+  type IListPaginationParams,
   IListPaginationResult,
   IPaginationMeta,
   SortDirection,
@@ -12,6 +12,7 @@ import {
   PrismaContextProvider as PrismaContextProvider,
 } from "../providers";
 import { parseFilterQuery } from "../utils";
+import { PrismaErrorHandler } from "../utils/prisma-error-utils";
 
 export interface IPrismaBaseRepository<
   TEntity extends Record<string, any>,
@@ -154,6 +155,7 @@ export class PrismaBaseRepository<
     }
   }
 
+  @PrismaErrorHandler()
   async listPagination(
     paginationParams: IListPaginationParams,
     include?: TInclude,
@@ -207,6 +209,7 @@ export class PrismaBaseRepository<
     } as IListPaginationResult<TEntity>;
   }
 
+  @PrismaErrorHandler()
   async create(
     data: TCreate,
     include?: TInclude,
@@ -219,6 +222,7 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async createMany(data: TCreateMany): Promise<TEntity[]> {
     await this.delegate.findMany({ where: {} });
 
@@ -233,10 +237,12 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async findUnique(where: TWhere): Promise<TEntity> {
     return await this.delegate.findUnique({ where });
   }
 
+  @PrismaErrorHandler()
   async findMany(
     where?: TWhere,
     include?: TInclude,
@@ -255,6 +261,7 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async update(
     id: string,
     data: TUpdate,
@@ -269,6 +276,7 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async updateWhere(
     data: TUpdate,
     where: TWhere,
@@ -283,6 +291,7 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async delete(
     id: string,
     where?: TWhere,
@@ -296,6 +305,7 @@ export class PrismaBaseRepository<
     });
   }
 
+  @PrismaErrorHandler()
   async deleteBatch(
     ids: string[],
     where?: TWhere,
