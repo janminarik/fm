@@ -11,7 +11,7 @@ import {
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
-import { PrismaContexProvider } from "../providers";
+import { PrismaContextProvider as PrismaContextProvider } from "../providers";
 
 type PrismaAppTokenRepositoryType = PrismaBaseRepository<
   AppToken,
@@ -43,7 +43,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
   private client: PrismaAppTokenRepositoryType;
 
   constructor(
-    prismaContextProvider: PrismaContexProvider,
+    prismaContextProvider: PrismaContextProvider,
     private readonly mapper: AppTokenMapper,
   ) {
     this.client = new PrismaBaseRepository<

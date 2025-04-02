@@ -10,7 +10,7 @@ import {
 import { BaseMapper } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
-import { PrismaContexProvider } from "../providers";
+import { PrismaContextProvider as PrismaContextProvider } from "../providers";
 
 type PrismaUserRepositoryType = PrismaBaseRepository<
   User,
@@ -44,7 +44,7 @@ export class PrismaUserRepository implements IUserRepository {
   private client: PrismaUserRepositoryType;
 
   constructor(
-    prismaContextProvider: PrismaContexProvider,
+    prismaContextProvider: PrismaContextProvider,
     private readonly mapper: UserMapper,
   ) {
     this.client = new PrismaBaseRepository<

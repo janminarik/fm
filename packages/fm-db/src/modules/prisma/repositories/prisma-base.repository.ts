@@ -7,7 +7,10 @@ import {
 } from "@repo/fm-domain";
 
 import { DEFAULT_SORT_ATTRIBUTE } from "../../../constants/query";
-import { isTransactionHost, PrismaContexProvider } from "../providers";
+import {
+  isTransactionHost,
+  PrismaContextProvider as PrismaContextProvider,
+} from "../providers";
 import { parseFilterQuery } from "../utils";
 
 export interface IPrismaBaseRepository<
@@ -115,7 +118,7 @@ export class PrismaBaseRepository<
 
   constructor(
     protected entityName: string,
-    protected prismaContextProvider: PrismaContexProvider,
+    protected prismaContextProvider: PrismaContextProvider,
   ) {
     const prismaContext = prismaContextProvider.getContext();
 

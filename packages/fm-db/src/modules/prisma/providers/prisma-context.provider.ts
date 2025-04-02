@@ -11,7 +11,7 @@ export function isTransactionHost(
 }
 
 @Injectable()
-export class PrismaContexProvider {
+export class PrismaContextProvider {
   constructor(
     @Optional()
     private readonly txHost?: TransactionHost<TransactionalAdapterPrisma>,

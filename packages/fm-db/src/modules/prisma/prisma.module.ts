@@ -7,7 +7,7 @@ import {
 } from "@repo/fm-domain";
 import { IBaseModuleOptions } from "@repo/fm-shared";
 
-import { PrismaContexProvider } from "./providers";
+import { PrismaContextProvider } from "./providers";
 import { AdSpaceMapper, prismaAdSpaceRepositoryProvider } from "./repositories";
 import {
   AppTokenMapper,
@@ -42,7 +42,7 @@ export class PrismaModule {
           },
           provide: PrismaService,
         },
-        PrismaContexProvider,
+        PrismaContextProvider,
         prismaUserRepositoryProvider,
         prismaAppTokenProvider,
         prismaAdSpaceRepositoryProvider,

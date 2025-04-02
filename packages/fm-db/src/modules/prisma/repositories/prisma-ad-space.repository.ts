@@ -21,7 +21,7 @@ import {
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
-import { PrismaContexProvider } from "../providers";
+import { PrismaContextProvider as PrismaContextProvider } from "../providers";
 
 type AdSpaceRepositoryType = PrismaBaseRepository<
   AdSpace,
@@ -51,7 +51,7 @@ export class AdSpaceMapper extends BaseMapper {
 export class AdSpaceRepository implements IAdSpaceRepository {
   private client: AdSpaceRepositoryType;
   constructor(
-    prismaContextProvider: PrismaContexProvider,
+    prismaContextProvider: PrismaContextProvider,
     private readonly mapper: AdSpaceMapper,
   ) {
     this.client = new PrismaBaseRepository<
