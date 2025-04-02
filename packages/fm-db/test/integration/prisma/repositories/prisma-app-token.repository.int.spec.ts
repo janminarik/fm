@@ -67,37 +67,20 @@ describe("PrismaAppTokenRepository (Integration)", () => {
     appTokenRepository = moduleFixture.get(APP_TOKEN_REPOSITORY);
     userRepository = moduleFixture.get(USER_REPOSITORY);
 
-    // Create a test user for tokens
-    const { password, ...userData } = createUserPayload();
-    const hashService = new HashService();
-    const passwordHash = await hashService.hash(password);
-
     const user = await userRepository.findUserByEmail(TEST_DEFAULT_USER)
     userId = user.id;
   });
 
   beforeEach(async () => {
-    // Clean up app tokens before each test
     await prismaService.appToken.deleteMany({
       where: {},
     });
   });
 
   afterAll(async () => {
-    // Clean up after all tests
     await prismaService.appToken.deleteMany({
       where: {},
     });
-
-    // Delete test user
-    await prismaService.user
-      .delete({
-        where: { id: userId },
-      })
-      .catch(() => {
-        // Ignore if user doesn't exist
-      });
-
     await prismaService.$disconnect();
   });
 
