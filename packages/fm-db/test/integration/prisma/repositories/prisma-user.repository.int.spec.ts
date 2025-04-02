@@ -6,8 +6,9 @@ import {
   expect,
   it,
 } from "@jest/globals";
+import { ConflictException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { USER_REPOSITORY } from "@repo/fm-domain";
+import { CreateUser, USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
 import { HashService } from "@repo/fm-shared";
 
@@ -88,6 +89,24 @@ describe("PrismaUserRepository (Integration)", () => {
       expect(createdUser?.firstName).toBe(userData.firstName);
       expect(createdUser?.lastName).toBe(userData.lastName);
       expect(createdUser?.passwordHash).toBe(passwordHash);
+    });
+
+    it("shoudl throw ConflictException when user with email already exist", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
+
+      const duplicateEmail = TEST_DEFAULT_USER;
+
+      const payload: CreateUser = {
+        ...userData,
+        email: duplicateEmail,
+        passwordHash,
+      };
+
+      await expect(userRepository.create(payload)).rejects.toThrow(
+        ConflictException,
+      );
     });
   });
 });
