@@ -107,4 +107,28 @@ describe("PrismaUserRepository (Integration)", () => {
       );
     });
   });
+
+  describe("findById", () => {
+    it("should find user by ID", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
+
+      const createdUser = await userRepository.create({
+        ...userData,
+        passwordHash,
+      });
+
+      const foundUser = await userRepository.findById(createdUser?.id);
+
+      expect(foundUser).toBeDefined();
+      expect(foundUser?.id).toBe(createdUser?.id);
+      expect(foundUser?.email).toBe(createdUser?.email);
+    });
+
+    it("should return null whene user with ID does not exist", async () => {
+      const user = await userRepository.findById("123");
+      expect(user).toBeNull();
+    });
+  });
 });
