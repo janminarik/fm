@@ -21,7 +21,7 @@ import {
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
-import { PrismaContextProvider as PrismaContextProvider } from "../providers";
+import { PrismaContextProvider } from "../providers";
 
 type AdSpaceRepositoryType = PrismaBaseRepository<
   AdSpace,

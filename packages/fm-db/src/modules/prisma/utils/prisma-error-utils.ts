@@ -36,8 +36,11 @@ export function PrismaErrorHandler() {
         return await originalMethod.apply(this, args);
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          const entityId = args.length > 0 ? args[0] : null;
-          handlePrismaError(error, entityId as string);
+          const entityId =
+            args.length > 0 && typeof args[0] === "string"
+              ? args[0]
+              : undefined;
+          handlePrismaError(error, entityId);
         }
         throw error;
       }

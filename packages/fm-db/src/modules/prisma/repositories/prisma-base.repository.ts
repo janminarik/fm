@@ -7,10 +7,7 @@ import {
 } from "@repo/fm-domain";
 
 import { DEFAULT_SORT_ATTRIBUTE } from "../../../constants/query";
-import {
-  isTransactionHost,
-  PrismaContextProvider as PrismaContextProvider,
-} from "../providers";
+import { isTransactionHost, PrismaContextProvider } from "../providers";
 import { parseFilterQuery } from "../utils";
 import { PrismaErrorHandler } from "../utils/prisma-error-utils";
 
@@ -224,13 +221,12 @@ export class PrismaBaseRepository<
 
   @PrismaErrorHandler()
   async createMany(data: TCreateMany): Promise<TEntity[]> {
-    await this.delegate.findMany({ where: {} });
-
     return (await this.delegate.createMany({
       data,
     })) as unknown as TEntity[];
   }
 
+  @PrismaErrorHandler()
   async findById(id: string): Promise<TEntity> {
     return await this.delegate.findUnique({
       where: { id },
