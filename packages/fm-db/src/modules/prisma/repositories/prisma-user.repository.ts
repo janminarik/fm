@@ -92,9 +92,6 @@ export class PrismaUserRepository implements IUserRepository {
     userPayload: UpdateEntity<UserEntity>,
   ): Promise<UserEntity | null> {
     const { id } = userPayload;
-    if (!id) {
-      throw new Error("User ID is required for update");
-    }
     const prismaUser = await this.client.update(id, {
       email: userPayload.email,
       firstName: userPayload.firstName,

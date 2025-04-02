@@ -1,6 +1,6 @@
 import { PartialDeep } from "type-fest";
 
-import { BaseEntity } from "../../entities";
+import { BaseEntity, ID } from "../../entities";
 
 export type BaseEntityCreateOmitKeys = "id" | "createdAt" | "updatedAt";
 export type BaseEntityUpdateOmitKeys = "createdAt" | "updatedAt";
@@ -11,7 +11,7 @@ export type CreateEntity<TEntity> = Omit<
 export type UpdateEntity<TEntity> = Omit<
   PartialDeep<TEntity>,
   BaseEntityUpdateOmitKeys
->;
+> & { id: ID };
 
 export interface IBaseEntityRepository<
   TEntity extends BaseEntity,
