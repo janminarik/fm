@@ -27,6 +27,7 @@ describe("PrismaUserRepository (Integration)", () => {
         UserMapper,
         {
           provide: PrismaService,
+          //! TODO: cez dotenv
           useValue: new PrismaService(
             "postgresql://postgres:postgres@localhost:5432/flowmate-e2e?schema=public",
           ),
