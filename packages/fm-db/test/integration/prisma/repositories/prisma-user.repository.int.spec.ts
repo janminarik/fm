@@ -131,4 +131,74 @@ describe("PrismaUserRepository (Integration)", () => {
       expect(user).toBeNull();
     });
   });
+
+  describe("find by email", () => {
+    it("should find user by email", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
+
+      const createdUser = await userRepository.create({
+        ...userData,
+        passwordHash,
+      });
+
+      const foundUser = await userRepository.findUserByEmail(
+        createdUser?.email,
+      );
+
+      expect(foundUser).toBeDefined();
+      expect(foundUser?.email).toBe(createdUser?.email);
+    });
+  });
+
+  describe("update", () => {
+    it("should update user properties", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
+
+      const createdUser = await userRepository.create({
+        ...userData,
+        passwordHash,
+      });
+
+      const updateData = {
+        id: createdUser.id,
+        firstName: "UpdatedName",
+        lastName: "UpdatedLastName",
+        phoneNumber: "+421123456789",
+      };
+
+      const updatedUser = await userRepository.update(updateData);
+
+      expect(updatedUser).toBeDefined();
+      expect(updatedUser.firstName).toBe(updateData.firstName);
+      expect(updatedUser.lastName).toBe(updateData.lastName);
+      expect(updatedUser.phoneNumber).toBe(updateData.phoneNumber);
+    });
+  });
+
+  describe("delete", () => {
+    it("should delete a user by ID", async () => {
+      const { password, ...userData } = createUserPayload();
+      const hashService = new HashService();
+      const passwordHash = await hashService.hash(password);
+
+      const createdUser = await userRepository.create({
+        ...userData,
+        passwordHash,
+      });
+
+      const deletedUser = await userRepository.delete(createdUser.id);
+
+      expect(deletedUser).toBeDefined();
+      expect(deletedUser.id).toBe(createdUser.id);
+
+      const userInDb = await prismaService.user.findUnique({
+        where: { id: createdUser.id },
+      });
+      expect(userInDb).toBeNull();
+    });
+  });
 });
