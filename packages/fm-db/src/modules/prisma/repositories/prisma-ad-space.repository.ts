@@ -1,6 +1,4 @@
 import { Injectable, Provider } from "@nestjs/common";
-import { TransactionHost } from "@nestjs-cls/transactional";
-import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import {
   AdSpace,
   AdSpaceStatus,
@@ -23,6 +21,7 @@ import {
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { PrismaContexProvider } from "../providers";
 
 type AdSpaceRepositoryType = PrismaBaseRepository<
   AdSpace,
@@ -51,9 +50,8 @@ export class AdSpaceMapper extends BaseMapper {
 @Injectable()
 export class AdSpaceRepository implements IAdSpaceRepository {
   private client: AdSpaceRepositoryType;
-
   constructor(
-    protected txHost: TransactionHost<TransactionalAdapterPrisma>,
+    prismaContextProvider: PrismaContexProvider,
     private readonly mapper: AdSpaceMapper,
   ) {
     this.client = new PrismaBaseRepository<
@@ -64,7 +62,7 @@ export class AdSpaceRepository implements IAdSpaceRepository {
       Prisma.AdSpaceInclude,
       Prisma.AdSpaceSelect,
       Prisma.AdSpaceUpdateInput
-    >("adSpace", txHost);
+    >("adSpace", prismaContextProvider);
   }
 
   async listPagination(

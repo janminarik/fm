@@ -1,6 +1,4 @@
 import { Injectable, NotFoundException, Provider } from "@nestjs/common";
-import { TransactionHost } from "@nestjs-cls/transactional";
-import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import { AppToken, Prisma } from "@prisma/client";
 import {
   APP_TOKEN_REPOSITORY,
@@ -13,6 +11,7 @@ import {
 import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { PrismaContexProvider } from "../providers";
 
 type PrismaAppTokenRepositoryType = PrismaBaseRepository<
   AppToken,
@@ -44,7 +43,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
   private client: PrismaAppTokenRepositoryType;
 
   constructor(
-    protected txHost: TransactionHost<TransactionalAdapterPrisma>,
+    prismaContextProvider: PrismaContexProvider,
     private readonly mapper: AppTokenMapper,
   ) {
     this.client = new PrismaBaseRepository<
@@ -55,7 +54,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
       Prisma.AppTokenInclude,
       Prisma.AppTokenSelect,
       Prisma.AppTokenUpdateInput
-    >(this.entityName, txHost);
+    >(this.entityName, prismaContextProvider);
   }
 
   async create(tokenPayload: CreateAppToken): Promise<AppTokenEntity | null> {

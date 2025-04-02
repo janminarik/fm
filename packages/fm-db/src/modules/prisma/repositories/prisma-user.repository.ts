@@ -1,6 +1,4 @@
 import { ConflictException, Injectable, Provider } from "@nestjs/common";
-import { TransactionHost } from "@nestjs-cls/transactional";
-import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
 import { Prisma, User } from "@prisma/client";
 import {
   CreateUser,
@@ -12,6 +10,7 @@ import {
 import { BaseMapper } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { PrismaContexProvider } from "../providers";
 
 type PrismaUserRepositoryType = PrismaBaseRepository<
   User,
@@ -45,7 +44,7 @@ export class PrismaUserRepository implements IUserRepository {
   private client: PrismaUserRepositoryType;
 
   constructor(
-    protected txHost: TransactionHost<TransactionalAdapterPrisma>,
+    prismaContextProvider: PrismaContexProvider,
     private readonly mapper: UserMapper,
   ) {
     this.client = new PrismaBaseRepository<
@@ -56,7 +55,7 @@ export class PrismaUserRepository implements IUserRepository {
       Prisma.UserInclude,
       Prisma.UserSelect,
       Prisma.UserUpdateInput
-    >("user", txHost);
+    >("user", prismaContextProvider);
   }
 
   async create(userPayload: CreateUser): Promise<UserEntity | null> {

@@ -23,10 +23,11 @@
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "prisma:studio": "pnpm with-env prisma studio",
-    "test": "jest",
+    "test": "jest -p tsconfig.spec.json",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:watch": "jest --watch",
+    "test:integration": "jest -p tsconfig.spec.json test/integration",
+    "test:watch": "jest -p tsconfig.spec.json --watch",
     "use-dev-env": "dotenv -e ../../.env.development --",
     "use-e2e-env": "dotenv -e ../../.env.test --"
   },
@@ -45,10 +46,16 @@
     "type-fest": "^4.37.0"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@nestjs/testing": "^11.0.11",
     "@repo/config-eslint": "workspace:*",
+    "@repo/config-jest": "workspace:*",
     "@repo/config-typescript": "workspace:*",
+    "dotenv": "^16.4.7",
     "dotenv-cli": "^8.0.0",
+    "jest": "^29.7.0",
     "prisma": "^6.5.0",
+    "ts-jest": "^29.2.6",
     "tsx": "^4.19.3",
     "typescript": "5.8.2"
   }

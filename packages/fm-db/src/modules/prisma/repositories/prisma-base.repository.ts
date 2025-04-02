@@ -1,6 +1,4 @@
-import { TransactionHost } from "@nestjs-cls/transactional";
-import { TransactionalAdapterPrisma } from "@nestjs-cls/transactional-adapter-prisma";
-import { Prisma } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import {
   IListPaginationParams,
   IListPaginationResult,
@@ -9,6 +7,7 @@ import {
 } from "@repo/fm-domain";
 
 import { DEFAULT_SORT_ATTRIBUTE } from "../../../constants/query";
+import { isTransactionHost, PrismaContexProvider } from "../providers";
 import { parseFilterQuery } from "../utils";
 
 export interface IPrismaBaseRepository<
@@ -60,18 +59,29 @@ export interface IPrismaBaseRepository<
 }
 
 // Typ pre Prisma model delegate
-type PrismaModelDelegate<T, TC, TM, TU, TW> = {
-  findMany: (args: any) => Promise<T[]>;
-  findUnique: (args: any) => Promise<T>;
-  create: (args: { data: TC; include?: any; select?: any }) => Promise<T>;
-  createMany: (args: { data: TM; skipDuplicates?: boolean }) => Promise<any>;
-  update: (args: {
-    where: any;
-    data: TU;
+type PrismaModelDelegate<TEntity, TCreate, TCreateMany, TUpdate, TWhere> = {
+  findMany: (args: any) => Promise<TEntity[]>;
+  findUnique: (args: any) => Promise<TEntity>;
+  create: (args: {
+    data: TCreate;
     include?: any;
     select?: any;
-  }) => Promise<T>;
-  delete: (args: { where: any; include?: any; select?: any }) => Promise<T>;
+  }) => Promise<TEntity>;
+  createMany: (args: {
+    data: TCreateMany;
+    skipDuplicates?: boolean;
+  }) => Promise<any>;
+  update: (args: {
+    where: any;
+    data: TUpdate;
+    include?: any;
+    select?: any;
+  }) => Promise<TEntity>;
+  delete: (args: {
+    where: any;
+    include?: any;
+    select?: any;
+  }) => Promise<TEntity>;
   deleteMany: (args: { where: any }) => Promise<Prisma.BatchPayload>;
   count: (args: any) => Promise<number>;
 };
@@ -105,17 +115,40 @@ export class PrismaBaseRepository<
 
   constructor(
     protected entityName: string,
-    protected txHost: TransactionHost<TransactionalAdapterPrisma>,
+    protected prismaContextProvider: PrismaContexProvider,
   ) {
-    this.delegate = txHost.tx[
-      entityName as keyof typeof txHost.tx
-    ] as unknown as PrismaModelDelegate<
-      TEntity,
-      TCreate,
-      TCreateMany,
-      TUpdate,
-      TWhere
-    >;
+    const prismaContext = prismaContextProvider.getContext();
+
+    if (!prismaContext) {
+      throw new Error(
+        "Either TransactionHost or PrismaService must be provided",
+      );
+    }
+
+    // Rozlíšenie medzi TransactionHost a PrismaClient
+    if (isTransactionHost(prismaContext)) {
+      // Ak je to TransactionHost, použijeme tx
+      this.delegate = prismaContext.tx[
+        entityName as keyof typeof prismaContext.tx
+      ] as unknown as PrismaModelDelegate<
+        TEntity,
+        TCreate,
+        TCreateMany,
+        TUpdate,
+        TWhere
+      >;
+    } else {
+      // Ak je to PrismaClient, použijeme ho priamo
+      this.delegate = prismaContext[
+        entityName as keyof PrismaClient
+      ] as unknown as PrismaModelDelegate<
+        TEntity,
+        TCreate,
+        TCreateMany,
+        TUpdate,
+        TWhere
+      >;
+    }
   }
 
   async listPagination(
