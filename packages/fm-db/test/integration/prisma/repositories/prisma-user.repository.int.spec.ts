@@ -63,6 +63,14 @@ describe("PrismaUserRepository (Integration)", () => {
   });
 
   afterAll(async () => {
+    await prismaService.user.deleteMany({
+      where: {
+        email: {
+          not: TEST_DEFAULT_USER,
+        },
+      },
+    });
+    
     await prismaService.$disconnect();
   });
 
