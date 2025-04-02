@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.6.0",
-    "@repo/fm-domain": "workspace:*"
+    "@repo/fm-domain": "workspace:*",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@repo/config-eslint": "workspace:*",
     "@repo/config-typescript": "workspace:*",
+    "@types/uuid": "^10.0.0",
     "typescript": "5.8.2"
   }
 }
