@@ -25,7 +25,7 @@ export interface IPrismaBaseRepository<
     include?: TInclude,
   ): Promise<IListPaginationResult<TEntity>>;
   create(data: TCreate, include?: TInclude, select?: TSelect): Promise<TEntity>;
-  createMany(data: TCreateMany): Promise<TEntity[]>;
+  createMany(data: TCreateMany): Promise<number>;
   findById(id: string): Promise<TEntity>;
   findUnique(where: TWhere): Promise<TEntity>;
   findMany(
@@ -71,7 +71,7 @@ type PrismaModelDelegate<TEntity, TCreate, TCreateMany, TUpdate, TWhere> = {
   createMany: (args: {
     data: TCreateMany;
     skipDuplicates?: boolean;
-  }) => Promise<any>;
+  }) => Promise<number>;
   update: (args: {
     where: any;
     data: TUpdate;
@@ -220,10 +220,10 @@ export class PrismaBaseRepository<
   }
 
   @PrismaErrorHandler()
-  async createMany(data: TCreateMany): Promise<TEntity[]> {
-    return (await this.delegate.createMany({
+  async createMany(data: TCreateMany): Promise<number> {
+    return await this.delegate.createMany({
       data,
-    })) as unknown as TEntity[];
+    });
   }
 
   @PrismaErrorHandler()
