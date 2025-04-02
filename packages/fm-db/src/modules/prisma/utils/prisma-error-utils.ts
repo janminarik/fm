@@ -7,27 +7,6 @@ import {
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
 
-// function handlePrismaError(error: any, entityId?: string): never {
-//   if (error instanceof Prisma.PrismaClientKnownRequestError) {
-//     switch (error.code) {
-//       case "P2002":
-//         throw new ConflictException(
-//           "A record with this unique constraint already exists",
-//         );
-//       case "P2025":
-//         throw new NotFoundException(`Record with ID ${entityId} not found`);
-//       case "P2003":
-//         throw new BadRequestException("Related record not found");
-//       case "P2000":
-//         throw new BadRequestException("Input value is too long");
-//     }
-//   }
-//   throw error;
-// }
-
-// // prisma-error-utils.ts
-// import { Prisma } from "@prisma/client";
-
 function handlePrismaError(
   error: any,
   entityId?: string,
