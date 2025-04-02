@@ -44,7 +44,7 @@ export class PrismaUserRepository implements IUserRepository {
   private client: PrismaUserRepositoryType;
 
   constructor(
-    prismaContextProvider: PrismaContextProvider,
+    private readonly prismaContextProvider: PrismaContextProvider,
     private readonly mapper: UserMapper,
   ) {
     this.client = new PrismaBaseRepository<

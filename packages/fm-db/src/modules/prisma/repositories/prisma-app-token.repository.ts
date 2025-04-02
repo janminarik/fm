@@ -43,7 +43,7 @@ export class PrismaAppTokenRepository implements IAppTokenRepository {
   private client: PrismaAppTokenRepositoryType;
 
   constructor(
-    prismaContextProvider: PrismaContextProvider,
+    private readonly prismaContextProvider: PrismaContextProvider,
     private readonly mapper: AppTokenMapper,
   ) {
     this.client = new PrismaBaseRepository<

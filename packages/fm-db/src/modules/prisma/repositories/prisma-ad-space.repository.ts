@@ -51,7 +51,7 @@ export class AdSpaceMapper extends BaseMapper {
 export class AdSpaceRepository implements IAdSpaceRepository {
   private client: AdSpaceRepositoryType;
   constructor(
-    prismaContextProvider: PrismaContextProvider,
+    private readonly prismaContextProvider: PrismaContextProvider,
     private readonly mapper: AdSpaceMapper,
   ) {
     this.client = new PrismaBaseRepository<
