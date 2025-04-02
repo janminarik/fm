@@ -1,4 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "@jest/globals";
 import { Test } from "@nestjs/testing";
 import { USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
@@ -54,6 +61,10 @@ describe("PrismaUserRepository (Integration)", () => {
         },
       },
     });
+  });
+
+  afterAll(async () => {
+    await prismaService.$disconnect();
   });
 
   it("should init", () => {
