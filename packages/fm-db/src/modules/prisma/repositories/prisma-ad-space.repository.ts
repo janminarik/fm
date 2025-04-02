@@ -9,18 +9,16 @@ import {
 import {
   AD_SPACE_REPOSITORY,
   AdSpace as AdSpaceEntity,
-  AdSpaceStatus as AdSpaceEntityStatus,
-  AdSpaceType as AdSpaceEntityType,
-  AdSpaceVisibility as AdSpaceEntityVisibility,
   CreateAdSpace,
   IAdSpaceRepository,
   IListPaginationParams,
   IListPaginationResult,
   UpdateEntity,
 } from "@repo/fm-domain";
-import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
+import { mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { AdSpaceMapper } from "../mappers";
 import { PrismaContextProvider } from "../providers";
 
 type AdSpaceRepositoryType = PrismaBaseRepository<
@@ -32,20 +30,6 @@ type AdSpaceRepositoryType = PrismaBaseRepository<
   Prisma.AdSpaceSelect,
   Prisma.AdSpaceUpdateInput
 >;
-
-@Injectable()
-export class AdSpaceMapper extends BaseMapper {
-  toDomain(adSpaceDao: AdSpace): AdSpaceEntity | null {
-    if (!adSpaceDao) return null;
-
-    return new AdSpaceEntity({
-      ...adSpaceDao,
-      type: mapEnumValue(adSpaceDao.type, AdSpaceEntityType),
-      status: mapEnumValue(adSpaceDao.status, AdSpaceEntityStatus),
-      visibility: mapEnumValue(adSpaceDao.visibility, AdSpaceEntityVisibility),
-    });
-  }
-}
 
 @Injectable()
 export class AdSpaceRepository implements IAdSpaceRepository {
@@ -129,10 +113,6 @@ export class AdSpaceRepository implements IAdSpaceRepository {
         },
       }),
     };
-
-    if (!id) {
-      throw new Error("AdSpace ID is required for update.");
-    }
 
     const prismaAdSpace = await this.client.update(id, prismaUpdateAdSpace, {
       address: true,

@@ -3,14 +3,13 @@ import { AppToken, Prisma } from "@prisma/client";
 import {
   APP_TOKEN_REPOSITORY,
   AppToken as AppTokenEntity,
-  AppTokenType as AppTokenEntityType,
   CreateAppToken,
   IAppTokenRepository,
   UpdateEntity,
 } from "@repo/fm-domain";
-import { BaseMapper, mapEnumValue } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { AppTokenMapper } from "../mappers";
 import { PrismaContextProvider } from "../providers";
 
 type PrismaAppTokenRepositoryType = PrismaBaseRepository<
@@ -22,20 +21,6 @@ type PrismaAppTokenRepositoryType = PrismaBaseRepository<
   Prisma.AppTokenSelect,
   Prisma.AppTokenUpdateInput
 >;
-
-@Injectable()
-export class AppTokenMapper extends BaseMapper {
-  toDomain(appTokenDao: AppToken): AppTokenEntity | null {
-    if (!appTokenDao) return null;
-    return new AppTokenEntity({
-      ...appTokenDao,
-      value: appTokenDao.value ?? undefined,
-      expiresAt: appTokenDao.expiresAt ?? undefined,
-      revokedAt: appTokenDao.revokedAt ?? undefined,
-      type: mapEnumValue(appTokenDao.type, AppTokenEntityType),
-    });
-  }
-}
 
 @Injectable()
 export class PrismaAppTokenRepository implements IAppTokenRepository {

@@ -12,11 +12,9 @@ import { CreateUser, USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
 import { HashService } from "@repo/fm-shared";
 
+import { UserMapper } from "../../../../src/modules/prisma/mappers";
 import { PrismaContextProvider } from "../../../../src/modules/prisma/providers";
-import {
-  PrismaUserRepository,
-  UserMapper,
-} from "../../../../src/modules/prisma/repositories/prisma-user.repository";
+import { PrismaUserRepository } from "../../../../src/modules/prisma/repositories/prisma-user.repository";
 import { PrismaService } from "../../../../src/modules/prisma/services/prisma.service";
 
 describe("PrismaUserRepository (Integration)", () => {

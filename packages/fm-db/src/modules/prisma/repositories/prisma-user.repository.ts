@@ -7,9 +7,9 @@ import {
   USER_REPOSITORY,
   User as UserEntity,
 } from "@repo/fm-domain";
-import { BaseMapper } from "@repo/fm-shared";
 
 import { PrismaBaseRepository } from "./prisma-base.repository";
+import { UserMapper } from "../mappers";
 import { PrismaContextProvider } from "../providers";
 
 type PrismaUserRepositoryType = PrismaBaseRepository<
@@ -21,23 +21,6 @@ type PrismaUserRepositoryType = PrismaBaseRepository<
   Prisma.UserSelect,
   Prisma.UserUpdateInput
 >;
-
-@Injectable()
-export class UserMapper extends BaseMapper {
-  toDomain(userDao: User): UserEntity | null {
-    if (!userDao) return null;
-
-    return new UserEntity({
-      ...userDao,
-      userName: userDao.userName ?? undefined,
-      phoneNumber: userDao.phoneNumber ?? undefined,
-      lastLogin: userDao.lastLogin ?? undefined,
-      deletedAt: userDao.deletedAt ?? undefined,
-      createdAt: userDao.createdAt ?? undefined,
-      updatedAt: userDao.updatedAt ?? undefined,
-    });
-  }
-}
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {

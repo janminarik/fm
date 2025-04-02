@@ -7,16 +7,11 @@ import {
 } from "@repo/fm-domain";
 import { IBaseModuleOptions } from "@repo/fm-shared";
 
+import { AdSpaceMapper, AppTokenMapper, UserMapper } from "./mappers";
 import { PrismaContextProvider } from "./providers";
-import { AdSpaceMapper, prismaAdSpaceRepositoryProvider } from "./repositories";
-import {
-  AppTokenMapper,
-  prismaAppTokenProvider,
-} from "./repositories/prisma-app-token.repository";
-import {
-  prismaUserRepositoryProvider,
-  UserMapper,
-} from "./repositories/prisma-user.repository";
+import { prismaAdSpaceRepositoryProvider } from "./repositories";
+import { prismaAppTokenProvider } from "./repositories/prisma-app-token.repository";
+import { prismaUserRepositoryProvider } from "./repositories/prisma-user.repository";
 import { PrismaService } from "./services/prisma.service";
 
 export interface IPrismaModuleOptions extends IBaseModuleOptions {
