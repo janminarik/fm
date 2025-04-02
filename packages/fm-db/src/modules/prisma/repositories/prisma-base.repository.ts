@@ -56,7 +56,7 @@ export interface IPrismaBaseRepository<
     include?: TInclude,
     select?: TSelect,
   ): Promise<TEntity>;
-  deleteBatch(ids: string[], where?: TWhere): Promise<Prisma.BatchPayload>;
+  deleteMany(ids: string[], where?: TWhere): Promise<number>;
 }
 
 // Typ pre Prisma model delegate
@@ -302,11 +302,8 @@ export class PrismaBaseRepository<
   }
 
   @PrismaErrorHandler()
-  async deleteBatch(
-    ids: string[],
-    where?: TWhere,
-  ): Promise<Prisma.BatchPayload> {
-    return await this.delegate.deleteMany({
+  async deleteMany(ids: string[], where?: TWhere): Promise<number> {
+    const result = await this.delegate.deleteMany({
       where: {
         id: {
           in: ids,
@@ -314,5 +311,7 @@ export class PrismaBaseRepository<
         ...where,
       },
     });
+
+    return result?.count;
   }
 }
