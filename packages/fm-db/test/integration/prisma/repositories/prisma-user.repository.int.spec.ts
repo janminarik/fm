@@ -132,7 +132,7 @@ describe("PrismaUserRepository (Integration)", () => {
     });
   });
 
-  describe("find by email", () => {
+  describe("findByEmail", () => {
     it("should find user by email", async () => {
       const { password, ...userData } = createUserPayload();
       const hashService = new HashService();
