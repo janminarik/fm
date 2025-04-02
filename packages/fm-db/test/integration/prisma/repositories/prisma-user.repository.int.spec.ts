@@ -89,7 +89,7 @@ describe("PrismaUserRepository (Integration)", () => {
       expect(createdUser?.passwordHash).toBe(passwordHash);
     });
 
-    it("shoudl throw ConflictException when user with email already exist", async () => {
+    it("should throw ConflictException when user with email already exist", async () => {
       const { password, ...userData } = createUserPayload();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
