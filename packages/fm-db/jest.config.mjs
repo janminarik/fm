@@ -5,7 +5,7 @@ export default {
     ...baseConfig,
     rootDir: ".",
     roots: ["<rootDir>/src", "<rootDir>/test"],
-    coverageDirectory: "../../coverage/packages/fm-auth",
+    coverageDirectory: "../../coverage/packages/fm-db",
     transform: {
       '^.+\\.ts?$': [
         'ts-jest',
