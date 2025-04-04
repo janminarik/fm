@@ -1,8 +1,9 @@
 // mapy-parser.service.ts
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import * as cheerio from "cheerio";
 import * as puppeteer from "puppeteer";
+
 import { Folder, Route } from "../entities";
 
 @Injectable()
@@ -15,6 +16,24 @@ export class MapyParserServiceOld {
       // if (!url.includes('mapy.com/s/')) {
       //   throw new HttpException('Neplatné URL mapy.com folderu', HttpStatus.BAD_REQUEST);
       // }
+
+      // Počkajte na načítanie zoznamu trás
+      // await page.waitForSelector("#mymaps", {
+      //   timeout: 10000,
+      // });
+
+      // await page.waitForFunction(
+      //   () => {
+      //     const items = document.querySelectorAll(".title .overflow-ellipsis");
+
+      //     console.log("---------------- item count", items?.length);
+
+      //     return items.length > 0;
+      //   },
+      //   { timeout: 20000 },
+      // );
+
+      // await page.waitForSelector("ui-sortbox__buttontext", { timeout: 10000 });
 
       // Použitie Puppeteer pre načítanie dynamického obsahu stránky
       const html = await this.fetchHtmlWithPuppeteer(url);
