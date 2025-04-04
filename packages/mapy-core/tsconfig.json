@@ -7,6 +7,6 @@
     "outDir": "./dist",
   },
 
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "test/mapy-parser.service.integration.test.ts"],
   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }

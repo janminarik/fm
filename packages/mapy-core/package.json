@@ -9,11 +9,10 @@
     "prisma"
   ],
   "scripts": {
-    "build": "pnpm run tsc -b -v",
+    "build": "tsc -b -v",
     "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "dev": "pnpm build --watch",
     "format": "prettier --write \"src/**/*.ts\"",
-    "generate": "pnpm use-dev-env prisma generate",
     "lint": "eslint \"src/**/*.ts\"",
     "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "test": "jest --testPathIgnorePatterns=test/integration",
@@ -34,6 +33,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@nestjs/testing": "^11.0.11",
     "@repo/config-eslint": "workspace:*",
     "@repo/config-jest": "workspace:*",
     "@repo/config-typescript": "workspace:*",

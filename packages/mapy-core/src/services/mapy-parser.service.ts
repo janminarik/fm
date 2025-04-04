@@ -3,7 +3,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import * as cheerio from 'cheerio';
 import { firstValueFrom } from 'rxjs';
-import { Folder, Route } from "src/entities";
+import { Folder, Route } from "../entities";
 
 @Injectable()
 export class MapyParserService {
@@ -11,19 +11,15 @@ export class MapyParserService {
 
   async parseFolder(url: string): Promise<Folder> {
     try {
-      // Kontrola, či URL obsahuje validný mapový folder
-      if (!url.includes('mapy.com/s/')) {
-        throw new HttpException('Neplatné URL mapy.com folderu', HttpStatus.BAD_REQUEST);
-      }
-      
       const response = await firstValueFrom(this.httpService.get(url));
       const html = response.data;
       return this.parseFolderFromHtml(html);
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new HttpException('Chyba pri načítaní folderu: ' + error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      const errorMessage = error instanceof Error ? error.message : 'Neznáma chyba';
+      throw new HttpException('Chyba pri načítaní folderu: ' + errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -49,32 +45,35 @@ export class MapyParserService {
   private parseRouteFromTitle(title: string): Route {
     // Rozdelenie title atribútu podľa nového riadka
     const lines = title.split('\n').map(line => line.trim());
-    const name = lines[0];
+    const name = lines[0] || "";
     
     // Ak má položka len jeden riadok alebo druhý riadok neobsahuje "Route", je to marker alebo dedina
-    if (lines.length < 2 || !lines[1]?.includes('Route')) {
+    if (lines.length < 2 || !(lines[1] || "").includes('Route')) {
       // Vratíme len názov bez vzdialenosti a trvania
       return new Route(name);
     }
     
     // Parsovanie informácií o trase z druhého riadku
-    const routeInfo = lines[1];
+    const routeInfo = lines[1] || "";
     
     // Extrakcia vzdialenosti (km)
     const distanceMatch = routeInfo.match(/(\d+(?:\.\d+)?)\s*km/);
-    const distance = distanceMatch ? parseFloat(distanceMatch[1]) : undefined;
+    const distance = distanceMatch && distanceMatch[1] ? parseFloat(distanceMatch[1]) : undefined;
     
     // Extrakcia času (hodiny)
-    const durationMatch = routeInfo.match(/(\d+):(\d+)\s*h/) || routeInfo.match(/(\d+)(?:\.\d+)?\s*h/);
+    const durationMatch1 = routeInfo.match(/(\d+):(\d+)\s*h/);
+    const durationMatch2 = routeInfo.match(/(\d+)(?:\.\d+)?\s*h/);
+    const durationMatch = durationMatch1 || durationMatch2;
+    
     let duration: number | undefined = undefined;
     
     if (durationMatch) {
       if (durationMatch[2]) {
         // Formát HH:MM
-        const hours = parseInt(durationMatch[1], 10);
-        const minutes = parseInt(durationMatch[2], 10);
+        const hours = parseInt(durationMatch[1] || "0", 10);
+        const minutes = parseInt(durationMatch[2] || "0", 10);
         duration = hours + (minutes / 60);
-      } else {
+      } else if (durationMatch[1]) {
         // Formát HH.MM alebo len HH
         duration = parseFloat(durationMatch[1]);
       }
