@@ -1,1 +1,2 @@
-export * from "./mapy-parser.service"
+export * from "./mapy-parser.service-old";
+export * from "./mapy-parser.service";
