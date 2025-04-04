@@ -17,6 +17,9 @@ import { PrismaContextProvider } from "../../../../src/modules/prisma/providers"
 import { PrismaUserRepository } from "../../../../src/modules/prisma/repositories/prisma-user.repository";
 import { PrismaService } from "../../../../src/modules/prisma/services/prisma.service";
 
+//! asi jest cov nepocita cov kvoli Test.createTestingModule
+//! je vobec potrebne pouzit Test.createTestingModule
+//! vytvorit test
 describe("PrismaUserRepository (Integration)", () => {
   let prismaService: PrismaService;
   let userRepository: PrismaUserRepository;
