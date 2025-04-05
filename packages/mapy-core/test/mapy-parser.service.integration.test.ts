@@ -54,4 +54,10 @@ describe("MapyParserService (integration)", () => {
 
     await fs.writeFile("folder.json", JSON.stringify(data));
   });
+
+  //https://mapy.com/en/turisticka?planovani-trasy&dim=66acc55616423f1e7d13ec1e
+  //
+  //
+  //
+  // &x=[x-suradnica]&y=[y-suradnica]&z=[zoom-level]
 });

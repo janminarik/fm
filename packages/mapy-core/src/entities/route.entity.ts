@@ -12,6 +12,7 @@ export class Route {
     duration?: number,
     formattedDuration?: string,
   ) {
+    this.dataId = dataId;
     this.name = name;
     this.distance = distance;
     this.duration = duration;
