@@ -1,5 +1,3 @@
-import * as fs from "fs/promises";
-
 import { Injectable } from "@nestjs/common";
 import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
@@ -13,8 +11,7 @@ puppeteer.use(StealthPlugin());
 export class MapyParserService {
   async parse(url: string): Promise<any> {
     const html = await this.fetchHtml(url);
-    // await fs.writeFile("file-b-2.html", html);
-    const result = this.parseFolderFromHtml(html);
+    const result = this.parseFolder(html);
     return result;
   }
 
@@ -22,51 +19,22 @@ export class MapyParserService {
     const browser = await puppeteer.launch({ headless: true });
     try {
       const page = await browser.newPage();
-
-      //await page.goto(url);
       await page.goto(url, { waitUntil: "networkidle2" });
 
       // Čakanie na kontajner zoznamu trás
       await page.waitForSelector("ul.items.sortable", {
         timeout: 5000, // Zvýšený timeout na 15 sekúnd
       });
-      //console.log("Kontajner 'ul.items.sortable' nájdený.");
-
-      // Čakanie na načítanie aspoň jednej položky v zozname
-      // await page.waitForFunction(
-      //   () =>
-      //     document.querySelectorAll("ul.items.sortable li.item.public").length >
-      //     0,
-      //   { timeout: 5000 },
-      // );
-      // console.log("Načítané položky v zozname trás.");
-
-      // Dodatočné oneskorenie pre úplné dorenderovanie
-      // await page.waitForTimeout(2000);
-
-      // Pridanie krátkeho oneskorenia pre istotu, ak sa obsah ešte dorenderuje
-      // await page.waitForTimeout(2000);
 
       const content = await page.content();
-      await fs.writeFile("file.html", content);
-
-      const $ = cheerio.load(content);
-
-      const items = $("li");
-
-      //console.log(items.length);
-
-      //await fs.writeFile("file.html", content);
-
-      await page.screenshot({ path: "screenshot.png" });
-
+      //await page.screenshot({ path: "screenshot.png" });
       return content;
     } finally {
-      //await browser.close();
+      await browser.close();
     }
   }
 
-  private parseFolderFromHtml(html: string): Folder {
+  private parseFolder(html: string): Folder {
     const $ = cheerio.load(html);
 
     const folderTitle = $(".ui-heroheader__title").text().trim() || "";
@@ -77,12 +45,8 @@ export class MapyParserService {
     items.each((index, element) => {
       const title = $(element).attr("title") || "";
       const dataId = $(element).attr("data-id") || "";
-      // // console.log(`Item ${index}: ID = ${id}, Title = ${title}`);
-
-      // const route = new Route(id, name, 0, 0);
 
       const route = this.parseRoute(dataId, title);
-
       folder.addRoute(route);
     });
 
@@ -131,7 +95,7 @@ export class MapyParserService {
 
     const formattedDuration = duration
       ? this.formatDuration(duration)
-      : duration;
+      : undefined;
 
     return new Route(dataId, name, distance, duration, formattedDuration);
   }
