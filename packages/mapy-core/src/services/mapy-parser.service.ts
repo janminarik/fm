@@ -48,8 +48,15 @@ export class MapyParserService {
       // await page.waitForTimeout(2000);
 
       const content = await page.content();
-
       await fs.writeFile("file.html", content);
+
+      const $ = cheerio.load(content);
+
+      const items = $("li");
+
+      //console.log(items.length);
+
+      //await fs.writeFile("file.html", content);
 
       await page.screenshot({ path: "screenshot.png" });
 
@@ -60,25 +67,29 @@ export class MapyParserService {
   }
 
   private parseFolderFromHtml(html: string): Folder {
-    // Použitie cheerio pre parsovanie HTML (podobné jQuery)
     const $ = cheerio.load(html);
 
-    // Získanie názvu folderu
     const folderTitle = $(".ui-heroheader__title").text().trim() || "";
-
     const folder = new Folder(folderTitle);
 
-    // Hľadanie všetkých položiek trás
-    $(".items.sortable .item.public").each((i, element) => {
-      const titleAttr = $(element).attr("title") || "";
-      const route = this.parseRouteFromTitle(titleAttr);
+    const items = $("ul.items.sortable li");
+
+    items.each((index, element) => {
+      const title = $(element).attr("title") || "";
+      const dataId = $(element).attr("data-id") || "";
+      // // console.log(`Item ${index}: ID = ${id}, Title = ${title}`);
+
+      // const route = new Route(id, name, 0, 0);
+
+      const route = this.parseRoute(dataId, title);
+
       folder.addRoute(route);
     });
 
     return folder;
   }
 
-  private parseRouteFromTitle(title: string): Route {
+  private parseRoute(dataId: string, title: string): Route {
     // Rozdelenie title atribútu podľa nového riadka
     const lines = title.split("\n").map((line) => line.trim());
     const name = lines[0] || "";
@@ -86,7 +97,7 @@ export class MapyParserService {
     // Ak má položka len jeden riadok alebo druhý riadok neobsahuje "Route", je to marker alebo dedina
     if (lines.length < 2 || !(lines[1] || "").includes("Route")) {
       // Vratíme len názov bez vzdialenosti a trvania
-      return new Route(name);
+      return new Route(dataId, name);
     }
 
     // Parsovanie informácií o trase z druhého riadku
@@ -118,7 +129,7 @@ export class MapyParserService {
       }
     }
 
-    return new Route(name, distance, duration);
+    return new Route(dataId, name, distance, duration);
   }
 
   // Pomocná metóda pre formátovanie času (hodiny:minúty)

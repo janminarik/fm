@@ -1,0 +1,120 @@
+{
+    "name": "~ 2025 Dolomity",
+    "routes": [
+        {
+            "name": "UBYTOVANIE"
+        },
+        {
+            "name": "[H] - Monte Cristalino di Misurina",
+            "distance": 11.5,
+            "duration": 7.683333333333334
+        },
+        {
+            "name": "[H] - Lago Sorapis - Forcella Marcoira",
+            "distance": 11.4,
+            "duration": 5.283333333333333
+        },
+        {
+            "name": "[F(D)] - Ferrata Berti - okolo Lago di Sorapis",
+            "distance": 14.1,
+            "duration": 17.983333333333334
+        },
+        {
+            "name": "[H] - Tre Cime (horny okruh)",
+            "distance": 18.1,
+            "duration": 8.616666666666667
+        },
+        {
+            "name": "[F(C)] - Monte Civeta via ferrata",
+            "distance": 15.5,
+            "duration": 10.083333333333334
+        },
+        {
+            "name": "[H] - Okolo Monte Civeta",
+            "distance": 26.4,
+            "duration": 11.4
+        },
+        {
+            "name": "[H] - Okolo Lago Federa",
+            "distance": 12.9,
+            "duration": 5.5
+        },
+        {
+            "name": "[F(B)] - Ferrata Ivono Dibona",
+            "distance": 12.8,
+            "duration": 8
+        },
+        {
+            "name": "[F(D)] - Ferrata Tomaselli",
+            "distance": 7.4,
+            "duration": 4.433333333333334
+        },
+        {
+            "name": "[F(B)] - 7 Ferrata dla Crusc",
+            "distance": 16.2,
+            "duration": 9.866666666666667
+        },
+        {
+            "name": "[F(B)] - Ferrata Günther-Messner-Steig",
+            "distance": 15.8,
+            "duration": 7.166666666666667
+        },
+        {
+            "name": "[H] - Sass de Putia",
+            "distance": 19.2,
+            "duration": 7.133333333333334
+        },
+        {
+            "name": "[H] - Longiarù - Malga Vacaria",
+            "distance": 14,
+            "duration": 5.583333333333333
+        },
+        {
+            "name": "[F(C)] - Giro Del Sorapis",
+            "distance": 27.2,
+            "duration": 16.666666666666668
+        },
+        {
+            "name": "[H] - Croda Rossa di Sesto",
+            "distance": 16.6,
+            "duration": 9.5
+        },
+        {
+            "name": "[H] - Croda Del Becco - Lago di Braies",
+            "distance": 18.8,
+            "duration": 8.383333333333333
+        },
+        {
+            "name": "F(B)] - Alpiniweg",
+            "distance": 19.5,
+            "duration": 10.766666666666667
+        },
+        {
+            "name": "[H] - Sentiero Bonacossa (Cadini di Mirusina view points)",
+            "distance": 16.7,
+            "duration": 7.466666666666667
+        },
+        {
+            "name": "[H] - Piz Conturines a Lavarela",
+            "distance": 20.4,
+            "duration": 8.766666666666667
+        },
+        {
+            "name": "[H] - Cadini di Misurina",
+            "distance": 13.4,
+            "duration": 6.083333333333333
+        },
+        {
+            "name": "[F] - Tre Cime",
+            "distance": 16.4,
+            "duration": 8.483333333333333
+        },
+        {
+            "name": "[H] - Tre Cime",
+            "distance": 20.7,
+            "duration": 7.95
+        }
+    ],
+    "totalDistance": 364.9999999999999,
+    "totalDuration": 192.80000000000004
+}

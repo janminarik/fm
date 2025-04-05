@@ -12,6 +12,7 @@ import {
   expect,
   it,
 } from "@jest/globals";
+import * as fs from "fs/promises";
 
 jest.setTimeout(30000);
 
@@ -49,7 +50,8 @@ describe("MapyParserService (integration)", () => {
 
     // Volanie služby na parsovanie URL s Puppeteer
     const data = await service.parse(url);
-
     expect(data).toBeDefined();
+
+    await fs.writeFile("folder.json", JSON.stringify(data));
   });
 });
