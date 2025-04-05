@@ -7,112 +7,134 @@
         {
             "name": "[H] - Monte Cristalino di Misurina",
             "distance": 11.5,
-            "duration": 7.683333333333334
+            "duration": 7.683333333333334,
+            "formattedDuration": "7:41 h"
         },
         {
             "name": "[H] - Lago Sorapis - Forcella Marcoira",
             "distance": 11.4,
-            "duration": 5.283333333333333
+            "duration": 5.283333333333333,
+            "formattedDuration": "5:17 h"
         },
         {
             "name": "[F(D)] - Ferrata Berti - okolo Lago di Sorapis",
             "distance": 14.1,
-            "duration": 17.983333333333334
+            "duration": 17.983333333333334,
+            "formattedDuration": "17:59 h"
         },
         {
             "name": "[H] - Tre Cime (horny okruh)",
             "distance": 18.1,
-            "duration": 8.616666666666667
+            "duration": 8.616666666666667,
+            "formattedDuration": "8:37 h"
         },
         {
             "name": "[F(C)] - Monte Civeta via ferrata",
             "distance": 15.5,
-            "duration": 10.083333333333334
+            "duration": 10.083333333333334,
+            "formattedDuration": "10:05 h"
         },
         {
             "name": "[H] - Okolo Monte Civeta",
             "distance": 26.4,
-            "duration": 11.4
+            "duration": 11.4,
+            "formattedDuration": "11:24 h"
         },
         {
             "name": "[H] - Okolo Lago Federa",
             "distance": 12.9,
-            "duration": 5.5
+            "duration": 5.5,
+            "formattedDuration": "5:30 h"
         },
         {
             "name": "[F(B)] - Ferrata Ivono Dibona",
             "distance": 12.8,
-            "duration": 8
+            "duration": 8,
+            "formattedDuration": "8:00 h"
         },
         {
             "name": "[F(D)] - Ferrata Tomaselli",
             "distance": 7.4,
-            "duration": 4.433333333333334
+            "duration": 4.433333333333334,
+            "formattedDuration": "4:26 h"
         },
         {
             "name": "[F(B)] - 7 Ferrata dla Crusc",
             "distance": 16.2,
-            "duration": 9.866666666666667
+            "duration": 9.866666666666667,
+            "formattedDuration": "9:52 h"
         },
         {
             "name": "[F(B)] - Ferrata Günther-Messner-Steig",
             "distance": 15.8,
-            "duration": 7.166666666666667
+            "duration": 7.166666666666667,
+            "formattedDuration": "7:10 h"
         },
         {
             "name": "[H] - Sass de Putia",
             "distance": 19.2,
-            "duration": 7.133333333333334
+            "duration": 7.133333333333334,
+            "formattedDuration": "7:08 h"
         },
         {
             "name": "[H] - Longiarù - Malga Vacaria",
             "distance": 14,
-            "duration": 5.583333333333333
+            "duration": 5.583333333333333,
+            "formattedDuration": "5:35 h"
         },
         {
             "name": "[F(C)] - Giro Del Sorapis",
             "distance": 27.2,
-            "duration": 16.666666666666668
+            "duration": 16.666666666666668,
+            "formattedDuration": "16:40 h"
         },
         {
             "name": "[H] - Croda Rossa di Sesto",
             "distance": 16.6,
-            "duration": 9.5
+            "duration": 9.5,
+            "formattedDuration": "9:30 h"
         },
         {
             "name": "[H] - Croda Del Becco - Lago di Braies",
             "distance": 18.8,
-            "duration": 8.383333333333333
+            "duration": 8.383333333333333,
+            "formattedDuration": "8:23 h"
         },
         {
             "name": "F(B)] - Alpiniweg",
             "distance": 19.5,
-            "duration": 10.766666666666667
+            "duration": 10.766666666666667,
+            "formattedDuration": "10:46 h"
         },
         {
             "name": "[H] - Sentiero Bonacossa (Cadini di Mirusina view points)",
             "distance": 16.7,
-            "duration": 7.466666666666667
+            "duration": 7.466666666666667,
+            "formattedDuration": "7:28 h"
         },
         {
             "name": "[H] - Piz Conturines a Lavarela",
             "distance": 20.4,
-            "duration": 8.766666666666667
+            "duration": 8.766666666666667,
+            "formattedDuration": "8:46 h"
         },
         {
             "name": "[H] - Cadini di Misurina",
             "distance": 13.4,
-            "duration": 6.083333333333333
+            "duration": 6.083333333333333,
+            "formattedDuration": "6:05 h"
         },
         {
             "name": "[F] - Tre Cime",
             "distance": 16.4,
-            "duration": 8.483333333333333
+            "duration": 8.483333333333333,
+            "formattedDuration": "8:29 h"
         },
         {
             "name": "[H] - Tre Cime",
             "distance": 20.7,
-            "duration": 7.95
+            "duration": 7.95,
+            "formattedDuration": "7:57 h"
         }
     ],
     "totalDistance": 364.9999999999999,

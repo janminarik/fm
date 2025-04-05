@@ -129,7 +129,11 @@ export class MapyParserService {
       }
     }
 
-    return new Route(dataId, name, distance, duration);
+    const formattedDuration = duration
+      ? this.formatDuration(duration)
+      : duration;
+
+    return new Route(dataId, name, distance, duration, formattedDuration);
   }
 
   // Pomocná metóda pre formátovanie času (hodiny:minúty)
