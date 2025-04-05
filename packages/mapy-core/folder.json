@@ -3,161 +3,207 @@
     "routes": [
         {
             "dataId": "67f12ea0488e5a57d8e91e9a",
-            "name": "UBYTOVANIE"
+            "name": "UBYTOVANIE",
+            "detail_duration": "15h18h21h0h3h6h9h12h15h18h21h0h3h6h9h12h15h18h21h0h3h6h9h12h15h18h21h0h3h6h9h12h15h18h21h",
+            "detail_distance": ""
         },
         {
             "dataId": "66acc55616423f1e7d13ec1e",
             "name": "[H] - Monte Cristalino di Misurina",
             "distance": 11.5,
             "duration": 7.683333333333334,
-            "formattedDuration": "7:41 h"
+            "formattedDuration": "7:41 h",
+            "detail_duration": "7:41 h",
+            "detail_distance": "5.7 km in 4:31 h5.7 km in 3:10 h11.5 km"
         },
         {
             "dataId": "66acc54223f2d7c41d9cb458",
             "name": "[H] - Lago Sorapis - Forcella Marcoira",
             "distance": 11.4,
             "duration": 5.283333333333333,
-            "formattedDuration": "5:17 h"
+            "formattedDuration": "5:17 h",
+            "detail_duration": "5:17 h",
+            "detail_distance": "3.4 km in 1:35 h695 m in 36 min2.4 km in 1:24 h5 km in 1:41 h11.4 km"
         },
         {
             "dataId": "66acc517381a234a769cb457",
             "name": "[F(D)] - Ferrata Berti - okolo Lago di Sorapis",
             "distance": 14.1,
             "duration": 17.983333333333334,
-            "formattedDuration": "17:59 h"
+            "formattedDuration": "17:59 h",
+            "detail_duration": "17:59 h",
+            "detail_distance": "3 km in 2:08 h1.3 km in 2:42 h1.9 km in 3:29 h6.5 km in 8:06 h1.4 km in 1:34 h14.1 km"
         },
         {
             "dataId": "66acc2e6d6182f0c3200314d",
             "name": "[H] - Tre Cime (horny okruh)",
             "distance": 18.1,
             "duration": 8.616666666666667,
-            "formattedDuration": "8:37 h"
+            "formattedDuration": "8:37 h",
+            "detail_duration": "8:37 h",
+            "detail_distance": "2.4 km in 46 min4.6 km in 3:24 h2.7 km in 1:03 h482 m in 13 min2 km in 54 min6 km in 2:17 h18.1 km"
         },
         {
             "dataId": "66acbe0275573b90504f31e4",
             "name": "[F(C)] - Monte Civeta via ferrata",
             "distance": 15.5,
             "duration": 10.083333333333334,
-            "formattedDuration": "10:05 h"
+            "formattedDuration": "10:05 h",
+            "detail_duration": "18:34 h",
+            "detail_distance": "2.6 km in 2:46 h2.7 km in 1:18 h41 m in 36 s262 m in 34 min1.5 km in 5:25 h472 m in 1:37 h1.2 km in 3:00 h457 m in 25 min6.3 km in 3:28 h15.5 km"
         },
         {
             "dataId": "66acbd76064c9890fa00314e",
             "name": "[H] - Okolo Monte Civeta",
             "distance": 26.4,
             "duration": 11.4,
-            "formattedDuration": "11:24 h"
+            "formattedDuration": "11:24 h",
+            "detail_duration": "16:47 h",
+            "detail_distance": "2.6 km in 2:46 h507 m in 16 min4.9 km in 2:29 h7.3 km in 5:39 h3.9 km in 1:40 h3.7 km in 1:49 h3.4 km in 2:07 h26.4 km"
         },
         {
             "dataId": "66acbbc5d2b5041423291fb5",
             "name": "[H] - Okolo Lago Federa",
             "distance": 12.9,
             "duration": 5.5,
-            "formattedDuration": "5:30 h"
+            "formattedDuration": "5:30 h",
+            "detail_duration": "6:03 h",
+            "detail_distance": "1.8 km in 45 min2.5 km in 1:09 h2.1 km in 1:01 h1.6 km in 57 min3.1 km in 1:35 h1.8 km in 37 min12.9 km"
         },
         {
             "dataId": "66acb4196f1a64a11fbb78b4",
             "name": "[F(B)] - Ferrata Ivono Dibona",
             "distance": 12.8,
             "duration": 8,
-            "formattedDuration": "8:00 h"
+            "formattedDuration": "8:00 h",
+            "detail_duration": "12:43 h",
+            "detail_distance": "1 km in 34 min2.5 km in 1:33 h2 km in 2:31 h1.2 km in 2:45 h1.9 km in 3:04 h3.8 km in 1:54 h988 m in 23 min13.3 km"
         },
         {
             "dataId": "66ac9d329e0b8d97d5bb78b5",
             "name": "[F(D)] - Ferrata Tomaselli",
             "distance": 7.4,
             "duration": 4.433333333333334,
-            "formattedDuration": "4:26 h"
+            "formattedDuration": "4:26 h",
+            "detail_duration": "7:17 h",
+            "detail_distance": "1.9 km in 43 min849 m in 1:03 h1.1 km in 3:11 h732 m in 46 min694 m in 19 min896 m in 17 min1.5 km in 58 min7.6 km"
         },
         {
             "dataId": "66ac9036ad22ca5e9800314e",
             "name": "[F(B)] - 7 Ferrata dla Crusc",
             "distance": 16.2,
             "duration": 9.866666666666667,
-            "formattedDuration": "9:52 h"
+            "formattedDuration": "9:52 h",
+            "detail_duration": "8:44 h",
+            "detail_distance": "185 m in 5 min2.5 km in 2:10 h1.9 km in 1:23 h1.6 km in 59 min4.6 km in 1:59 h3.6 km in 1:32 h1.9 km in 35 min16.2 km"
         },
         {
             "dataId": "66ac8ca741bac52b164dbc23",
             "name": "[F(B)] - Ferrata Günther-Messner-Steig",
             "distance": 15.8,
             "duration": 7.166666666666667,
-            "formattedDuration": "7:10 h"
+            "formattedDuration": "7:10 h",
+            "detail_duration": "8:35 h",
+            "detail_distance": "528 m in 8 min2.5 km in 1:53 h2.3 km in 1:49 h3.6 km in 2:01 h768 m in 16 min6 km in 2:28 h15.8 km"
         },
         {
             "dataId": "66ac8a11e2a1d4abb749860c",
             "name": "[H] - Sass de Putia",
             "distance": 19.2,
             "duration": 7.133333333333334,
-            "formattedDuration": "7:08 h"
+            "formattedDuration": "7:08 h",
+            "detail_duration": "11:22 h",
+            "detail_distance": "5.5 km in 3:54 h2 km in 2:24 h5.6 km in 2:47 h3.1 km in 1:17 h1.8 km in 34 min502 m in 10 min777 m in 16 min19.2 km"
         },
         {
             "dataId": "66ac887d6892a43abb291fb5",
             "name": "[H] - Longiarù - Malga Vacaria",
             "distance": 14,
             "duration": 5.583333333333333,
-            "formattedDuration": "5:35 h"
+            "formattedDuration": "5:35 h",
+            "detail_duration": "6:18 h",
+            "detail_distance": "1.3 km in 30 min4.6 km in 2:25 h286 m in 15 min3.6 km in 1:04 h2.9 km in 1:32 h1.5 km in 31 min14.2 km"
         },
         {
             "dataId": "66ac794b5adf5a576a13ec1c",
             "name": "[F(C)] - Giro Del Sorapis",
             "distance": 27.2,
             "duration": 16.666666666666668,
-            "formattedDuration": "16:40 h"
+            "formattedDuration": "16:40 h",
+            "detail_duration": "27:29 h",
+            "detail_distance": "1.6 km in 38 min1.6 km in 56 min3.1 km in 2:05 h5.6 km in 6:51 h370 m in 42 min703 m in 31 min3.9 km in 3:11 h10.3 km in 10:30 h5.4 km in 1:52 h482 m in 9 min282 m in 5 min33.4 km"
         },
         {
             "dataId": "66ac73ad1542ba12823b86a3",
             "name": "[H] - Croda Rossa di Sesto",
             "distance": 16.6,
             "duration": 9.5,
-            "formattedDuration": "9:30 h"
+            "formattedDuration": "9:30 h",
+            "detail_duration": "12:22 h",
+            "detail_distance": "97 m in 1 min2 km in 1:11 h3.7 km in 2:01 h3.1 km in 3:36 h6.8 km in 4:44 h2.1 km in 49 min17.8 km"
         },
         {
             "dataId": "66ac6cb4929c9605642c8e55",
             "name": "[H] - Croda Del Becco - Lago di Braies",
             "distance": 18.8,
             "duration": 8.383333333333333,
-            "formattedDuration": "8:23 h"
+            "formattedDuration": "8:23 h",
+            "detail_duration": "10:01 h",
+            "detail_distance": "5.9 km in 3:35 h5.2 km in 2:53 h7.5 km in 3:33 h18.6 km"
         },
         {
             "dataId": "66ac5be09d475ea0459cb457",
             "name": "F(B)] - Alpiniweg",
             "distance": 19.5,
             "duration": 10.766666666666667,
-            "formattedDuration": "10:46 h"
+            "formattedDuration": "10:46 h",
+            "detail_duration": "16:30 h",
+            "detail_distance": "3.4 km in 1:39 h4.8 km in 5:05 h8.6 km in 6:47 h5.2 km in 2:24 h2 km in 35 min24 km"
         },
         {
             "dataId": "66ac4d71eca38cc0ddbb78b5",
             "name": "[H] - Sentiero Bonacossa (Cadini di Mirusina view points)",
             "distance": 16.7,
             "duration": 7.466666666666667,
-            "formattedDuration": "7:28 h"
+            "formattedDuration": "7:28 h",
+            "detail_duration": "10:32 h",
+            "detail_distance": "2.6 km in 1:31 h3 km in 3:26 h1.1 km in 39 min4.3 km in 2:36 h3.4 km in 1:20 h3.4 km in 1:00 h17.9 km"
         },
         {
             "dataId": "663757fcc86b179194790640",
             "name": "[H] - Piz Conturines a Lavarela",
             "distance": 20.4,
             "duration": 8.766666666666667,
-            "formattedDuration": "8:46 h"
+            "formattedDuration": "8:46 h",
+            "detail_duration": "10:27 h",
+            "detail_distance": "4.6 km in 2:01 h3.8 km in 2:53 h1.1 km in 35 min1.8 km in 1:03 h9.1 km in 3:55 h20.4 km"
         },
         {
             "dataId": "6625fc840224efb84e0696ae",
             "name": "[H] - Cadini di Misurina",
             "distance": 13.4,
             "duration": 6.083333333333333,
-            "formattedDuration": "6:05 h"
+            "formattedDuration": "6:05 h",
+            "detail_duration": "8:25 h",
+            "detail_distance": "2.7 km in 1:32 h1.6 km in 1:43 h1.4 km in 1:43 h1.7 km in 56 min2 km in 1:21 h564 m in 10 min3.4 km in 59 min13.4 km"
         },
         {
             "dataId": "65d05d2ceee93a058e76e5d6",
             "name": "[F] - Tre Cime",
             "distance": 16.4,
             "duration": 8.483333333333333,
-            "formattedDuration": "8:29 h"
+            "formattedDuration": "8:29 h",
+            "detail_duration": "9:04 h",
+            "detail_distance": "2.7 km in 54 min855 m in 34 min290 m in 32 min270 m in 42 min1.3 km in 1:03 h1.3 km in 27 min2.7 km in 1:02 h381 m in 10 min331 m in 20 min447 m in 12 min858 m in 1:01 h638 m in 14 min461 m in 10 min1.1 km in 29 min1.6 km in 32 min1.1 km in 23 min1.1 km in 18 min17.3 km"
         },
         {
             "dataId": "65d0392db07109fc4d9aa8d5",
             "name": "[H] - Tre Cime",
             "distance": 20.7,
             "duration": 7.95,
-            "formattedDuration": "7:57 h"
+            "formattedDuration": "7:57 h",
+            "detail_duration": "7:47 h",
+            "detail_distance": "5.2 km in 2:17 h1.7 km in 32 min1.6 km in 38 min1.8 km in 38 min2.9 km in 1:04 h1.3 km in 26 min1.2 km in 21 min5.1 km in 1:52 h20.7 km"
         }
     ],
     "totalDistance": 364.9999999999999,

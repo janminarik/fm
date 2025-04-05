@@ -14,7 +14,7 @@ import {
 } from "@jest/globals";
 import * as fs from "fs/promises";
 
-jest.setTimeout(30000);
+jest.setTimeout(300000);
 
 /**
  * Integračný test pre MapyParserService

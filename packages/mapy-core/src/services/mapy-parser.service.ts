@@ -7,15 +7,32 @@ import { Folder, Route } from "../entities";
 
 puppeteer.use(StealthPlugin());
 
+type RouteDetail = {
+  distance: string;
+  duration: string;
+};
+
 @Injectable()
 export class MapyParserService {
   async parse(url: string): Promise<any> {
-    const html = await this.fetchHtml(url);
-    const result = this.parseFolder(html);
-    return result;
+    const html = await this.fetchFolderHtml(url);
+    const folder = this.parseFolder(html);
+
+    for (const route of folder.routes) {
+      const html = await this.fetchRouteDetailHtml(route.dataId);
+
+      const routeDetail = this.parseRouteDetail(html);
+
+      route.detail_distance = routeDetail.distance;
+      route.detail_duration = routeDetail.duration;
+
+      // console.log(html);
+    }
+
+    return folder;
   }
 
-  private async fetchHtml(url: string): Promise<string> {
+  private async fetchFolderHtml(url: string): Promise<string> {
     const browser = await puppeteer.launch({ headless: true });
     try {
       const page = await browser.newPage();
@@ -28,6 +45,31 @@ export class MapyParserService {
 
       const content = await page.content();
       //await page.screenshot({ path: "screenshot.png" });
+      return content;
+    } finally {
+      await browser.close();
+    }
+  }
+
+  //TODO: FolderParser, RouteParser, RouteDetailParser
+
+  private async fetchRouteDetailHtml(routeDataId: string): Promise<string> {
+    const browser = await puppeteer.launch({ headless: true });
+    try {
+      const url = `https://mapy.com/en/turisticka?planovani-trasy&dim=${routeDataId}`;
+
+      const page = await browser.newPage();
+
+      await page.goto(url, { waitUntil: "networkidle2" });
+
+      await page.waitForSelector("div.language-control2", {
+        timeout: 5000, // Zvýšený timeout na 15 sekúnd
+      });
+
+      const content = await page.content();
+
+      await page.screenshot({ path: "screenshot-detail.png" });
+
       return content;
     } finally {
       await browser.close();
@@ -98,6 +140,15 @@ export class MapyParserService {
       : undefined;
 
     return new Route(dataId, name, distance, duration, formattedDuration);
+  }
+
+  private parseRouteDetail(html: string): RouteDetail {
+    const $ = cheerio.load(html);
+
+    const duration = $("h3.alt-0.active span.time").text();
+    const distance = $("h3.alt-0.active span.distance").text();
+
+    return { duration, distance };
   }
 
   // Pomocná metóda pre formátovanie času (hodiny:minúty)

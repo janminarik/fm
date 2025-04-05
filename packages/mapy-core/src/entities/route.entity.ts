@@ -5,6 +5,9 @@ export class Route {
   duration?: number; // v hodinách
   formattedDuration?: string;
 
+  detail_duration?: string;
+  detail_distance?: string;
+
   constructor(
     dataId: string,
     name: string,
