@@ -1,3 +1,5 @@
+import * as fs from "fs/promises";
+
 import { Injectable } from "@nestjs/common";
 import * as cheerio from "cheerio";
 import puppeteer from "puppeteer-extra";
@@ -10,6 +12,8 @@ puppeteer.use(StealthPlugin());
 type RouteDetail = {
   distance: string;
   duration: string;
+  ascent: string | undefined;
+  descent: string | undefined;
 };
 
 @Injectable()
@@ -21,10 +25,14 @@ export class MapyParserService {
     for (const route of folder.routes) {
       const html = await this.fetchRouteDetailHtml(route.dataId);
 
+      await fs.writeFile("detail.html", html);
+
       const routeDetail = this.parseRouteDetail(html);
 
       route.detail_distance = routeDetail.distance;
       route.detail_duration = routeDetail.duration;
+      route.detail_total_ascent = routeDetail.ascent;
+      route.detail_total_descent = routeDetail.descent;
 
       // console.log(html);
     }
@@ -60,16 +68,42 @@ export class MapyParserService {
 
       const page = await browser.newPage();
 
+      await page.setViewport({
+        width: 3840,
+        height: 2160,
+      });
+
       await page.goto(url, { waitUntil: "networkidle2" });
 
       await page.waitForSelector("div.language-control2", {
         timeout: 5000, // Zvýšený timeout na 15 sekúnd
       });
 
-      const content = await page.content();
+      // await page.click(".route-height-profile-form-header");
+
+      //await page.waitForSelector(".route-height-profile-form-header");
+      //await page.click("div.module-content.route-height-profile.content");
+
+      let content = await page.content();
+
+      const $ = cheerio.load(content);
+
+      //speed onboarding close
+      // const closeSpeedOnboaringButton = "button.ui-onboarding__button";
+
+      // if ($("closeSpeedOnboaringButton").length > 0) {
+      //   await page.click("closeSpeedOnboaringButton");
+      // }
+
+      //click on elevation
+      const elevationSelector = "div.route-height-profile-form-header";
+      if ($(elevationSelector).length > 0) {
+        await page.click(elevationSelector);
+      }
 
       await page.screenshot({ path: "screenshot-detail.png" });
 
+      content = await page.content();
       return content;
     } finally {
       await browser.close();
@@ -147,8 +181,16 @@ export class MapyParserService {
 
     const duration = $("h3.alt-0.active span.time").text();
     const distance = $("h3.alt-0.active span.distance").text();
+    const elevation = $("div.line-chart p.desc span.value");
+    let ascent = undefined;
+    let descent = undefined;
 
-    return { duration, distance };
+    if (elevation && elevation.length === 2) {
+      ascent = elevation[0] ? $(elevation[0]).text() : undefined;
+      descent = elevation[1] ? $(elevation[1]).text() : undefined;
+    }
+
+    return { duration, distance, ascent, descent };
   }
 
   // Pomocná metóda pre formátovanie času (hodiny:minúty)

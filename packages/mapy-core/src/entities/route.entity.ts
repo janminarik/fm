@@ -7,6 +7,8 @@ export class Route {
 
   detail_duration?: string;
   detail_distance?: string;
+  detail_total_ascent?: string;
+  detail_total_descent?: string;
 
   constructor(
     dataId: string,
