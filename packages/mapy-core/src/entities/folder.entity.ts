@@ -2,7 +2,7 @@ import { Route } from "./route.entity";
 
 export class Folder {
   public name: string;
-  public routes: Route[];
+  public routes: Route[] = [];
   public totalDistance: number;
   public totalDuration: number;
 
@@ -15,6 +15,10 @@ export class Folder {
   public addRoute(route: Route): void {
     this.routes.push(route);
     this.calculateStatistics();
+  }
+
+  public addRoutes(routes: Route[]): void {
+    this.routes.push(...routes);
   }
 
   public removeRoute(index: number): void {

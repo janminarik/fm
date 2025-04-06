@@ -1,13 +1,13 @@
-import * as fs from "fs/promises";
-
 import { Injectable } from "@nestjs/common";
 
 import {
   ActionResult,
   ActionSequenceExecutor,
 } from "../scraper/action-sequence";
-import { MapyParserService } from "../services";
+// import { MapyParserService } from "../services";
 import { MapyFolderSequence } from "./action-sequence/sequences";
+import { FolderParser } from "./html-parsers/folder-parser";
+import { FolderRoutesParser } from "./html-parsers/folder-routes-parser";
 
 @Injectable()
 export class MapyScraperService {
@@ -29,10 +29,18 @@ export class MapyScraperService {
 
     const html = geContentResult?.data as string;
 
-    await fs.writeFile("test.html", html);
+    const folderParser = new FolderParser();
+    const folder = folderParser.parse(html);
 
-    const mapyService = new MapyParserService();
-    const folder = mapyService.parseFolder(html);
+    const folderRouteParser = new FolderRoutesParser();
+    const routes = folderRouteParser.parse(html);
+
+    folder.addRoutes(routes);
+
+    // await fs.writeFile("test.html", html);
+
+    // const mapyService = new MapyParserService();
+    // const folder = mapyService.parseFolder(html);
 
     //action =
     // {type: 'getContent', name: 'getFolderContent', params: {…}}
