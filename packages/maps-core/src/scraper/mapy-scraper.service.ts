@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { RouteDetail } from "src/entities";
 
+import { Folder, RouteDetail } from "../entities";
 import {
   ActionResult,
   ActionSequenceExecutor,
@@ -22,7 +22,7 @@ export class MapyScraperService {
     sharedFolderUrl: string,
     routeDetails?: boolean,
     routeDetailBaseUrl?: string,
-  ): Promise<any> {
+  ): Promise<Folder> {
     const folderSeq = FolderSequence.get(sharedFolderUrl);
 
     const folderSeqResult: ActionResult[] = await this.executor.executeSequence(
@@ -48,7 +48,7 @@ export class MapyScraperService {
 
     if (routeDetails) {
       if (!routeDetailBaseUrl)
-        throw new Error("Argument routeDetailBaseUrl can not be empty");
+        throw new Error("The routeDetailBaseUrl argument must be provided.");
 
       for (const route of folder.routes) {
         route.detail = await this.getRouteDetail(

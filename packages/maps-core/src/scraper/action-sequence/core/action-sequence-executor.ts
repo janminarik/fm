@@ -26,8 +26,6 @@ export class ActionSequenceExecutor {
   private pageDefaultTimeout = 30000;
   private browser: Browser | null = null;
   private page: Page | undefined;
-  // private browserOptions: BrowserOptions;
-  // private pageOptions: PageOptions;
   private result: Map<string, any> = new Map();
 
   constructor(
@@ -54,7 +52,7 @@ export class ActionSequenceExecutor {
       );
 
       this.page?.setDefaultTimeout(
-        this.pageOptions.timeout || this.pageDefaultNavigationTimeout,
+        this.pageOptions.timeout || this.pageDefaultTimeout,
       );
       if (this.pageOptions.debug) {
         this.page?.on("request", (request) => {
@@ -110,12 +108,6 @@ export class ActionSequenceExecutor {
             break;
           }
 
-          // case "waitForTimeout": {
-          //   const params = action.params as WaitForTimeoutParams;
-          //   await this.page.waitForTimeout(params.timeout || 1000);
-          //   break;
-          // }
-
           case "click": {
             const params = action.params as ClickParams;
             result = await this.page.click(params.selector, {
@@ -150,27 +142,10 @@ export class ActionSequenceExecutor {
             result = await this.page.select(params.selector, ...params.values);
             break;
           }
-
-          //TODO: Fix
           case "getContent": {
             result = await this.page.content();
-            // Uloženie výsledku do cache, ak má akcia meno
-            // if (action.name) {
-            //   this.results.set(action.name, result);
-            // }
             break;
           }
-
-          //TODO: fix
-          // case "evaluate": {
-          //   const params = action.params as EvaluateParams;
-          //   result = await this.page.evaluate(
-          //     params.function,
-          //     ...(params.args || []),
-          //   );
-          //   break;
-          // }
-
           case "clickIfExists": {
             const params = action.params as ClickIfExistsParams;
             const element = await this.page.$(params.selector);
@@ -182,7 +157,6 @@ export class ActionSequenceExecutor {
             }
             break;
           }
-
           case "setViewport": {
             const params = action.params as SetViewportParams;
             await this.page.setViewport({
@@ -197,7 +171,6 @@ export class ActionSequenceExecutor {
           }
 
           default: {
-            //   const exhaustiveCheck: never = action.type;
             throw new Error(`Not supported action type: ${action.type}`);
           }
         }

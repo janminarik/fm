@@ -23,11 +23,11 @@ export class RouteDetailSequence {
         name: "click-on-elevation-if-exists",
         params: { selector: "div.route-height-profile-form-header" },
       },
-      {
-        type: "screenshot",
-        name: "take-screenshot-of-route-detail",
-        params: { type: "png", path: "route-detail.png", fullPage: true },
-      },
+      // {
+      //   type: "screenshot",
+      //   name: "take-screenshot-of-route-detail",
+      //   params: { type: "png", path: "route-detail.png", fullPage: true },
+      // },
       {
         type: "getContent",
         name: "get-page-content",

@@ -19,12 +19,6 @@ import * as fs from "fs/promises";
 
 jest.setTimeout(300000);
 
-/**
- * Integračný test pre MapyParserService
- *
- * Tento test využíva reálne URL z Mapy.com a overuje správne parsovanie údajov.
- * Vyžaduje pripojenie na internet pre prístup k Mapy.com a nainštalovaný Puppeteer.
- */
 describe("MapyParserService (integration)", () => {
   // let service: MapyParserService;
 
@@ -40,22 +34,6 @@ describe("MapyParserService (integration)", () => {
   //   }).compile();
 
   //   service = module.get<MapyParserService>(MapyParserService);
-  // });
-
-  it("should be defined", () => {
-    // expect(service).toBeDefined();
-  });
-
-  // Hlavný integračný test s reálnym URL
-  // it("should parse real Mapy.com folder URL using Puppeteer", async () => {
-  //   // Použitie skutočnej URL z Mapy.com
-  //   const url = "https://mapy.com/s/dodalupufa";
-
-  //   // Volanie služby na parsovanie URL s Puppeteer
-  //   const data = await service.parse(url);
-  //   expect(data).toBeDefined();
-
-  //   await fs.writeFile("folder.json", JSON.stringify(data));
   // });
 
   it("MapyScraperService", async () => {
@@ -78,16 +56,10 @@ describe("MapyParserService (integration)", () => {
       routeDetailBaseUrl,
     );
 
-    await fs.writeFile("data-new.json", JSON.stringify(folder));
+    await fs.writeFile(`${folder.name}.json`, JSON.stringify(folder));
 
     expect(executor).toBeDefined();
     expect(scraper).toBeDefined();
     expect(folder).toBeDefined();
   });
-
-  //https://mapy.com/en/turisticka?planovani-trasy&dim=66acc55616423f1e7d13ec1e
-  //
-  //
-  //
-  // &x=[x-suradnica]&y=[y-suradnica]&z=[zoom-level]
 });
