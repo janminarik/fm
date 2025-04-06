@@ -3,7 +3,7 @@ import { HttpModule } from "@nestjs/axios";
 import {
   ActionSequenceExecutor,
   BrowserOptions,
-  MapyScraperService,
+  MapsScraperService,
   PageOptions,
 } from "../src/scraper";
 import {
@@ -48,7 +48,7 @@ describe("MapyParserService (integration)", () => {
     };
 
     const executor = new ActionSequenceExecutor(browserOptions, pageOptions);
-    const scraper = new MapyScraperService(executor);
+    const scraper = new MapsScraperService(executor);
 
     const folder = await scraper.getFolder(
       sharedFolderUrl,

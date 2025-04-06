@@ -1,10 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import { Folder, RouteDetail } from "../entities";
-import {
-  ActionResult,
-  ActionSequenceExecutor,
-} from "../scraper/action-sequence";
+import { ActionResult, ActionSequenceExecutor } from "./action-sequence";
 import {
   FolderSequence,
   RouteDetailSequence,
@@ -15,7 +12,7 @@ import { RouteDetailParser } from "./html-parsers/route-detail-parser";
 
 //TODO: Parser factory
 @Injectable()
-export class MapyScraperService {
+export class MapsScraperService {
   constructor(private readonly executor: ActionSequenceExecutor) {}
 
   async getFolder(

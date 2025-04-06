@@ -15,70 +15,75 @@ export class FolderRoutesParser implements HtmlParser<Route[]> {
       const title = $(element).attr("title") || "";
       const dataId = $(element).attr("data-id") || "";
 
-      const route = this.parseRoute(dataId, title);
+      const lines = title.split("\n").map((line) => line.trim());
+      const name = lines[0] || "";
+
+      const route = new Route(dataId, name);
       routes.push(route);
     });
 
     return routes;
   }
 
-  private parseRoute(dataId: string, title: string): Route {
-    // Rozdelenie title atribútu podľa nového riadka
-    const lines = title.split("\n").map((line) => line.trim());
-    const name = lines[0] || "";
+  //TODO: move to detail
 
-    // Ak má položka len jeden riadok alebo druhý riadok neobsahuje "Route", je to marker alebo mesto | dedina etc
-    if (lines.length < 2 || !(lines[1] || "").includes("Route")) {
-      // Vratíme len názov bez vzdialenosti a trvania
-      return new Route(dataId, name);
-    }
+  // private parseRoute(dataId: string, title: string): Route {
+  //   // Rozdelenie title atribútu podľa nového riadka
+  //   const lines = title.split("\n").map((line) => line.trim());
+  //   const name = lines[0] || "";
 
-    // Parsovanie informácií o trase z druhého riadku
-    const routeInfo = lines[1] || "";
+  //   // Ak má položka len jeden riadok alebo druhý riadok neobsahuje "Route", je to marker alebo mesto | dedina etc
+  //   if (lines.length < 2 || !(lines[1] || "").includes("Route")) {
+  //     // Vratíme len názov bez vzdialenosti a trvania
+  //     return new Route(dataId, name);
+  //   }
 
-    // Extrakcia vzdialenosti (km)
-    const distanceMatch = routeInfo.match(/(\d+(?:\.\d+)?)\s*km/);
-    const distance =
-      distanceMatch && distanceMatch[1]
-        ? parseFloat(distanceMatch[1])
-        : undefined;
+  //   // Parsovanie informácií o trase z druhého riadku
+  //   const routeInfo = lines[1] || "";
 
-    // Extrakcia času (hodiny)
-    const durationMatch1 = routeInfo.match(/(\d+):(\d+)\s*h/);
-    const durationMatch2 = routeInfo.match(/(\d+)(?:\.\d+)?\s*h/);
-    const durationMatch = durationMatch1 || durationMatch2;
+  //   // Extrakcia vzdialenosti (km)
+  //   const distanceMatch = routeInfo.match(/(\d+(?:\.\d+)?)\s*km/);
+  //   const distance =
+  //     distanceMatch && distanceMatch[1]
+  //       ? parseFloat(distanceMatch[1])
+  //       : undefined;
 
-    let duration: number | undefined = undefined;
+  //   // Extrakcia času (hodiny)
+  //   const durationMatch1 = routeInfo.match(/(\d+):(\d+)\s*h/);
+  //   const durationMatch2 = routeInfo.match(/(\d+)(?:\.\d+)?\s*h/);
+  //   const durationMatch = durationMatch1 || durationMatch2;
 
-    if (durationMatch) {
-      if (durationMatch[2]) {
-        // Formát HH:MM
-        const hours = parseInt(durationMatch[1] || "0", 10);
-        const minutes = parseInt(durationMatch[2] || "0", 10);
-        duration = hours + minutes / 60;
-      } else if (durationMatch[1]) {
-        // Formát HH.MM alebo len HH
-        duration = parseFloat(durationMatch[1]);
-      }
-    }
+  //   let duration: number | undefined = undefined;
 
-    const route = new Route(dataId, name);
+  //   if (durationMatch) {
+  //     if (durationMatch[2]) {
+  //       // Formát HH:MM
+  //       const hours = parseInt(durationMatch[1] || "0", 10);
+  //       const minutes = parseInt(durationMatch[2] || "0", 10);
+  //       duration = hours + minutes / 60;
+  //     } else if (durationMatch[1]) {
+  //       // Formát HH.MM alebo len HH
+  //       duration = parseFloat(durationMatch[1]);
+  //     }
+  //   }
 
-    route.distance = distance;
-    route.duration = duration;
-    route.displayDuration = duration
-      ? this.formatDuration(duration)
-      : undefined;
+  //   const route = new Route(dataId, name);
 
-    return route;
-  }
+  //   route.distance = distance;
+  //   route.duration = duration;
+  //   route.displayDuration = duration
+  //     ? this.formatDuration(duration)
+  //     : undefined;
 
-  private formatDuration(hours?: number): string {
-    if (hours === undefined) return "N/A";
+  //   return route;
+  // }
 
-    const wholeHours = Math.floor(hours);
-    const minutes = Math.round((hours - wholeHours) * 60);
+  // private formatDuration(hours?: number): string {
+  //   if (hours === undefined) return "N/A";
 
-    return `${wholeHours}:${minutes.toString().padStart(2, "0")} h`;
-  }
+  //   const wholeHours = Math.floor(hours);
+  //   const minutes = Math.round((hours - wholeHours) * 60);
+
+  //   return `${wholeHours}:${minutes.toString().padStart(2, "0")} h`;
+  // }
 }

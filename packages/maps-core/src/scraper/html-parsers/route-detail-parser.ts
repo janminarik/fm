@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 import { HtmlParser } from "./html-parser";
-import { RouteDetail, RoutePoint } from "../../entities/route.entity";
+import { RouteDetail, RoutePoint } from "../../entities";
 
 export class RouteDetailParser implements HtmlParser<RouteDetail> {
   parse(html: string): RouteDetail {
