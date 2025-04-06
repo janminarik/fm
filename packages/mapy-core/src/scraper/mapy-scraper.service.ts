@@ -1,33 +1,41 @@
 import { Injectable } from "@nestjs/common";
+import { RouteDetail } from "src/entities";
 
 import {
   ActionResult,
   ActionSequenceExecutor,
 } from "../scraper/action-sequence";
-// import { MapyParserService } from "../services";
-import { MapyFolderSequence } from "./action-sequence/sequences";
+import {
+  FolderSequence,
+  RouteDetailSequence,
+} from "./action-sequence/sequences";
 import { FolderParser } from "./html-parsers/folder-parser";
 import { FolderRoutesParser } from "./html-parsers/folder-routes-parser";
+import { RouteDetailParser } from "./html-parsers/route-detail-parser";
 
 @Injectable()
 export class MapyScraperService {
   constructor(private readonly executor: ActionSequenceExecutor) {}
 
-  async getFolder(url: string): Promise<any> {
-    const sequence = MapyFolderSequence.get(url);
+  async getFolder(
+    sharedFolderUrl: string,
+    routeDetails?: boolean,
+    routeDetailBaseUrl?: string,
+  ): Promise<any> {
+    const folderSeq = FolderSequence.get(sharedFolderUrl);
 
-    const actionResults: ActionResult[] = await this.executor.executeSequence(
-      sequence,
+    const folderSeqResult: ActionResult[] = await this.executor.executeSequence(
+      folderSeq,
       {
         stopOnError: true,
       },
     );
 
-    const geContentResult = actionResults.findLast(
+    const folderContentResult = folderSeqResult.findLast(
       (r) => r.action?.type === "getContent" && r.data,
     );
 
-    const html = geContentResult?.data as string;
+    const html = folderContentResult?.data as string;
 
     const folderParser = new FolderParser();
     const folder = folderParser.parse(html);
@@ -37,13 +45,45 @@ export class MapyScraperService {
 
     folder.addRoutes(routes);
 
-    // await fs.writeFile("test.html", html);
+    if (routeDetails) {
+      if (!routeDetailBaseUrl)
+        throw new Error("Argument routeDetailBaseUrl can not be empty");
 
-    // const mapyService = new MapyParserService();
-    // const folder = mapyService.parseFolder(html);
+      for (const route of folder.routes) {
+        route.detail = await this.getRouteDetail(
+          routeDetailBaseUrl,
+          route.dataId,
+        );
+      }
+    }
 
-    //action =
-    // {type: 'getContent', name: 'getFolderContent', params: {…}}
     return folder;
+  }
+
+  public async getRouteDetail(
+    routeDetailBaseUrl: string,
+    routeDataId: string,
+  ): Promise<RouteDetail> {
+    const url = `${routeDetailBaseUrl}&dim=${routeDataId}`;
+
+    const routeSeq = RouteDetailSequence.get(url);
+
+    const routeSeqResult: ActionResult[] = await this.executor.executeSequence(
+      routeSeq,
+      {
+        stopOnError: true,
+      },
+    );
+
+    const routeContentResult = routeSeqResult.findLast(
+      (r) => r.action?.type === "getContent" && r.data,
+    );
+
+    const html = routeContentResult?.data as string;
+
+    const routeDetailParser = new RouteDetailParser();
+    const routeDetail = routeDetailParser.parse(html);
+
+    return routeDetail;
   }
 }

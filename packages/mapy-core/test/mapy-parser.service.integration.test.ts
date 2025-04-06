@@ -59,7 +59,8 @@ describe("MapyParserService (integration)", () => {
   // });
 
   it("MapyScraperService", async () => {
-    const url = "https://mapy.com/s/dodalupufa";
+    const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
+    const routeDetailBaseUrl = "https://mapy.com/en/turisticka?planovani-trasy";
 
     const browserOptions: BrowserOptions = { headless: true };
     const pageOptions: PageOptions = {
@@ -71,10 +72,17 @@ describe("MapyParserService (integration)", () => {
     const executor = new ActionSequenceExecutor(browserOptions, pageOptions);
     const scraper = new MapyScraperService(executor);
 
-    const result = await scraper.getFolder(url);
+    const folder = await scraper.getFolder(
+      sharedFolderUrl,
+      true,
+      routeDetailBaseUrl,
+    );
+
+    await fs.writeFile("data-new.json", JSON.stringify(folder));
 
     expect(executor).toBeDefined();
     expect(scraper).toBeDefined();
+    expect(folder).toBeDefined();
   });
 
   //https://mapy.com/en/turisticka?planovani-trasy&dim=66acc55616423f1e7d13ec1e

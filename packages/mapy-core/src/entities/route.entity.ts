@@ -5,13 +5,19 @@ export class Route {
   duration?: number; // v hodinách
   displayDuration?: string;
   displayDistance?: string;
-  ascent?: string;
-  descent?: string;
+  detail?: RouteDetail;
 
   constructor(dataId: string, name: string) {
     this.dataId = dataId;
     this.name = name;
   }
+}
+
+export class RouteDetail {
+  distance?: string;
+  duration?: string;
+  ascent?: string;
+  descent?: string;
 }
 
 // export class Route {

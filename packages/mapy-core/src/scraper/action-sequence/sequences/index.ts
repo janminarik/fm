@@ -1,1 +1,2 @@
-export * from "./mapy-get-folder.sequence";
+export * from "./folder.sequence";
+export * from "./route-detail.sequence";
