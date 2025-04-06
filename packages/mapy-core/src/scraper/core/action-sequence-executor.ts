@@ -1,7 +1,5 @@
 import puppeteer, { Browser, Page, PuppeteerLaunchOptions } from "puppeteer";
 
-import { Action, ActionType } from "../actions";
-import { ActionResult } from "../actions/action-result";
 import {
   ClickIfExistsParams,
   ClickParams,
@@ -11,7 +9,8 @@ import {
   SetViewportParams,
   TypeParams,
   WaitForSelectorParams,
-} from "../params";
+} from "./params";
+import { ActionResult, Action, ActionType } from "../core/actions";
 
 export type PageOptions = {
   navigationTimeout: number;
