@@ -110,7 +110,7 @@ export class MapyParserService {
     }
   }
 
-  private parseFolder(html: string): Folder {
+  public parseFolder(html: string): Folder {
     const $ = cheerio.load(html);
 
     const folderTitle = $(".ui-heroheader__title").text().trim() || "";

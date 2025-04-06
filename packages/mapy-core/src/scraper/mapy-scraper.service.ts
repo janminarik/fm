@@ -3,6 +3,7 @@ import * as fs from "fs/promises";
 import { Injectable } from "@nestjs/common";
 
 import { ActionResult } from "./core";
+import { MapyParserService } from "../services";
 import { ActionSequenceExecutor } from "./core/action-sequence-executor";
 import { MapyFolderSequence } from "./sequences";
 
@@ -20,14 +21,19 @@ export class MapyScraperService {
       },
     );
 
-    const html = actionResults.findLast(
+    const geContentResult = actionResults.findLast(
       (r) => r.action?.type === "getContent" && r.data,
     );
 
-    await fs.writeFile("test.html", html?.data as string);
+    const html = geContentResult?.data as string;
+
+    await fs.writeFile("test.html", html);
+
+    const mapyService = new MapyParserService();
+    const folder = mapyService.parseFolder(html);
 
     //action =
     // {type: 'getContent', name: 'getFolderContent', params: {…}}
-    return actionResults;
+    return folder;
   }
 }
