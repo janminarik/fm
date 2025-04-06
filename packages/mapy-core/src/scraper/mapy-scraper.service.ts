@@ -13,6 +13,7 @@ import { FolderParser } from "./html-parsers/folder-parser";
 import { FolderRoutesParser } from "./html-parsers/folder-routes-parser";
 import { RouteDetailParser } from "./html-parsers/route-detail-parser";
 
+Parser factory
 @Injectable()
 export class MapyScraperService {
   constructor(private readonly executor: ActionSequenceExecutor) {}
