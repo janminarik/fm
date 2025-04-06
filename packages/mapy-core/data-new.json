@@ -6,7 +6,8 @@
             "name": "UBYTOVANIE",
             "detail": {
                 "distance": "",
-                "duration": ""
+                "duration": "",
+                "points": []
             }
         },
         {
@@ -19,7 +20,12 @@
                 "distance": "11.5 km",
                 "duration": "7:41 h",
                 "ascent": "1,222 m",
-                "descent": "1,222 m"
+                "descent": "1,222 m",
+                "points": [
+                    "46.5788722N, 12.2516950E",
+                    "46.5906311N, 12.2217683E",
+                    "46.5788697N, 12.2516911E"
+                ]
             }
         },
         {
@@ -32,7 +38,14 @@
                 "distance": "11.4 km",
                 "duration": "5:17 h",
                 "ascent": "742 m",
-                "descent": "742 m"
+                "descent": "742 m",
+                "points": [
+                    "Strada Regionale 48 delle Dolomiti",
+                    "46.5353353N, 12.2071142E",
+                    "46.5368053N, 12.2146297E",
+                    "46.5251497N, 12.2278664E",
+                    "Strada Regionale 48 delle Dolomiti"
+                ]
             }
         },
         {
@@ -45,7 +58,15 @@
                 "distance": "14.1 km",
                 "duration": "17:59 h",
                 "ascent": "2,203 m",
-                "descent": "2,203 m"
+                "descent": "2,203 m",
+                "points": [
+                    "46.5211872N, 12.2248100E",
+                    "46.5106878N, 12.1974594E",
+                    "Sentiero ferrata F. Berti",
+                    "46.4970669N, 12.2223342E",
+                    "243",
+                    "46.5210103N, 12.2250808E"
+                ]
             }
         },
         {
@@ -58,7 +79,16 @@
                 "distance": "18.1 km",
                 "duration": "8:37 h",
                 "ascent": "1,177 m",
-                "descent": "1,177 m"
+                "descent": "1,177 m",
+                "points": [
+                    "46.6674033N, 12.3536942E",
+                    "46.6486425N, 12.3508658E",
+                    "Gallerie e vie di guerra del paterno",
+                    "46.6293272N, 12.3376383E",
+                    "46.6315756N, 12.3413894E",
+                    "46.6282578N, 12.3580153E",
+                    "46.6673394N, 12.3537036E"
+                ]
             }
         },
         {
@@ -71,7 +101,19 @@
                 "distance": "15.5 km",
                 "duration": "18:34 h",
                 "ascent": "2,060 m",
-                "descent": "2,060 m"
+                "descent": "2,060 m",
+                "points": [
+                    "46.4128611N, 12.0435369E",
+                    "46.3990081N, 12.0604792E",
+                    "46.3869333N, 12.0633331E",
+                    "Sentiero Tivan",
+                    "Via ferrata degli Alleghesi",
+                    "Via ferrata degli Alleghesi",
+                    "Via Normale / Via Ferrata a Rif. Torrani",
+                    "46.3766103N, 12.0642569E",
+                    "Sentiero Tivan",
+                    "46.4129983N, 12.0436200E"
+                ]
             }
         },
         {
@@ -84,7 +126,17 @@
                 "distance": "26.4 km",
                 "duration": "16:47 h",
                 "ascent": "2,564 m",
-                "descent": "2,563 m"
+                "descent": "2,563 m",
+                "points": [
+                    "46.4128678N, 12.0435383E",
+                    "46.3991119N, 12.0602108E",
+                    "46.3992869N, 12.0659656E",
+                    "46.3700161N, 12.0803542E",
+                    "46.3549669N, 12.0305725E",
+                    "46.3796658N, 12.0245333E",
+                    "Sentiero CAI 560 variante alta",
+                    "46.4128636N, 12.0431642E"
+                ]
             }
         },
         {
@@ -97,7 +149,16 @@
                 "distance": "12.9 km",
                 "duration": "6:03 h",
                 "ascent": "827 m",
-                "descent": "824 m"
+                "descent": "824 m",
+                "points": [
+                    "SP638",
+                    "46.5000972N, 12.0947550E",
+                    "46.4865722N, 12.1052453E",
+                    "FAmbrizzola_RocchettaPrendera",
+                    "46.4775050N, 12.0948731E",
+                    "46.5000481N, 12.0945553E",
+                    "SP638"
+                ]
             }
         },
         {
@@ -110,7 +171,17 @@
                 "distance": "13.3 km",
                 "duration": "12:43 h",
                 "ascent": "1,593 m",
-                "descent": "1,591 m"
+                "descent": "1,591 m",
+                "points": [
+                    "46.5510611N, 12.1889972E",
+                    "46.5588186N, 12.1880531E",
+                    "46.5689736N, 12.1846842E",
+                    "46.5826503N, 12.1882314E",
+                    "Via ferrata Marino Bianchi",
+                    "46.5782461N, 12.1896622E",
+                    "46.5588308N, 12.1880142E",
+                    "46.5511317N, 12.1893297E"
+                ]
             }
         },
         {
@@ -123,7 +194,17 @@
                 "distance": "7.6 km",
                 "duration": "7:17 h",
                 "ascent": "926 m",
-                "descent": "926 m"
+                "descent": "926 m",
+                "points": [
+                    "Sentiero del Fronte",
+                    "46.5375342N, 12.0124219E",
+                    "46.5425719N, 12.0158942E",
+                    "46.5462586N, 12.0185064E",
+                    "46.5428214N, 12.0180681E",
+                    "46.5385050N, 12.0224358E",
+                    "Sentiero del Fronte",
+                    "sentiero per la Galleria dell'Anticima"
+                ]
             }
         },
         {
@@ -136,7 +217,17 @@
                 "distance": "16.2 km",
                 "duration": "8:44 h",
                 "ascent": "1,237 m",
-                "descent": "1,237 m"
+                "descent": "1,237 m",
+                "points": [
+                    "46.6144644N, 11.9385647E",
+                    "15B",
+                    "46.6008508N, 11.9531667E",
+                    "46.6146242N, 11.9512019E",
+                    "46.6222750N, 11.9610053E",
+                    "46.5934542N, 11.9653169E",
+                    "12A",
+                    "46.6143686N, 11.9385378E"
+                ]
             }
         },
         {
@@ -149,7 +240,16 @@
                 "distance": "15.8 km",
                 "duration": "8:35 h",
                 "ascent": "1,267 m",
-                "descent": "1,263 m"
+                "descent": "1,263 m",
+                "points": [
+                    "Via Coller",
+                    "Via Coller",
+                    "46.6476058N, 11.7551700E",
+                    "46.6536811N, 11.7754636E",
+                    "46.6456942N, 11.8087283E",
+                    "4B - Peitlerkofelsteig",
+                    "46.6599647N, 11.7524608E"
+                ]
             }
         },
         {
@@ -162,7 +262,17 @@
                 "distance": "19.2 km",
                 "duration": "11:22 h",
                 "ascent": "1,488 m",
-                "descent": "1,488 m"
+                "descent": "1,488 m",
+                "points": [
+                    "Strada Santa Lizia",
+                    "46.6503311N, 11.8145875E",
+                    "Ferrata del Sass de Pütia",
+                    "46.6567328N, 11.8430539E",
+                    "46.6498986N, 11.8643492E",
+                    "46.6406556N, 11.8575217E",
+                    "4",
+                    "Strada Santa Lizia"
+                ]
             }
         },
         {
@@ -175,7 +285,16 @@
                 "distance": "14.2 km",
                 "duration": "6:18 h",
                 "ascent": "825 m",
-                "descent": "810 m"
+                "descent": "810 m",
+                "points": [
+                    "Strada Santa Lizia",
+                    "46.6406678N, 11.8574158E",
+                    "46.6604422N, 11.8515939E",
+                    "46.6622547N, 11.8502906E",
+                    "46.6480378N, 11.8206117E",
+                    "4",
+                    "Strada Santa Lizia"
+                ]
             }
         },
         {
@@ -188,7 +307,21 @@
                 "distance": "33.4 km",
                 "duration": "27:29 h",
                 "ascent": "3,278 m",
-                "descent": "3,278 m"
+                "descent": "3,278 m",
+                "points": [
+                    "46.5562686N, 12.1984169E",
+                    "46.5471331N, 12.2008203E",
+                    "46.5356392N, 12.2063658E",
+                    "46.5249839N, 12.2273472E",
+                    "Sentiero ferrata F. Berti",
+                    "46.5000356N, 12.2163489E",
+                    "46.4970422N, 12.2221278E",
+                    "46.5187533N, 12.2497008E",
+                    "46.5217506N, 12.2267533E",
+                    "46.5555833N, 12.2052367E",
+                    "46.5560561N, 12.2014239E",
+                    "46.5561472N, 12.1986008E"
+                ]
             }
         },
         {
@@ -201,7 +334,16 @@
                 "distance": "17.8 km",
                 "duration": "12:22 h",
                 "ascent": "1,707 m",
-                "descent": "1,707 m"
+                "descent": "1,707 m",
+                "points": [
+                    "Via San Giuseppe",
+                    "Via San Giuseppe",
+                    "46.6474511N, 12.4068033E",
+                    "46.6610928N, 12.3712506E",
+                    "46.6430778N, 12.3688097E",
+                    "46.6473986N, 12.4066128E",
+                    "Via San Giuseppe"
+                ]
             }
         },
         {
@@ -214,7 +356,13 @@
                 "distance": "18.6 km",
                 "duration": "10:01 h",
                 "ascent": "1,463 m",
-                "descent": "1,463 m"
+                "descent": "1,463 m",
+                "points": [
+                    "46.7002750N, 12.0847422E",
+                    "Forcela de Riciogogn - Seitenbachscharte (2331 m)",
+                    "Seekofel (2810 m)",
+                    "46.7003917N, 12.0847986E"
+                ]
             }
         },
         {
@@ -227,7 +375,15 @@
                 "distance": "24 km",
                 "duration": "16:30 h",
                 "ascent": "2,032 m",
-                "descent": "2,643 m"
+                "descent": "2,643 m",
+                "points": [
+                    "46.6509519N, 12.3716047E",
+                    "46.6673697N, 12.3536619E",
+                    "46.6430903N, 12.3689492E",
+                    "46.6218206N, 12.3669886E",
+                    "46.6512283N, 12.3536472E",
+                    "46.6673175N, 12.3537519E"
+                ]
             }
         },
         {
@@ -240,7 +396,16 @@
                 "distance": "17.9 km",
                 "duration": "10:32 h",
                 "ascent": "1,479 m",
-                "descent": "1,479 m"
+                "descent": "1,479 m",
+                "points": [
+                    "46.5776686N, 12.2532011E",
+                    "Sentiero Bonacossa",
+                    "46.5850983N, 12.2873711E",
+                    "Sentiero Bonacossa",
+                    "46.6122019N, 12.2961003E",
+                    "46.5988808N, 12.2696739E",
+                    "46.5776164N, 12.2532106E"
+                ]
             }
         },
         {
@@ -253,7 +418,15 @@
                 "distance": "20.4 km",
                 "duration": "10:27 h",
                 "ascent": "1,442 m",
-                "descent": "1,440 m"
+                "descent": "1,440 m",
+                "points": [
+                    "46.5595475N, 11.9813111E",
+                    "46.5849514N, 12.0072694E",
+                    "46.5813989N, 11.9703556E",
+                    "46.5756764N, 11.9776083E",
+                    "46.5839650N, 11.9673514E",
+                    "46.5593278N, 11.9813581E"
+                ]
             }
         },
         {
@@ -266,7 +439,17 @@
                 "distance": "13.4 km",
                 "duration": "8:25 h",
                 "ascent": "1,194 m",
-                "descent": "1,203 m"
+                "descent": "1,203 m",
+                "points": [
+                    "46.5779664N, 12.2531906E",
+                    "Sentiero Bonacossa",
+                    "Sentiero Bonacossa",
+                    "46.5850039N, 12.2874611E",
+                    "Sentiero Bonacossa",
+                    "46.5993067N, 12.2761033E",
+                    "46.5988647N, 12.2696658E",
+                    "46.5777967N, 12.2529569E"
+                ]
             }
         },
         {
@@ -279,7 +462,27 @@
                 "distance": "17.3 km",
                 "duration": "9:04 h",
                 "ascent": "969 m",
-                "descent": "964 m"
+                "descent": "964 m",
+                "points": [
+                    "46.6123564N, 12.2954447E",
+                    "46.6224328N, 12.3114950E",
+                    "Passportensteig",
+                    "Passportensteig",
+                    "Ferrata Innerkofler - De-Luca / Klettersteig Paternkofel",
+                    "46.6289633N, 12.3272100E",
+                    "46.6291622N, 12.3375875E",
+                    "Gallerie e vie di guerra del paterno",
+                    "46.6398342N, 12.3100211E",
+                    "46.6421328N, 12.3086128E",
+                    "46.6423294N, 12.3068239E",
+                    "46.6422011N, 12.3049075E",
+                    "46.6373497N, 12.3080683E",
+                    "46.6348547N, 12.3111019E",
+                    "46.6318733N, 12.3041711E",
+                    "46.6246039N, 12.2899797E",
+                    "46.6174244N, 12.2844300E",
+                    "46.6124964N, 12.2951508E"
+                ]
             }
         },
         {
@@ -292,7 +495,18 @@
                 "distance": "20.7 km",
                 "duration": "7:47 h",
                 "ascent": "952 m",
-                "descent": "947 m"
+                "descent": "947 m",
+                "points": [
+                    "Via Monte Piana",
+                    "Strada per il Rifugio Auronzo",
+                    "46.6138864N, 12.3087000E",
+                    "46.6225039N, 12.3115044E",
+                    "46.6368953N, 12.3105456E",
+                    "46.6256769N, 12.2906044E",
+                    "46.6175022N, 12.2840239E",
+                    "46.6115475N, 12.2956244E",
+                    "Via Monte Piana"
+                ]
             }
         }
     ],

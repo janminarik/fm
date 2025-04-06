@@ -1,7 +1,7 @@
 import * as cheerio from "cheerio";
 
 import { HtmlParser } from "./html-parser";
-import { RouteDetail } from "../../entities/route.entity";
+import { RouteDetail, RoutePoint } from "../../entities/route.entity";
 
 export class RouteDetailParser implements HtmlParser<RouteDetail> {
   parse(html: string): RouteDetail {
@@ -12,6 +12,16 @@ export class RouteDetailParser implements HtmlParser<RouteDetail> {
     const duration = $("h3.alt-0.active span.time").text();
     const distance = $("h3.alt-0.active span.distance").text();
     const elevation = $("div.line-chart p.desc span.value");
+
+    const routePointsEl = $(
+      "div.route-items-list div.route-item-point div.cont h4.dad-handle",
+    );
+
+    routePointsEl.each((index, routePointEl) => {
+      const coordinateString = $(routePointEl).text();
+      const routePoint = new RoutePoint(coordinateString);
+      routeDetail.points.push(routePoint);
+    });
 
     let ascent = undefined;
     let descent = undefined;
