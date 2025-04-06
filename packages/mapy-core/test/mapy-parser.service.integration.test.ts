@@ -1,8 +1,13 @@
-// mapy-parser.service.integration.test.ts
 import { Test, TestingModule } from "@nestjs/testing";
 import { HttpModule } from "@nestjs/axios";
-import { MapyParserService, MapyParserServiceOld } from "../src/services";
+import { MapyParserService } from "../src/services";
 import { Route, Folder } from "../src/entities";
+import {
+  ActionSequenceExecutor,
+  BrowserOptions,
+  MapyScraperService,
+  PageOptions,
+} from "../src/scraper";
 import {
   jest,
   afterAll,
@@ -53,6 +58,25 @@ describe("MapyParserService (integration)", () => {
     expect(data).toBeDefined();
 
     await fs.writeFile("folder.json", JSON.stringify(data));
+  });
+
+  it("MapyScraperService", async () => {
+    const url = "https://mapy.com/s/dodalupufa";
+
+    const browserOptions: BrowserOptions = { headless: true };
+    const pageOptions: PageOptions = {
+      navigationTimeout: 30000,
+      timeout: 10000,
+      debug: true,
+    };
+
+    const executor = new ActionSequenceExecutor(browserOptions, pageOptions);
+    const scraper = new MapyScraperService(executor);
+
+    const result = await scraper.getFolder(url);
+
+    expect(executor).toBeDefined();
+    expect(scraper).toBeDefined();
   });
 
   //https://mapy.com/en/turisticka?planovani-trasy&dim=66acc55616423f1e7d13ec1e

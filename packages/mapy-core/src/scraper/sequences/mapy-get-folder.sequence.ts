@@ -1,7 +1,7 @@
 import { Action } from "../core/actions";
 
 export class MapyFolderSequence {
-  get(url: string): Action[] {
+  static get(url: string): Action[] {
     return [
       //GotoParams
       {

@@ -12,11 +12,13 @@ import {
 } from "./params";
 import { ActionResult, Action, ActionType } from "../core/actions";
 
-export type PageOptions = {
+export interface BrowserOptions extends PuppeteerLaunchOptions {}
+
+export interface PageOptions {
   navigationTimeout: number;
   timeout: number;
   debug: boolean;
-};
+}
 
 //TODO: inject logger
 export class ActionSequenceExecutor {
@@ -24,9 +26,14 @@ export class ActionSequenceExecutor {
   private pageDefaultTimeout = 30000;
   private browser: Browser | null = null;
   private page: Page | undefined;
-  private browserOptions: PuppeteerLaunchOptions;
-  private pageOptions: PageOptions;
+  // private browserOptions: BrowserOptions;
+  // private pageOptions: PageOptions;
   private result: Map<string, any> = new Map();
+
+  constructor(
+    private readonly browserOptions: BrowserOptions,
+    private readonly pageOptions: PageOptions,
+  ) {}
 
   private async initBrowser(): Promise<Browser> {
     if (!this.browser) {
