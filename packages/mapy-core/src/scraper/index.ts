@@ -1,3 +1,3 @@
-export * from "./core";
-export * from "./sequences";
+export * from "./action-sequence";
+export * from "./html-parsers";
 export * from "./mapy-scraper.service";

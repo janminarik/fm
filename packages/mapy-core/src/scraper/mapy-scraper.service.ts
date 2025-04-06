@@ -2,10 +2,12 @@ import * as fs from "fs/promises";
 
 import { Injectable } from "@nestjs/common";
 
-import { ActionResult } from "./core";
+import {
+  ActionResult,
+  ActionSequenceExecutor,
+} from "../scraper/action-sequence";
 import { MapyParserService } from "../services";
-import { ActionSequenceExecutor } from "./core/action-sequence-executor";
-import { MapyFolderSequence } from "./sequences";
+import { MapyFolderSequence } from "./action-sequence/sequences";
 
 @Injectable()
 export class MapyScraperService {
