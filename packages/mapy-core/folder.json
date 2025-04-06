@@ -14,7 +14,9 @@
             "duration": 7.683333333333334,
             "formattedDuration": "7:41 h",
             "detail_duration": "7:41 h",
-            "detail_distance": "11.5 km"
+            "detail_distance": "11.5 km",
+            "detail_total_ascent": "1,222 m",
+            "detail_total_descent": "1,222 m"
         },
         {
             "dataId": "66acc54223f2d7c41d9cb458",
@@ -23,7 +25,9 @@
             "duration": 5.283333333333333,
             "formattedDuration": "5:17 h",
             "detail_duration": "5:17 h",
-            "detail_distance": "11.4 km"
+            "detail_distance": "11.4 km",
+            "detail_total_ascent": "742 m",
+            "detail_total_descent": "742 m"
         },
         {
             "dataId": "66acc517381a234a769cb457",
@@ -32,7 +36,9 @@
             "duration": 17.983333333333334,
             "formattedDuration": "17:59 h",
             "detail_duration": "17:59 h",
-            "detail_distance": "14.1 km"
+            "detail_distance": "14.1 km",
+            "detail_total_ascent": "2,203 m",
+            "detail_total_descent": "2,203 m"
         },
         {
             "dataId": "66acc2e6d6182f0c3200314d",
@@ -41,7 +47,9 @@
             "duration": 8.616666666666667,
             "formattedDuration": "8:37 h",
             "detail_duration": "8:37 h",
-            "detail_distance": "18.1 km"
+            "detail_distance": "18.1 km",
+            "detail_total_ascent": "1,177 m",
+            "detail_total_descent": "1,177 m"
         },
         {
             "dataId": "66acbe0275573b90504f31e4",
@@ -50,7 +58,9 @@
             "duration": 10.083333333333334,
             "formattedDuration": "10:05 h",
             "detail_duration": "18:34 h",
-            "detail_distance": "15.5 km"
+            "detail_distance": "15.5 km",
+            "detail_total_ascent": "2,060 m",
+            "detail_total_descent": "2,060 m"
         },
         {
             "dataId": "66acbd76064c9890fa00314e",
@@ -59,7 +69,9 @@
             "duration": 11.4,
             "formattedDuration": "11:24 h",
             "detail_duration": "16:47 h",
-            "detail_distance": "26.4 km"
+            "detail_distance": "26.4 km",
+            "detail_total_ascent": "2,564 m",
+            "detail_total_descent": "2,563 m"
         },
         {
             "dataId": "66acbbc5d2b5041423291fb5",
@@ -68,7 +80,9 @@
             "duration": 5.5,
             "formattedDuration": "5:30 h",
             "detail_duration": "6:03 h",
-            "detail_distance": "12.9 km"
+            "detail_distance": "12.9 km",
+            "detail_total_ascent": "827 m",
+            "detail_total_descent": "824 m"
         },
         {
             "dataId": "66acb4196f1a64a11fbb78b4",
@@ -77,7 +91,9 @@
             "duration": 8,
             "formattedDuration": "8:00 h",
             "detail_duration": "12:43 h",
-            "detail_distance": "13.3 km"
+            "detail_distance": "13.3 km",
+            "detail_total_ascent": "1,593 m",
+            "detail_total_descent": "1,591 m"
         },
         {
             "dataId": "66ac9d329e0b8d97d5bb78b5",
@@ -86,7 +102,9 @@
             "duration": 4.433333333333334,
             "formattedDuration": "4:26 h",
             "detail_duration": "7:17 h",
-            "detail_distance": "7.6 km"
+            "detail_distance": "7.6 km",
+            "detail_total_ascent": "926 m",
+            "detail_total_descent": "926 m"
         },
         {
             "dataId": "66ac9036ad22ca5e9800314e",
@@ -95,7 +113,9 @@
             "duration": 9.866666666666667,
             "formattedDuration": "9:52 h",
             "detail_duration": "8:44 h",
-            "detail_distance": "16.2 km"
+            "detail_distance": "16.2 km",
+            "detail_total_ascent": "1,237 m",
+            "detail_total_descent": "1,237 m"
         },
         {
             "dataId": "66ac8ca741bac52b164dbc23",
@@ -104,7 +124,9 @@
             "duration": 7.166666666666667,
             "formattedDuration": "7:10 h",
             "detail_duration": "8:35 h",
-            "detail_distance": "15.8 km"
+            "detail_distance": "15.8 km",
+            "detail_total_ascent": "1,267 m",
+            "detail_total_descent": "1,263 m"
         },
         {
             "dataId": "66ac8a11e2a1d4abb749860c",
@@ -113,7 +135,9 @@
             "duration": 7.133333333333334,
             "formattedDuration": "7:08 h",
             "detail_duration": "11:22 h",
-            "detail_distance": "19.2 km"
+            "detail_distance": "19.2 km",
+            "detail_total_ascent": "1,488 m",
+            "detail_total_descent": "1,488 m"
         },
         {
             "dataId": "66ac887d6892a43abb291fb5",
@@ -122,7 +146,9 @@
             "duration": 5.583333333333333,
             "formattedDuration": "5:35 h",
             "detail_duration": "6:18 h",
-            "detail_distance": "14.2 km"
+            "detail_distance": "14.2 km",
+            "detail_total_ascent": "825 m",
+            "detail_total_descent": "810 m"
         },
         {
             "dataId": "66ac794b5adf5a576a13ec1c",
@@ -131,7 +157,9 @@
             "duration": 16.666666666666668,
             "formattedDuration": "16:40 h",
             "detail_duration": "27:29 h",
-            "detail_distance": "33.4 km"
+            "detail_distance": "33.4 km",
+            "detail_total_ascent": "3,278 m",
+            "detail_total_descent": "3,278 m"
         },
         {
             "dataId": "66ac73ad1542ba12823b86a3",
@@ -140,7 +168,9 @@
             "duration": 9.5,
             "formattedDuration": "9:30 h",
             "detail_duration": "12:22 h",
-            "detail_distance": "17.8 km"
+            "detail_distance": "17.8 km",
+            "detail_total_ascent": "1,707 m",
+            "detail_total_descent": "1,707 m"
         },
         {
             "dataId": "66ac6cb4929c9605642c8e55",
@@ -149,7 +179,9 @@
             "duration": 8.383333333333333,
             "formattedDuration": "8:23 h",
             "detail_duration": "10:01 h",
-            "detail_distance": "18.6 km"
+            "detail_distance": "18.6 km",
+            "detail_total_ascent": "1,463 m",
+            "detail_total_descent": "1,463 m"
         },
         {
             "dataId": "66ac5be09d475ea0459cb457",
@@ -158,7 +190,9 @@
             "duration": 10.766666666666667,
             "formattedDuration": "10:46 h",
             "detail_duration": "16:30 h",
-            "detail_distance": "24 km"
+            "detail_distance": "24 km",
+            "detail_total_ascent": "2,032 m",
+            "detail_total_descent": "2,643 m"
         },
         {
             "dataId": "66ac4d71eca38cc0ddbb78b5",
@@ -167,7 +201,9 @@
             "duration": 7.466666666666667,
             "formattedDuration": "7:28 h",
             "detail_duration": "10:32 h",
-            "detail_distance": "17.9 km"
+            "detail_distance": "17.9 km",
+            "detail_total_ascent": "1,479 m",
+            "detail_total_descent": "1,479 m"
         },
         {
             "dataId": "663757fcc86b179194790640",
@@ -176,7 +212,9 @@
             "duration": 8.766666666666667,
             "formattedDuration": "8:46 h",
             "detail_duration": "10:27 h",
-            "detail_distance": "20.4 km"
+            "detail_distance": "20.4 km",
+            "detail_total_ascent": "1,442 m",
+            "detail_total_descent": "1,440 m"
         },
         {
             "dataId": "6625fc840224efb84e0696ae",
@@ -185,7 +223,9 @@
             "duration": 6.083333333333333,
             "formattedDuration": "6:05 h",
             "detail_duration": "8:25 h",
-            "detail_distance": "13.4 km"
+            "detail_distance": "13.4 km",
+            "detail_total_ascent": "1,194 m",
+            "detail_total_descent": "1,203 m"
         },
         {
             "dataId": "65d05d2ceee93a058e76e5d6",
@@ -194,7 +234,9 @@
             "duration": 8.483333333333333,
             "formattedDuration": "8:29 h",
             "detail_duration": "9:04 h",
-            "detail_distance": "17.3 km"
+            "detail_distance": "17.3 km",
+            "detail_total_ascent": "969 m",
+            "detail_total_descent": "964 m"
         },
         {
             "dataId": "65d0392db07109fc4d9aa8d5",
@@ -203,7 +245,9 @@
             "duration": 7.95,
             "formattedDuration": "7:57 h",
             "detail_duration": "7:47 h",
-            "detail_distance": "20.7 km"
+            "detail_distance": "20.7 km",
+            "detail_total_ascent": "952 m",
+            "detail_total_descent": "947 m"
         }
     ],
     "totalDistance": 364.9999999999999,
