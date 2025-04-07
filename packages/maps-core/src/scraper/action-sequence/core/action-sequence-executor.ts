@@ -10,6 +10,7 @@ import {
   TypeParams,
   WaitForSelectorParams,
 } from "./params";
+import { createLogger, ILogger } from "../../../logger/logger";
 import { ActionResult, Action, ActionType } from "../core/actions";
 
 export interface BrowserOptions extends PuppeteerLaunchOptions {}
@@ -26,12 +27,20 @@ export class ActionSequenceExecutor {
   private pageDefaultTimeout = 30000;
   private browser: Browser | null = null;
   private page: Page | undefined;
-  private result: Map<string, any> = new Map();
+  private logger: ILogger;
 
   constructor(
     private readonly browserOptions: BrowserOptions,
     private readonly pageOptions: PageOptions,
-  ) {}
+    logger?: ILogger,
+  ) {
+    this.logger = logger ?? createLogger();
+
+    this.logger?.info("hokus pokus ide to");
+    this.logger?.info("***************** hokus pokus ide to");
+    this.logger?.info("hokus pokus ide to");
+    this.logger?.info("------------ hokus pokus ide to");
+  }
 
   private async initBrowser(): Promise<Browser> {
     if (!this.browser) {
@@ -56,17 +65,17 @@ export class ActionSequenceExecutor {
       );
       if (this.pageOptions.debug) {
         this.page?.on("request", (request) => {
-          console.log("request", request.url());
+          // !console.log("request", request.url());
         });
       }
 
       this.page?.on("error", (error) => {
-        console.error("error", error);
+        //! console.error("error", error);
       });
 
       //log console.log from page
       this.page?.on("console", (msg) => {
-        console.log("console", msg);
+        // ! console.log("console", msg);
       });
     }
 
@@ -82,7 +91,7 @@ export class ActionSequenceExecutor {
     let attempts = 0;
     const maxAttempts = action.retries || 1;
 
-    console.log("actionStart", { action, timestamp: startTime });
+    //! console.log("actionStart", { action, timestamp: startTime });
 
     while (attempts < maxAttempts) {
       attempts++;
@@ -184,12 +193,12 @@ export class ActionSequenceExecutor {
           data: result,
         };
 
-        console.log("actionComplete", {
-          action,
-          duration,
-          attempts,
-          result: actionResult,
-        });
+        //! console.log("actionComplete", {
+        //   action,
+        //   duration,
+        //   attempts,
+        //   result: actionResult,
+        // });
 
         return actionResult;
       } catch (error) {
@@ -204,14 +213,14 @@ export class ActionSequenceExecutor {
             error: error as Error,
           };
 
-          console.log("actionError", {
-            action,
-            error,
-            duration,
-            attempts,
-            result: actionResult,
-            final: true,
-          });
+          //! console.log("actionError", {
+          //   action,
+          //   error,
+          //   duration,
+          //   attempts,
+          //   result: actionResult,
+          //   final: true,
+          // });
 
           // Ak je akcia označená ako nepovinná, vrátime úspech aj pri chybe
           if (action.optional) {
@@ -222,12 +231,12 @@ export class ActionSequenceExecutor {
         }
 
         // Inak informujeme o chybe a skúsime znova
-        console.log("actionError", {
-          action,
-          error,
-          attempts,
-          willRetry: true,
-        });
+        //! console.log("actionError", {
+        //   action,
+        //   error,
+        //   attempts,
+        //   willRetry: true,
+        // });
 
         // Čakáme pred ďalším pokusom
         const delay = action.retryDelay || 1000;
@@ -253,19 +262,19 @@ export class ActionSequenceExecutor {
     const results: ActionResult[] = [];
     const sequenceStartTime = Date.now();
 
-    console.log("sequenceStart", {
-      actionsCount: actions.length,
-      timestamp: sequenceStartTime,
-    });
+    //! console.log("sequenceStart", {
+    //   actionsCount: actions.length,
+    //   timestamp: sequenceStartTime,
+    // });
 
     for (let i = 0; i < actions.length; i++) {
       const action = actions[i];
 
-      console.log("actionProgress", {
-        current: i + 1,
-        total: actions.length,
-        action,
-      });
+      //! console.log("actionProgress", {
+      //   current: i + 1,
+      //   total: actions.length,
+      //   action,
+      // });
 
       if (!action) {
         throw new Error("Action is undefined");
@@ -287,11 +296,11 @@ export class ActionSequenceExecutor {
     const sequenceEndTime = Date.now();
     const sequenceDuration = sequenceEndTime - sequenceStartTime;
 
-    console.log("sequenceComplete", {
-      results,
-      duration: sequenceDuration,
-      success: results.every((r) => r.success),
-    });
+    //! console.log("sequenceComplete", {
+    //   results,
+    //   duration: sequenceDuration,
+    //   success: results.every((r) => r.success),
+    // });
 
     return results;
   }

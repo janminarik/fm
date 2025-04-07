@@ -16,7 +16,7 @@
     "db:setup:dev": "turbo run db:migrate:reset:dev && turbo run db:seed:dev",
     "db:setup:e2e": "turbo run db:migrate:reset:e2e && turbo run db:seed:e2e",
     "debug-api": "concurrently \"pnpm build\" \"cd apps/fm-api && pnpm start:debug\"",
-    "dev": "turbo dev --concurrency=11",
+    "dev": "turbo dev --concurrency=20",
     "format": "turbo run format --continue",
     "format:all": "prettier --write \"**/*.{ts,tsx,js,mjs,jsx,json,css,scss,md,html}\"",
     "generate": "turbo run generate",
