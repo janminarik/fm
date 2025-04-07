@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { AuthCookieService } from "@repo/fm-auth";
 import { Observable, map } from "rxjs";
+import { Response } from "express";
 
 import { AuthTokenPairDto } from "../dto/auth-token-pair.dto";
 
@@ -19,7 +20,7 @@ export class LoginInterceptor implements NestInterceptor {
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
       map((data: AuthTokenPairDto) => {
-        const response = context.switchToHttp().getResponse();
+        const response = context.switchToHttp().getResponse<Response>();
 
         const {
           accessToken,

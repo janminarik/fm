@@ -26,15 +26,12 @@ export class ActionSequenceExecutor {
   private pageDefaultTimeout = 30000;
   private browser: Browser | null = null;
   private page: Page | undefined;
-  private logger: ILogger;
 
   constructor(
     private readonly browserOptions: BrowserOptions,
     private readonly pageOptions: PageOptions,
-    logger?: ILogger,
-  ) {
-    this.logger = logger ?? createLogger();
-  }
+    private readonly logger: ILogger,
+  ) {}
 
   private async initBrowser(): Promise<Browser> {
     if (!this.browser) {

@@ -14,13 +14,10 @@ import { RouteDetailParser } from "./html-parsers/route-detail-parser";
 //TODO: Parser factory
 @Injectable()
 export class MapsScraperService {
-  private logger: ILogger;
   constructor(
     private readonly executor: ActionSequenceExecutor,
-    logger?: ILogger,
-  ) {
-    this.logger = logger ?? createLogger();
-  }
+    private readonly logger: ILogger,
+  ) {}
 
   async getFolder(
     sharedFolderUrl: string,

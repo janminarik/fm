@@ -37,11 +37,16 @@ describe("UserAdminController (e2e)", () => {
         .send(createUserDto)
         .expect(201)
         .expect(({ body }) => {
-          expect(body.id).toBeDefined();
-          expect(body.email).toEqual(createUserDto.email);
-          expect(body.userName).toEqual(createUserDto.userName);
-          expect(body.firstName).toEqual(createUserDto.firstName);
-          expect(body.lastName).toEqual(createUserDto.lastName);
+          const userId = (body as { id: string }).id;
+          const email = (body as { email: string }).email;
+          const userName = (body as { userName: string }).userName;
+          const firstName = (body as { firstName: string }).firstName;
+          const lastName = (body as { lastName: string }).lastName;
+          expect(userId).toBeDefined();
+          expect(email).toEqual(createUserDto.email);
+          expect(userName).toEqual(createUserDto.userName);
+          expect(firstName).toEqual(createUserDto.firstName);
+          expect(lastName).toEqual(createUserDto.lastName);
           testUsers.push(body);
         });
     });
@@ -49,13 +54,13 @@ describe("UserAdminController (e2e)", () => {
     it("should fail when creating a user with an already used email (409)", async () => {
       const createUserDto = createUserPayload();
       //create user
-      request(app.getHttpServer())
+      await request(app.getHttpServer())
         .post(UserControllerUrl.Create)
         .send(createUserDto)
         .expect(201);
 
       //try create user
-      request(app.getHttpServer())
+      await request(app.getHttpServer())
         .post(UserControllerUrl.Create)
         .send(createUserDto)
         .expect(409);

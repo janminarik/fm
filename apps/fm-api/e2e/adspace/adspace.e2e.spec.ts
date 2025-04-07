@@ -24,13 +24,13 @@ describe("AdSpaceController (e2e)", () => {
   let adSpaceRepository: IAdSpaceRepository;
   let prismaService: PrismaService;
   let testUser: TestUser;
-  let accessToken: string;
-  let adSpaceId: string;
+  let accessToken: string | null;
+  let adSpaceId: string | null;
 
   async function insertAdSpaceInDb() {
     const adSpaceData = createAdSpace();
     const adSpace = await adSpaceRepository.create(adSpaceData);
-    adSpaceId = adSpace.id;
+    adSpaceId = adSpace ? adSpace.id : null;
   }
 
   async function seedDb(adSpaceCount: number = 15) {
@@ -53,7 +53,7 @@ describe("AdSpaceController (e2e)", () => {
         expect(body.accessToken).toBeDefined();
       });
 
-    accessToken = loginRes.body.accessToken;
+    accessToken = (loginRes.body as { accessToken: string }).accessToken;
   }
 
   beforeAll(async () => {
@@ -73,7 +73,7 @@ describe("AdSpaceController (e2e)", () => {
   });
 
   afterEach(async () => {
-    accessToken = undefined;
+    accessToken = null;
     await app.close();
   });
 
@@ -129,9 +129,10 @@ describe("AdSpaceController (e2e)", () => {
         .set("Authorization", "Bearer " + accessToken)
         .expect(200)
         .expect(({ body }) => {
-          expect(body.data).toBeDefined();
-          expect(body.meta).toBeDefined();
-          expect(body.data.length).toBeGreaterThan(0);
+          const { data, meta } = body as { data: any; meta: any };
+          expect(data).toBeDefined();
+          expect(meta).toBeDefined();
+          expect(data.length).toBeGreaterThan(0);
         });
     });
 
@@ -163,7 +164,7 @@ describe("AdSpaceController (e2e)", () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toBeDefined();
-          expect(body.id).toBe(adSpaceId);
+          expect((body as { id: string }).id).toBe(adSpaceId);
         });
     });
 
@@ -215,8 +216,10 @@ describe("AdSpaceController (e2e)", () => {
         .expect(200)
         .expect(({ body }) => {
           expect(body).toBeDefined();
-          expect(body.name).toBe(updateAdSpaceDto.name);
-          expect(body.visibility).toBe(updateAdSpaceDto.visibility);
+          expect((body as { name: string }).name).toBe(updateAdSpaceDto.name);
+          expect((body as { visibility: AdSpaceVisibility }).visibility).toBe(
+            updateAdSpaceDto.visibility,
+          );
         });
     });
 

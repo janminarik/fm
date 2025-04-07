@@ -11,9 +11,9 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { HttpAdapterHost, Reflector } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { USER_REPOSITORY } from "@repo/fm-domain";
+import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserPayload } from "@repo/fm-mock-data";
-import { HASH_SERVICE } from "@repo/fm-shared";
+import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
 import {
   ExceptionHandlerService,
   RequestContextInterceptor,
@@ -98,8 +98,8 @@ export async function createTestApp() {
 
 export async function createTestUser(): Promise<TestUser> {
   const app = await createTestApp();
-  const userRepository = app.get(USER_REPOSITORY);
-  const hashService = app.get(HASH_SERVICE);
+  const userRepository: IUserRepository = app.get(USER_REPOSITORY);
+  const hashService: IHashService = app.get(HASH_SERVICE);
 
   const createUserDto = createUserPayload();
 
@@ -110,14 +110,19 @@ export async function createTestUser(): Promise<TestUser> {
     passwordHash: passwordHash,
   });
 
-  const testUser: TestUser = {
-    id: user.id,
-    email: user.email,
-    password: createUserDto.password,
-    userName: user.userName,
-  };
-
-  return testUser;
+  if (user) {
+    const testUser: TestUser = {
+      id: user.id,
+      email: user.email,
+      password: createUserDto.password,
+      userName: user.userName || "",
+    };
+    return testUser;
+  } else {
+    throw new Error(
+      "Failed to create test user. User repository returned null or undefined.",
+    );
+  }
 }
 
 export async function deleteTestUser(userId: string) {
