@@ -10,7 +10,7 @@ import {
   TypeParams,
   WaitForSelectorParams,
 } from "./params";
-import { createLogger, ILogger } from "../../../logger/logger";
+import { ILogger } from "../../../logger/logger";
 import { ActionResult, Action, ActionType } from "../core/actions";
 
 export interface BrowserOptions extends PuppeteerLaunchOptions {}

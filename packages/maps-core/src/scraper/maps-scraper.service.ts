@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import { Folder, RouteDetail } from "../entities";
-import { createLogger, type ILogger } from "../logger";
+import { type ILogger } from "../logger";
 import { ActionResult, ActionSequenceExecutor } from "./action-sequence";
 import {
   FolderSequence,
