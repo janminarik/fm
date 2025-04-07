@@ -7,6 +7,9 @@ import {
   LogLevel,
   PinoLokiLoggerOptions,
 } from "../../src/logger";
+import { config } from "dotenv";
+
+config({ path: "../../.env.test" });
 
 const app = "maps-core";
 const logLevel = process.env.API_LOG_LEVEL as string;

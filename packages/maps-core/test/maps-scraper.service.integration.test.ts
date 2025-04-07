@@ -6,15 +6,17 @@ import {
 } from "../src/scraper";
 import { jest, describe, expect, it } from "@jest/globals";
 import * as fs from "fs/promises";
-import { config } from "dotenv";
-import { testLogger } from "./utils/test-logger";
+
+import { createTestLogger } from "./utils/test-logger";
 import { beforeAll } from "@jest/globals";
+import { ILogger } from "../src/logger";
 
 jest.setTimeout(300000);
 
 describe("MapyParserService (integration)", () => {
+  let testLogger: ILogger;
   beforeAll(() => {
-    config({ path: "../../.env.test" });
+    testLogger = createTestLogger();
   });
 
   it("MapyScraperService", async () => {

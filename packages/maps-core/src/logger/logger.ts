@@ -1,6 +1,6 @@
-import pino, { TransportTargetOptions } from "pino";
+import pino, { DestinationStream, TransportTargetOptions } from "pino";
 
-import { createPinoLoki, createPinoPretty } from "./transports";
+import { createPinoPretty } from "./transports";
 
 export type LogLevel = "debug" | "info" | "warn" | "error";
 
@@ -21,7 +21,7 @@ export class Logger implements ILogger {
   private static instance: Logger;
 
   private constructor(options: LoggerOptions) {
-    const transport = pino.transport({
+    const transport: DestinationStream = pino.transport({
       targets: options.targets ?? [createPinoPretty(options.level)],
     });
 
@@ -52,28 +52,7 @@ export class Logger implements ILogger {
   }
 }
 
-export const createLogger = (options?: LoggerOptions): ILogger => {
-  if (options) {
-    return Logger.getInstance(options);
-  } else {
-    //TODO: proces.env
-    const level = "info";
-
-    const pinoPretty = createPinoPretty(level);
-
-    const pinoLoki = createPinoLoki(level, {
-      host: "http://localhost:3100",
-      labels: { app: "maps-core" },
-      batch: false,
-    });
-
-    const targets: TransportTargetOptions[] = [pinoPretty, pinoLoki];
-
-    const options: LoggerOptions = {
-      level,
-      targets,
-    };
-
-    return Logger.getInstance(options);
-  }
+// TODO: Refactor options to use optimal parameters
+export const createLogger = (options: LoggerOptions): ILogger => {
+  return Logger.getInstance(options);
 };
