@@ -36,7 +36,7 @@ describe("UserSharedController (e2e)", () => {
 
   describe("/api/user/profile (GET)", () => {
     it("should get a user profile - auth header - (200)", async () => {
-      const loginRes = await apiClient.post<AuthTokenPairDto>(
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
         AuthControlerUrl.Login,
         {
           email: testUser.email,
@@ -45,23 +45,23 @@ describe("UserSharedController (e2e)", () => {
         200,
       );
 
-      expect(loginRes.accessToken).toBeDefined();
+      expect(loginData.accessToken).toBeDefined();
 
-      const accessToken = loginRes.accessToken;
+      const accessToken = loginData.accessToken;
 
-      const profileRes = await apiClient.get<UserDto>(
+      const { data: profileData } = await apiClient.get<UserDto>(
         UserControllerUrl.Profile,
         200,
         accessToken,
       );
 
-      expect(profileRes.id).toEqual(testUser.id);
-      expect(profileRes.email).toEqual(testUser.email);
-      expect(profileRes.userName).toEqual(testUser.userName);
+      expect(profileData.id).toEqual(testUser.id);
+      expect(profileData.email).toEqual(testUser.email);
+      expect(profileData.userName).toEqual(testUser.userName);
     });
 
     it("should get a user profile - auth cookie - (200)", async () => {
-      const loginRes = await apiClient.post<AuthTokenPairDto>(
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
         AuthControlerUrl.Login,
         {
           email: testUser.email,
@@ -70,19 +70,19 @@ describe("UserSharedController (e2e)", () => {
         200,
       );
 
-      expect(loginRes.accessToken).toBeDefined();
+      expect(loginData.accessToken).toBeDefined();
 
-      const accessToken = loginRes.accessToken;
+      const accessToken = loginData.accessToken;
 
-      const profileRes = await apiClient.get<UserDto>(
+      const { data: profileData } = await apiClient.get<UserDto>(
         UserControllerUrl.Profile,
         200,
         accessToken,
       );
 
-      expect(profileRes.id).toEqual(testUser.id);
-      expect(profileRes.email).toEqual(testUser.email);
-      expect(profileRes.userName).toEqual(testUser.userName);
+      expect(profileData.id).toEqual(testUser.id);
+      expect(profileData.email).toEqual(testUser.email);
+      expect(profileData.userName).toEqual(testUser.userName);
     });
 
     it("should fail get a user profile when user is unathorized (404)", async () => {

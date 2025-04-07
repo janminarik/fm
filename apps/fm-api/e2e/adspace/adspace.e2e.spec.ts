@@ -48,7 +48,7 @@ describe("AdSpaceController (e2e)", () => {
   }
 
   async function login(): Promise<string> {
-    const response = await apiClient.post<AuthTokenPairDto>(
+    const { data } = await apiClient.post<AuthTokenPairDto>(
       AuthControlerUrl.Login,
       {
         email: testUser.email,
@@ -57,10 +57,10 @@ describe("AdSpaceController (e2e)", () => {
       200,
     );
 
-    expect(response.accessToken).toBeDefined();
-    expect(response.refreshToken).toBeDefined();
+    expect(data.accessToken).toBeDefined();
+    expect(data.refreshToken).toBeDefined();
 
-    return response.accessToken;
+    return data.accessToken;
   }
 
   beforeAll(async () => {
@@ -91,19 +91,19 @@ describe("AdSpaceController (e2e)", () => {
 
       const createAdSpaceDto = createAdSpace();
 
-      const response = await apiClient.post<AdSpaceDto>(
+      const { data } = await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,
         createAdSpaceDto,
         201,
         accessToken,
       );
 
-      expect(response).toBeDefined();
-      expect(response.id).toBeDefined();
-      expect(response.name).toBe(createAdSpaceDto.name);
-      expect(response.type).toBe(createAdSpaceDto.type);
-      expect(response.visibility).toBe(createAdSpaceDto.visibility);
-      expect(response.address).toBeDefined();
+      expect(data).toBeDefined();
+      expect(data.id).toBeDefined();
+      expect(data.name).toBe(createAdSpaceDto.name);
+      expect(data.type).toBe(createAdSpaceDto.type);
+      expect(data.visibility).toBe(createAdSpaceDto.visibility);
+      expect(data.address).toBeDefined();
     });
 
     it("should fail to create an ad space if request is invalid (422)", async () => {
@@ -134,15 +134,15 @@ describe("AdSpaceController (e2e)", () => {
 
       accessToken = await login();
 
-      const response = await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
+      const { data } = await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
         AdSpaceControllerUrl.List,
         200,
         accessToken,
       );
 
-      expect(response.data).toBeDefined();
-      expect(response.meta).toBeDefined();
-      expect(response.data.length).toBeGreaterThan(0);
+      expect(data.data).toBeDefined();
+      expect(data.meta).toBeDefined();
+      expect(data.data.length).toBeGreaterThan(0);
     });
 
     it("should fail to return paginated list of ad spaces if query is invalid (422)", async () => {
@@ -169,14 +169,14 @@ describe("AdSpaceController (e2e)", () => {
 
       accessToken = await login();
 
-      const response = await apiClient.get<AdSpaceDto>(
+      const { data } = await apiClient.get<AdSpaceDto>(
         `${AdSpaceControllerUrl.Get}/${adSpaceId}`,
         200,
         accessToken,
       );
 
-      expect(response).toBeDefined();
-      expect(response.id).toBe(adSpaceId);
+      expect(data).toBeDefined();
+      expect(data.id).toBe(adSpaceId);
     });
 
     it("should fail when trying to get a non-existent ad space (404)", async () => {
@@ -220,16 +220,16 @@ describe("AdSpaceController (e2e)", () => {
         visibility: AdSpaceVisibility.HIGH,
       };
 
-      const response = await apiClient.patch<AdSpaceDto>(
+      const { data } = await apiClient.patch<AdSpaceDto>(
         `${AdSpaceControllerUrl.Update}/${adSpaceId}`,
         updateAdSpaceDto,
         200,
         accessToken,
       );
 
-      expect(response).toBeDefined();
-      expect(response.name).toBe(updateAdSpaceDto.name);
-      expect(response.visibility).toBe(updateAdSpaceDto.visibility);
+      expect(data).toBeDefined();
+      expect(data.name).toBe(updateAdSpaceDto.name);
+      expect(data.visibility).toBe(updateAdSpaceDto.visibility);
     });
 
     it("should fail when trying to update a non-existent ad space (404)", async () => {

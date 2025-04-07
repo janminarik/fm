@@ -36,18 +36,18 @@ describe("UserAdminController (e2e)", () => {
     it("should create a new user and return the user data (201)", async () => {
       const createUserDto = createUserPayload();
 
-      const response = await apiClient.post<UserDto>(
+      const { data } = await apiClient.post<UserDto>(
         UserControllerUrl.Create,
         createUserDto,
         201,
       );
 
-      expect(response.id).toBeDefined();
-      expect(response.email).toEqual(createUserDto.email);
-      expect(response.userName).toEqual(createUserDto.userName);
-      expect(response.firstName).toEqual(createUserDto.firstName);
-      expect(response.lastName).toEqual(createUserDto.lastName);
-      testUsers.push(response as unknown as User);
+      expect(data.id).toBeDefined();
+      expect(data.email).toEqual(createUserDto.email);
+      expect(data.userName).toEqual(createUserDto.userName);
+      expect(data.firstName).toEqual(createUserDto.firstName);
+      expect(data.lastName).toEqual(createUserDto.lastName);
+      testUsers.push(data as unknown as User);
     });
 
     it("should fail when creating a user with an already used email (409)", async () => {

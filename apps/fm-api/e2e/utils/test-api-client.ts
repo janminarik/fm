@@ -3,6 +3,12 @@ import request from "supertest";
 
 export type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
 
+export type ApiResponse<T> = {
+  data: T;
+  response: request.Response;
+  status: number;
+};
+
 export class TestApiClient {
   constructor(private readonly app: INestApplication) {}
 
@@ -12,7 +18,7 @@ export class TestApiClient {
     expectedStatus: number = 200,
     payload?: string | object,
     jwt?: string,
-  ): Promise<TResponse> {
+  ): Promise<ApiResponse<TResponse>> {
     const server = this.app.getHttpServer();
 
     const req = request(server)[method](url);
@@ -23,7 +29,11 @@ export class TestApiClient {
 
     const res = await req.expect(expectedStatus);
 
-    return res.body as TResponse;
+    return {
+      data: res.body as TResponse,
+      response: res,
+      status: res.status,
+    };
   }
 
   async get<TResponse>(url: string, expectedStatus?: number, jwt?: string) {

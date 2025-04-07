@@ -1,10 +1,11 @@
 import { INestApplication } from "@nestjs/common";
 import { AuthCookieService } from "@repo/fm-auth";
-import request from "supertest";
 
 import { LoginRequestDto } from "../../src/api/auth/dto";
+import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
 import { AuthControlerUrl } from "../utils/api-url.config";
 import { getJwtToken } from "../utils/cookie-utils";
+import { TestApiClient } from "../utils/test-api-client";
 import {
   createTestApp,
   createTestUser,
@@ -14,6 +15,7 @@ import {
 
 describe("AuthControler (e2e)", () => {
   let app: INestApplication;
+  let apiClient: TestApiClient;
   let testUser: TestUser;
 
   beforeAll(async () => {
@@ -22,6 +24,7 @@ describe("AuthControler (e2e)", () => {
 
   beforeEach(async () => {
     app = await createTestApp();
+    apiClient = new TestApiClient(app);
   });
 
   afterAll(async () => {
@@ -40,14 +43,14 @@ describe("AuthControler (e2e)", () => {
         password: testUser.password,
       };
 
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-          expect(body.refreshToken).toBeDefined();
-        });
+      const { data } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
+
+      expect(data.accessToken).toBeDefined();
+      expect(data.refreshToken).toBeDefined();
     });
 
     it("should log in and set the authentication cookie (200)", async () => {
@@ -58,23 +61,23 @@ describe("AuthControler (e2e)", () => {
 
       const cookieService = app.get(AuthCookieService);
 
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ headers }) => {
-          const accessToken = getJwtToken(
-            cookieService.getAccessTokenCookieName(),
-            headers["set-cookie"],
-          );
-          const refreshToken = getJwtToken(
-            cookieService.getRefreshTokenCookieName(),
-            headers["set-cookie"],
-          );
+      const { response } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
 
-          expect(accessToken).toBeDefined();
-          expect(refreshToken).toBeDefined();
-        });
+      const accessToken = getJwtToken(
+        cookieService.getAccessTokenCookieName(),
+        response.headers["set-cookie"],
+      );
+      const refreshToken = getJwtToken(
+        cookieService.getRefreshTokenCookieName(),
+        response.headers["set-cookie"],
+      );
+
+      expect(accessToken).toBeDefined();
+      expect(refreshToken).toBeDefined();
     });
 
     it("should fail to log in if the user does not exist (401)", async () => {
@@ -83,10 +86,11 @@ describe("AuthControler (e2e)", () => {
         password: testUser.password,
       };
 
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(401);
+      await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        401,
+      );
     });
 
     it("should fail to log in if the user's password is invalid (401)", async () => {
@@ -95,10 +99,11 @@ describe("AuthControler (e2e)", () => {
         password: "P@sssw0rdInvalid2025",
       };
 
-      await request(app.getHttpServer())
-        .post("/api/v1/auth/login")
-        .send(loginPayload)
-        .expect(401);
+      await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        401,
+      );
     });
   });
 
@@ -109,28 +114,28 @@ describe("AuthControler (e2e)", () => {
         password: testUser.password,
       };
 
-      const loginRes = await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-        });
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
 
-      //refresh
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.RefreshAccessToken)
-        .set("Authorization", "Bearer " + loginRes.body.refreshToken)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          //! access token is new
-          expect(body.accessToken).toBeDefined();
-          expect(body.accessToken).not.toBe(loginRes.body.accessToken);
-          //! refresh token is same
-          expect(body.refreshToken).toBeDefined();
-          expect(body.refreshToken).toBe(loginRes.body.refreshToken);
-        });
+      expect(loginData.accessToken).toBeDefined();
+
+      // Refresh
+      const { data: refreshData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.RefreshAccessToken,
+        loginPayload,
+        200,
+        loginData.refreshToken,
+      );
+
+      // Access token je nový
+      expect(refreshData.accessToken).toBeDefined();
+      expect(refreshData.accessToken).not.toBe(loginData.accessToken);
+      // Refresh token je rovnaký
+      expect(refreshData.refreshToken).toBeDefined();
+      expect(refreshData.refreshToken).toBe(loginData.refreshToken);
     });
 
     it("should fail to issue a new access if refresh token is invalid (401)", async () => {
@@ -139,23 +144,21 @@ describe("AuthControler (e2e)", () => {
         password: testUser.password,
       };
 
-      const loginRes = await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-        });
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
 
-      //refresh
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.RefreshAccessToken)
-        .set(
-          "Authorization",
-          "Bearer " + loginRes.body.refreshToken + " invalid-token",
-        )
-        .send(loginPayload)
-        .expect(401);
+      expect(loginData.accessToken).toBeDefined();
+
+      // Refresh s neplatným tokenom
+      await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.RefreshAccessToken,
+        loginPayload,
+        401,
+        loginData.refreshToken + " invalid-token",
+      );
     });
   });
 
@@ -165,25 +168,26 @@ describe("AuthControler (e2e)", () => {
         email: testUser.email,
         password: testUser.password,
       };
-      const loginRes = await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-        });
 
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.RefreshTokens)
-        .set("Authorization", "Bearer " + loginRes.body.refreshToken)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-          expect(body.accessToken).not.toBe(loginRes.body.accessToken);
-          expect(body.refreshToken).toBeDefined();
-          expect(body.refreshToken).not.toBe(loginRes.body.refreshToken);
-        });
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
+
+      expect(loginData.accessToken).toBeDefined();
+
+      const { data: refreshData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.RefreshTokens,
+        loginPayload,
+        200,
+        loginData.refreshToken,
+      );
+
+      expect(refreshData.accessToken).toBeDefined();
+      expect(refreshData.accessToken).not.toBe(loginData.accessToken);
+      expect(refreshData.refreshToken).toBeDefined();
+      expect(refreshData.refreshToken).not.toBe(loginData.refreshToken);
     });
 
     it("should fail to refresh token pair if refresh token is invalid (401)", async () => {
@@ -192,22 +196,20 @@ describe("AuthControler (e2e)", () => {
         password: testUser.password,
       };
 
-      const loginRes = await request(app.getHttpServer())
-        .post(AuthControlerUrl.Login)
-        .send(loginPayload)
-        .expect(200)
-        .expect(({ body }) => {
-          expect(body.accessToken).toBeDefined();
-        });
+      const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.Login,
+        loginPayload,
+        200,
+      );
 
-      await request(app.getHttpServer())
-        .post(AuthControlerUrl.RefreshTokens)
-        .set(
-          "Authorization",
-          "Bearer " + loginRes.body.refreshToken + "invalid-token",
-        )
-        .send(loginPayload)
-        .expect(401);
+      expect(loginData.accessToken).toBeDefined();
+
+      await apiClient.post<AuthTokenPairDto>(
+        AuthControlerUrl.RefreshTokens,
+        loginPayload,
+        401,
+        loginData.refreshToken + "invalid-token",
+      );
     });
   });
 });
