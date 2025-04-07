@@ -11,7 +11,7 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { HttpAdapterHost, Reflector } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { User, USER_REPOSITORY } from "@repo/fm-domain";
+import { USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserPayload } from "@repo/fm-mock-data";
 import { HASH_SERVICE } from "@repo/fm-shared";
 import {

@@ -3,11 +3,11 @@ import baseConfig from "./base.mjs";
 export default [
   ...baseConfig,
   {
-    // languageOptions: {
-    //   parserOptions: {
-    //     projectService: true,
-    //   },
-    // },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
   },
   {
     rules: {
