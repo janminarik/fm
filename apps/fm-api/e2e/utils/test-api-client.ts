@@ -27,7 +27,13 @@ export class TestApiClient {
   }
 
   async get<TResponse>(url: string, expectedStatus?: number, jwt?: string) {
-    return await this.request<TResponse>("get", url, expectedStatus, jwt);
+    return await this.request<TResponse>(
+      "get",
+      url,
+      expectedStatus,
+      undefined,
+      jwt,
+    );
   }
 
   async post<TResponse>(
