@@ -1,3 +1,1 @@
-export interface BaseActionParams {
-  // name: string;
-}
+export interface BaseActionParams {}

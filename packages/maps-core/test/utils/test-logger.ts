@@ -1,13 +1,13 @@
+import { config } from "dotenv";
+
 import {
   createLogger,
   createPinoLoki,
   createPinoPretty,
-  ILogger,
   LoggerOptions,
   LogLevel,
   PinoLokiLoggerOptions,
 } from "../../src/logger";
-import { config } from "dotenv";
 
 config({ path: "../../.env.test" });
 

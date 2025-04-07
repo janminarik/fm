@@ -1,14 +1,14 @@
+import * as fs from "fs/promises";
+
+import { jest, describe, expect, it, beforeAll } from "@jest/globals";
+
 import {
   ActionSequenceExecutor,
   BrowserOptions,
   MapsScraperService,
   PageOptions,
 } from "../src/scraper";
-import { jest, describe, expect, it } from "@jest/globals";
-import * as fs from "fs/promises";
-
 import { createTestLogger } from "./utils/test-logger";
-import { beforeAll } from "@jest/globals";
 import { ILogger } from "../src/logger";
 
 jest.setTimeout(300000);
@@ -18,10 +18,6 @@ describe("MapyParserService (integration)", () => {
   beforeAll(() => {
     testLogger = createTestLogger();
   });
-
-  function test(lalal: any) {
-    return "xx";
-  }
 
   it("MapyScraperService", async () => {
     const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
