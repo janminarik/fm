@@ -19,23 +19,9 @@ import * as fs from "fs/promises";
 
 jest.setTimeout(300000);
 
+//
+
 describe("MapyParserService (integration)", () => {
-  // let service: MapyParserService;
-
-  // beforeEach(async () => {
-  //   const module: TestingModule = await Test.createTestingModule({
-  //     imports: [
-  //       HttpModule.register({
-  //         timeout: 10000, // 10 sekúnd timeout pre HTTP požiadavky
-  //         maxRedirects: 5,
-  //       }),
-  //     ],
-  //     providers: [MapyParserService],
-  //   }).compile();
-
-  //   service = module.get<MapyParserService>(MapyParserService);
-  // });
-
   it("MapyScraperService", async () => {
     const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
     const routeDetailBaseUrl = "https://mapy.com/en/turisticka?planovani-trasy";
