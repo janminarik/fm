@@ -6,27 +6,35 @@ import {
   createPinoLoki,
   createPinoPretty,
 } from "../src/logger";
+import { config } from "dotenv";
+import { beforeAll } from "@jest/globals";
+import {
+  createTestLogger,
+  testLoggerOptions,
+  testPinoLokiOptions,
+} from "./utils/test-logger";
 
 describe("Logger", () => {
+  beforeAll(() => {
+    config({ path: "../../.env.test" });
+  });
+
   it("should log message", async () => {
-    const level = "debug";
+    const pinoPretty = createPinoPretty(testLoggerOptions.level);
 
-    const pinoPretty = createPinoPretty(level);
+    // const pinoLoki = createPinoLoki(
+    //   testLoggerOptions.level,
+    //   testPinoLokiOptions,
+    // );
 
-    const pinoLoki = createPinoLoki(level, {
-      host: "http://localhost:3100",
-      labels: { app: "maps-core" },
-      batch: false,
-    });
+    // const targets: TransportTargetOptions[] = [pinoPretty, pinoLoki];
 
-    const targets: TransportTargetOptions[] = [pinoPretty, pinoLoki];
+    // const loggerOptions: LoggerOptions = {
+    //   level: testLoggerOptions.level,
+    //   targets,
+    // };
 
-    const loggerOptions: LoggerOptions = {
-      level,
-      targets,
-    };
-
-    const logger = createLogger(loggerOptions);
+    const logger = createTestLogger();
 
     logger.debug("test message");
   });

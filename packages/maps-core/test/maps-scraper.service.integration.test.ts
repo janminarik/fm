@@ -6,10 +6,17 @@ import {
 } from "../src/scraper";
 import { jest, describe, expect, it } from "@jest/globals";
 import * as fs from "fs/promises";
+import { config } from "dotenv";
+import { testLogger } from "./utils/test-logger";
+import { beforeAll } from "@jest/globals";
 
 jest.setTimeout(300000);
 
 describe("MapyParserService (integration)", () => {
+  beforeAll(() => {
+    config({ path: "../../.env.test" });
+  });
+
   it("MapyScraperService", async () => {
     const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
     const routeDetailBaseUrl = "https://mapy.com/en/turisticka?planovani-trasy";
@@ -21,8 +28,12 @@ describe("MapyParserService (integration)", () => {
       debug: true,
     };
 
-    const executor = new ActionSequenceExecutor(browserOptions, pageOptions);
-    const scraper = new MapsScraperService(executor);
+    const executor = new ActionSequenceExecutor(
+      browserOptions,
+      pageOptions,
+      testLogger,
+    );
+    const scraper = new MapsScraperService(executor, testLogger);
 
     const folder = await scraper.getFolder(
       sharedFolderUrl,

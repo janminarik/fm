@@ -2,8 +2,10 @@ import pino, { TransportTargetOptions } from "pino";
 
 import { createPinoLoki, createPinoPretty } from "./transports";
 
+export type LogLevel = "debug" | "info" | "warn" | "error";
+
 export interface LoggerOptions {
-  level: "debug" | "info" | "warn" | "error";
+  level: LogLevel;
   targets?: TransportTargetOptions[];
 }
 

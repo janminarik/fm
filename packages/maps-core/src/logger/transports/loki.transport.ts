@@ -1,6 +1,6 @@
 import { TransportTargetOptions } from "pino";
 
-type PinoLokiLoggerOptions = {
+export type PinoLokiLoggerOptions = {
   host: string; // Povinná URL adresa Loki servera
   basicAuth?: {
     username: string;

@@ -20,6 +20,7 @@ import {
 } from "@repo/nest-common";
 import cookieParser from "cookie-parser";
 import { config } from "dotenv";
+
 import { AppModule } from "../../src/app.module";
 import { GlobalExceptionFilter } from "../../src/common/global-exception.filter";
 import { AppConfig } from "../../src/config/app.config";
