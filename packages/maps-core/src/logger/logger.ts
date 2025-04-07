@@ -1,11 +1,10 @@
 import pino, { TransportTargetOptions } from "pino";
 
-import { loggerConfig } from "./logger.config";
+import { createPinoLoki, createPinoPretty } from "./transports";
 
 export interface LoggerOptions {
-  lokiUrl?: string;
-  lokiLabels?: Record<string, string>;
-  level?: "debug" | "info" | "warn" | "error";
+  level: "debug" | "info" | "warn" | "error";
+  targets?: TransportTargetOptions[];
 }
 
 export interface ILogger {
@@ -19,46 +18,15 @@ export class Logger implements ILogger {
   private logger: pino.Logger;
   private static instance: Logger;
 
-  private constructor(options: LoggerOptions = {}) {
-    const { lokiUrl, lokiLabels, level } = options;
-
-    const targets = [];
-
-    const pinoPretty: TransportTargetOptions = {
-      target: "pino-pretty",
-      // level: level,
-      options: { colorize: true, singleLine: false },
-    };
-
-    targets.push(pinoPretty);
-
-    if (lokiUrl) {
-      const pinoLoki: TransportTargetOptions = {
-        target: "pino-loki",
-        // level: level,
-        options: {
-          host: lokiUrl,
-          labels: lokiLabels,
-          batching: false,
-        },
-      };
-
-      targets.push(pinoLoki);
-    }
-
+  private constructor(options: LoggerOptions) {
     const transport = pino.transport({
-      targets,
+      targets: options.targets ?? [createPinoPretty(options.level)],
     });
 
-    this.logger = pino(
-      {
-        level: level,
-      },
-      transport,
-    );
+    this.logger = pino({ level: options.level }, transport);
   }
 
-  public static getInstance(options?: LoggerOptions): Logger {
+  public static getInstance(options: LoggerOptions): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger(options);
     }
@@ -66,9 +34,6 @@ export class Logger implements ILogger {
   }
 
   debug(message: string, meta?: Record<string, any>) {
-    this.logger.debug(
-      "-------------------------------------  YYYYYYYYYYYYYYYY",
-    );
     this.logger.debug({ ...meta, msg: message });
   }
 
@@ -89,6 +54,24 @@ export const createLogger = (options?: LoggerOptions): ILogger => {
   if (options) {
     return Logger.getInstance(options);
   } else {
-    return Logger.getInstance(loggerConfig);
+    //TODO: proces.env
+    const level = "debug";
+
+    const pinoPretty = createPinoPretty(level);
+
+    const pinoLoki = createPinoLoki(level, {
+      host: "http://localhost:3100",
+      labels: { app: "maps-core" },
+      batch: false,
+    });
+
+    const targets: TransportTargetOptions[] = [pinoPretty, pinoLoki];
+
+    const options: LoggerOptions = {
+      level,
+      targets,
+    };
+
+    return Logger.getInstance(options);
   }
 };

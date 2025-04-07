@@ -43,6 +43,7 @@
     "@repo/config-eslint": "workspace:*",
     "@repo/config-jest": "workspace:*",
     "@repo/config-typescript": "workspace:*",
+    "@types/pino-pretty": "^5.0.0",
     "@types/puppeteer": "^7.0.4",
     "dotenv": "^16.4.7",
     "dotenv-cli": "^8.0.0",

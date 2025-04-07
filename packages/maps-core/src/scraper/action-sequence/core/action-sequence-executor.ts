@@ -36,7 +36,7 @@ export class ActionSequenceExecutor {
   ) {
     this.logger = logger ?? createLogger();
 
-    this.logger?.info("hokus pokus ide to");
+    this.logger?.info("2222 hokus pokus ide to");
     this.logger?.info("***************** hokus pokus ide to");
     this.logger?.info("hokus pokus ide to");
     this.logger?.info("------------ hokus pokus ide to");
