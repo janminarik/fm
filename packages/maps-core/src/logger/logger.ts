@@ -55,7 +55,7 @@ export const createLogger = (options?: LoggerOptions): ILogger => {
     return Logger.getInstance(options);
   } else {
     //TODO: proces.env
-    const level = "debug";
+    const level = "info";
 
     const pinoPretty = createPinoPretty(level);
 

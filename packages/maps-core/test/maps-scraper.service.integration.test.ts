@@ -1,25 +1,13 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { HttpModule } from "@nestjs/axios";
 import {
   ActionSequenceExecutor,
   BrowserOptions,
   MapsScraperService,
   PageOptions,
 } from "../src/scraper";
-import {
-  jest,
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from "@jest/globals";
+import { jest, describe, expect, it } from "@jest/globals";
 import * as fs from "fs/promises";
 
 jest.setTimeout(300000);
-
-//
 
 describe("MapyParserService (integration)", () => {
   it("MapyScraperService", async () => {

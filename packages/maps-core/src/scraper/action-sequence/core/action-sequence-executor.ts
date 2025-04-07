@@ -21,7 +21,6 @@ export interface PageOptions {
   debug: boolean;
 }
 
-//TODO: inject logger
 export class ActionSequenceExecutor {
   private pageDefaultNavigationTimeout = 30000;
   private pageDefaultTimeout = 30000;
@@ -61,17 +60,11 @@ export class ActionSequenceExecutor {
       if (this.pageOptions.debug) {
         this.page?.on("request", (request) => {
           this.logger.debug("request page", { url: request.url() });
-          // !console.log("request", request.url());
         });
       }
 
       this.page?.on("error", (error) => {
-        //! console.error("error", error);
-      });
-
-      //log console.log from page
-      this.page?.on("console", (msg) => {
-        // ! console.log("console", msg);
+        this.logger.error("error", error);
       });
     }
 
@@ -87,7 +80,7 @@ export class ActionSequenceExecutor {
     let attempts = 0;
     const maxAttempts = action.retries || 1;
 
-    //! console.log("actionStart", { action, timestamp: startTime });
+    this.logger.debug("actionStart", { action, timestamp: startTime });
 
     while (attempts < maxAttempts) {
       attempts++;
@@ -189,12 +182,12 @@ export class ActionSequenceExecutor {
           data: result,
         };
 
-        //! console.log("actionComplete", {
-        //   action,
-        //   duration,
-        //   attempts,
-        //   result: actionResult,
-        // });
+        this.logger.debug("actionComplete", {
+          action,
+          duration,
+          attempts,
+          result: actionResult,
+        });
 
         return actionResult;
       } catch (error) {
@@ -209,14 +202,14 @@ export class ActionSequenceExecutor {
             error: error as Error,
           };
 
-          //! console.log("actionError", {
-          //   action,
-          //   error,
-          //   duration,
-          //   attempts,
-          //   result: actionResult,
-          //   final: true,
-          // });
+          this.logger.error("actionError", {
+            action,
+            error,
+            duration,
+            attempts,
+            result: actionResult,
+            final: true,
+          });
 
           // Ak je akcia označená ako nepovinná, vrátime úspech aj pri chybe
           if (action.optional) {
@@ -227,17 +220,17 @@ export class ActionSequenceExecutor {
         }
 
         // Inak informujeme o chybe a skúsime znova
-        //! console.log("actionError", {
-        //   action,
-        //   error,
-        //   attempts,
-        //   willRetry: true,
-        // });
+        this.logger.error("actionError", {
+          action,
+          error,
+          attempts,
+          willRetry: true,
+        });
 
         // Čakáme pred ďalším pokusom
         const delay = action.retryDelay || 1000;
         setTimeout(() => {
-          console.log("Waiting ", delay);
+          this.logger.debug("Waiting ", { delay: delay });
         }, delay);
       }
 
@@ -258,19 +251,19 @@ export class ActionSequenceExecutor {
     const results: ActionResult[] = [];
     const sequenceStartTime = Date.now();
 
-    //! console.log("sequenceStart", {
-    //   actionsCount: actions.length,
-    //   timestamp: sequenceStartTime,
-    // });
+    this.logger.info("sequenceStart", {
+      actionsCount: actions.length,
+      timestamp: sequenceStartTime,
+    });
 
     for (let i = 0; i < actions.length; i++) {
       const action = actions[i];
 
-      //! console.log("actionProgress", {
-      //   current: i + 1,
-      //   total: actions.length,
-      //   action,
-      // });
+      this.logger.info("actionProgress", {
+        current: i + 1,
+        total: actions.length,
+        action,
+      });
 
       if (!action) {
         throw new Error("Action is undefined");
@@ -292,11 +285,11 @@ export class ActionSequenceExecutor {
     const sequenceEndTime = Date.now();
     const sequenceDuration = sequenceEndTime - sequenceStartTime;
 
-    //! console.log("sequenceComplete", {
-    //   results,
-    //   duration: sequenceDuration,
-    //   success: results.every((r) => r.success),
-    // });
+    this.logger.info("sequenceComplete", {
+      results,
+      duration: sequenceDuration,
+      success: results.every((r) => r.success),
+    });
 
     return results;
   }

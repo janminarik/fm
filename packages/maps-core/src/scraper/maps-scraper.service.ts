@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
 import { Folder, RouteDetail } from "../entities";
+import { createLogger, type ILogger } from "../logger";
 import { ActionResult, ActionSequenceExecutor } from "./action-sequence";
 import {
   FolderSequence,
@@ -13,13 +14,21 @@ import { RouteDetailParser } from "./html-parsers/route-detail-parser";
 //TODO: Parser factory
 @Injectable()
 export class MapsScraperService {
-  constructor(private readonly executor: ActionSequenceExecutor) {}
+  private logger: ILogger;
+  constructor(
+    private readonly executor: ActionSequenceExecutor,
+    logger?: ILogger,
+  ) {
+    this.logger = logger ?? createLogger();
+  }
 
   async getFolder(
     sharedFolderUrl: string,
     routeDetails?: boolean,
     routeDetailBaseUrl?: string,
   ): Promise<Folder> {
+    this.logger.info("Start processing folder", { url: sharedFolderUrl });
+
     const folderSeq = FolderSequence.get(sharedFolderUrl);
 
     const folderSeqResult: ActionResult[] = await this.executor.executeSequence(
@@ -55,6 +64,8 @@ export class MapsScraperService {
       }
     }
 
+    this.logger.info("Finish processing folder");
+
     return folder;
   }
 
@@ -63,6 +74,10 @@ export class MapsScraperService {
     routeDataId: string,
   ): Promise<RouteDetail> {
     const url = `${routeDetailBaseUrl}&dim=${routeDataId}`;
+
+    this.logger.info("Start processing route detail", {
+      url,
+    });
 
     const routeSeq = RouteDetailSequence.get(url);
 
@@ -81,6 +96,8 @@ export class MapsScraperService {
 
     const routeDetailParser = new RouteDetailParser();
     const routeDetail = routeDetailParser.parse(html);
+
+    this.logger.info("Finish processing route detail");
 
     return routeDetail;
   }

@@ -1,13 +1,4 @@
-import {
-  jest,
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from "@jest/globals";
-// import { createLogger, LoggerOptions } from "../src/logger/logger";
+import { describe, it } from "@jest/globals";
 import { TransportTargetOptions } from "pino";
 import {
   LoggerOptions,
