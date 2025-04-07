@@ -3,13 +3,8 @@ export function getJwtToken(
   cookies: any,
 ): string | undefined {
   return Array.isArray(cookies)
-    ? cookies.find((cookie) => (cookie as string).startsWith(tokenName))
+    ? (cookies.find(
+        (cookie) => typeof cookie === "string" && cookie.startsWith(tokenName),
+      ) as string | undefined)
     : undefined;
 }
-
-// function getCookie(val: any): string {
-//   if ((val as string).startsWith("cookieName=")) {
-//     return val;
-//   }
-//   return "";
-// }
