@@ -13,7 +13,7 @@
     "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "dev": "pnpm build --watch",
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "eslint \"{src,test}/**/*.ts\" ",
     "lint:fix": "eslint --fix \"src/**/*.ts\"",
     "test": "jest --testPathIgnorePatterns=test/integration",
     "test:cov": "jest --coverage",

@@ -5,13 +5,9 @@
     "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "./dist",
-    "lib": [
-      "es2024",
-      "esnext",
-      "dom"
-    ],
+    "lib": ["es2024", "esnext", "dom"]
   },
 
-  "include": ["src/**/*.ts", "test/mapy-parser.service.integration-old.test.ts"],
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
 }

@@ -19,6 +19,10 @@ describe("MapyParserService (integration)", () => {
     testLogger = createTestLogger();
   });
 
+  function test(lalal: any) {
+    return "xx";
+  }
+
   it("MapyScraperService", async () => {
     const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
     const routeDetailBaseUrl = "https://mapy.com/en/turisticka?planovani-trasy";

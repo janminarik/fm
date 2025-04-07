@@ -16,6 +16,10 @@ export interface ILogger {
   error: (message: string, meta?: Record<string, any>) => void;
 }
 
+// function test(lalal: any) {
+//   return "xx";
+// }
+
 export class Logger implements ILogger {
   private logger: pino.Logger;
   private static instance: Logger;

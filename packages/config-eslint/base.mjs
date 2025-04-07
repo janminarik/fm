@@ -6,6 +6,9 @@ import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import turboPlugin from "eslint-plugin-turbo";
 import importPlugin from "eslint-plugin-import";
+import path from "path";
+
+const projectPath = (fileName) => path.resolve(process.cwd(), fileName);
 
 export default tselint.config(
   {
@@ -27,6 +30,24 @@ export default tselint.config(
   js.configs.recommended,
   eslintConfigPrettier,
   ...tselint.configs.recommendedTypeChecked,
+  {
+    files: ["**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: projectPath("./tsconfig.json"),
+      },
+    },
+  },
+  {
+    files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: projectPath("./tsconfig.spec.json"),
+        // Deactivate projectService for test files to avoid conflicts
+        projectService: false,
+      },
+    },
+  },
   {
     plugins: {
       turbo: turboPlugin,
@@ -67,5 +88,5 @@ export default tselint.config(
       ],
       "import/no-duplicates": "error",
     },
-  },
+  }
 );
