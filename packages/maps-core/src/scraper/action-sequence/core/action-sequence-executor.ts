@@ -35,11 +35,6 @@ export class ActionSequenceExecutor {
     logger?: ILogger,
   ) {
     this.logger = logger ?? createLogger();
-
-    this.logger?.info("2222 hokus pokus ide to");
-    this.logger?.info("***************** hokus pokus ide to");
-    this.logger?.info("hokus pokus ide to");
-    this.logger?.info("------------ hokus pokus ide to");
   }
 
   private async initBrowser(): Promise<Browser> {
@@ -65,6 +60,7 @@ export class ActionSequenceExecutor {
       );
       if (this.pageOptions.debug) {
         this.page?.on("request", (request) => {
+          this.logger.debug("request page", { url: request.url() });
           // !console.log("request", request.url());
         });
       }
