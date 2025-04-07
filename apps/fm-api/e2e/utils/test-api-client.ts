@@ -21,6 +21,7 @@ export class TestApiClient {
   ): Promise<ApiResponse<TResponse>> {
     const server = this.app.getHttpServer();
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const req = request(server)[method](url);
 
     if (payload && ["post", "put", "patch"].includes(method)) req.send(payload);

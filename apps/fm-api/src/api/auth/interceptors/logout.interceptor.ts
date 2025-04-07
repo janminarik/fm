@@ -12,12 +12,12 @@ import { map, Observable } from "rxjs";
 export class LogoutInterceptor implements NestInterceptor {
   constructor(private authCookieService: AuthCookieService) {}
 
-  intercept(
+  intercept<T>(
     context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
+    next: CallHandler<T>,
+  ): Observable<T> | Promise<Observable<T>> {
     return next.handle().pipe(
-      map((data) => {
+      map((data: T) => {
         const response = context.switchToHttp().getResponse<Response>();
 
         this.authCookieService.clearCookie(response);

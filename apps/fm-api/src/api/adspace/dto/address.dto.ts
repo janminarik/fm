@@ -32,14 +32,14 @@ export class AddressDto extends BaseEntityDto {
   @ApiPropertyOptional({ type: () => Number })
   @IsNumber()
   @IsOptional()
-  @Transform(({ value }) => (value ? parseFloat(value) : null))
+  @Transform(({ value }) => (value ? parseFloat(String(value)) : null))
   @Expose()
   latitude?: number;
 
   @ApiPropertyOptional({ type: () => Number })
   @IsNumber()
   @IsOptional()
-  @Transform(({ value }) => (value ? parseFloat(value) : null))
+  @Transform(({ value }) => (value ? parseFloat(String(value)) : null))
   @Expose()
   longitude?: number;
 }

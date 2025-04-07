@@ -81,7 +81,7 @@ describe("AuthController", () => {
 
   afterEach(async () => {});
 
-  it("should init controller", async () => {
+  it("should init controller", () => {
     expect(controller).toBeDefined();
   });
 
@@ -99,7 +99,7 @@ describe("AuthController", () => {
         refreshTokenExpiresAt: Math.floor(Date.now() / 1000),
       };
 
-      authServiceMock.login.mockResolvedValueOnce(loginResDto);
+      authServiceMock.login?.mockResolvedValueOnce(loginResDto);
 
       const result = await controller.login(loginReqDto);
 
@@ -117,14 +117,14 @@ describe("AuthController", () => {
         password: "P@ssw0rd2025",
       };
 
-      authServiceMock.login.mockRejectedValueOnce(
+      authServiceMock.login?.mockRejectedValueOnce(
         new UnauthorizedException("Invalid credentials"),
       );
 
       await expect(controller.login(loginReqDto)).rejects.toThrow(
         "Invalid credentials",
       );
-      await expect(authServiceMock.login).toHaveBeenNthCalledWith(
+      expect(authServiceMock.login).toHaveBeenNthCalledWith(
         1,
         loginReqDto.email,
         loginReqDto.password,
@@ -156,7 +156,7 @@ describe("AuthController", () => {
         const validationErrors = await validateDto(dto);
 
         expect(validationErrors.length).toBe(1);
-        expect(validationErrors[0].property).toBe("email");
+        expect(validationErrors[0]?.property).toBe("email");
       });
 
       it("should fail validation if password is missing", async () => {
@@ -169,7 +169,7 @@ describe("AuthController", () => {
         const validationErrors = await validateDto(dto);
 
         expect(validationErrors.length).toBe(1);
-        expect(validationErrors[0].property).toBe("password");
+        expect(validationErrors[0]?.property).toBe("password");
       });
       it("should fail validation if password is weak", async () => {
         const invaliData = {
@@ -182,8 +182,8 @@ describe("AuthController", () => {
         const validationErrors = await validateDto(dto);
 
         expect(validationErrors.length).toBe(1);
-        expect(validationErrors[0].property).toBe("password");
-        expect(validationErrors[0].constraints.isStrongPassword).toBe(
+        expect(validationErrors[0]?.property).toBe("password");
+        expect(validationErrors[0]?.constraints?.isStrongPassword).toBe(
           "password is not strong enough",
         );
       });

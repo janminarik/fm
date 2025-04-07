@@ -12,7 +12,7 @@ export class ListPaginationParams implements IListPaginationParams {
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  @Transform(({ value }) => (value ? parseInt(value, 10) : undefined))
+  @Transform(({ value }) => (value ? parseInt(String(value), 10) : undefined))
   limit?: number;
 
   @ApiPropertyOptional({
@@ -23,7 +23,7 @@ export class ListPaginationParams implements IListPaginationParams {
   @Type(() => Number)
   @IsInt()
   @Min(0)
-  @Transform(({ value }) => (value ? parseInt(value, 10) : undefined))
+  @Transform(({ value }) => (value ? parseInt(String(value), 10) : undefined))
   page?: number;
 
   @ApiPropertyOptional({
