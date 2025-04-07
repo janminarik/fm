@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 import { AuthCookieService } from "@repo/fm-auth";
-import { map, Observable } from "rxjs";
 import { Response } from "express";
+import { map, Observable } from "rxjs";
 
 @Injectable()
 export class LogoutInterceptor implements NestInterceptor {

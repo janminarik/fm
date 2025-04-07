@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   ConsoleLogger,
   HttpStatus,
+  INestApplication,
   LogLevel,
   UnprocessableEntityException,
   ValidationError,
@@ -20,6 +21,7 @@ import {
 } from "@repo/nest-common";
 import cookieParser from "cookie-parser";
 import { config } from "dotenv";
+import request from "supertest";
 
 import { AppModule } from "../../src/app.module";
 import { GlobalExceptionFilter } from "../../src/common/global-exception.filter";
@@ -147,4 +149,27 @@ class TestLogger extends ConsoleLogger {
     });
     this.setLogLevels([logLevel as LogLevel]);
   }
+}
+
+export type HttpMethod = "get" | "post" | "put" | "delete" | "patch";
+
+export async function sendRequest<T>(
+  app: INestApplication,
+  method: HttpMethod,
+  url: string,
+  payload?: string | object,
+): Promise<{ result: T; status: number; res: request.Response }> {
+  const req = request(app.getHttpServer())[method](url);
+
+  if (payload !== undefined) {
+    req.send(payload);
+  }
+
+  const res = await req;
+
+  return {
+    result: res.body as T,
+    status: res.status,
+    res,
+  };
 }

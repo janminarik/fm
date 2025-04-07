@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 import { AuthCookieService } from "@repo/fm-auth";
-import { Observable, map } from "rxjs";
 import { Response } from "express";
+import { Observable, map } from "rxjs";
 
 import { AuthTokenPairDto } from "../dto/auth-token-pair.dto";
 

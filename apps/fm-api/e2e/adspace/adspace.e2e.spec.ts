@@ -9,9 +9,10 @@ import { createAdSpace } from "@repo/fm-mock-data";
 import { generateId } from "@repo/nest-common";
 import request from "supertest";
 
-import { UpdateAdSpaceDto } from "../../src/api/adspace/dto";
-import { LoginRequestDto } from "../../src/api/auth/dto";
+import { AdSpaceDto, UpdateAdSpaceDto } from "../../src/api/adspace/dto";
+import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
 import { AdSpaceControllerUrl } from "../utils/api-url.config";
+import { TestApiClient } from "../utils/test-api-client";
 import {
   createTestApp,
   createTestUser,
@@ -19,8 +20,12 @@ import {
   TestUser,
 } from "../utils/test-app";
 
+//! TODO:  remove
+jest.setTimeout(300000);
+
 describe("AdSpaceController (e2e)", () => {
   let app: INestApplication;
+  let apiClient: TestApiClient;
   let adSpaceRepository: IAdSpaceRepository;
   let prismaService: PrismaService;
   let testUser: TestUser;
@@ -39,21 +44,20 @@ describe("AdSpaceController (e2e)", () => {
     }
   }
 
-  async function login() {
-    const loginPayload: LoginRequestDto = {
-      email: testUser.email,
-      password: testUser.password,
-    };
+  async function login(): Promise<string> {
+    const response = await apiClient.post<AuthTokenPairDto>(
+      "/api/v1/auth/login",
+      {
+        email: testUser.email,
+        password: testUser.password,
+      },
+      200,
+    );
 
-    const loginRes = await request(app.getHttpServer())
-      .post("/api/v1/auth/login")
-      .send(loginPayload)
-      .expect(200)
-      .expect(({ body }) => {
-        expect(body.accessToken).toBeDefined();
-      });
+    expect(response.accessToken).toBeDefined();
+    expect(response.refreshToken).toBeDefined();
 
-    accessToken = (loginRes.body as { accessToken: string }).accessToken;
+    return response.accessToken;
   }
 
   beforeAll(async () => {
@@ -62,8 +66,9 @@ describe("AdSpaceController (e2e)", () => {
 
   beforeEach(async () => {
     app = await createTestApp();
-    adSpaceRepository = app.get(AD_SPACE_REPOSITORY);
-    prismaService = app.get(PrismaService);
+    apiClient = new TestApiClient(app);
+    adSpaceRepository = app.get<IAdSpaceRepository>(AD_SPACE_REPOSITORY);
+    prismaService = app.get<PrismaService>(PrismaService);
   });
 
   afterAll(async () => {
@@ -79,23 +84,23 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace (POST)", () => {
     it("should create an ad space and return data (200)", async () => {
-      await login();
+      accessToken = await login();
 
       const createAdSpaceDto = createAdSpace();
 
-      await request(app.getHttpServer())
-        .post(AdSpaceControllerUrl.Create)
-        .send(createAdSpaceDto)
-        .set("Authorization", "Bearer " + accessToken)
-        .expect(201)
-        .expect(({ body }) => {
-          expect(body).toBeDefined();
-          expect(body.id).toBeDefined();
-          expect(body.name).toBe(createAdSpaceDto.name);
-          expect(body.type).toBe(createAdSpaceDto.type);
-          expect(body.visibility).toBe(createAdSpaceDto.visibility);
-          expect(body.address).toBeDefined();
-        });
+      const response = await apiClient.post<AdSpaceDto>(
+        AdSpaceControllerUrl.Create,
+        createAdSpaceDto,
+        201,
+        accessToken,
+      );
+
+      expect(response).toBeDefined();
+      expect(response.id).toBeDefined();
+      expect(response.name).toBe(createAdSpaceDto.name);
+      expect(response.type).toBe(createAdSpaceDto.type);
+      expect(response.visibility).toBe(createAdSpaceDto.visibility);
+      expect(response.address).toBeDefined();
     });
 
     it("should fail to create an ad space if request is invalid (422)", async () => {
@@ -129,10 +134,10 @@ describe("AdSpaceController (e2e)", () => {
         .set("Authorization", "Bearer " + accessToken)
         .expect(200)
         .expect(({ body }) => {
-          const { data, meta } = body as { data: any; meta: any };
-          expect(data).toBeDefined();
-          expect(meta).toBeDefined();
-          expect(data.length).toBeGreaterThan(0);
+          const typedResponse = body as PaginatedResponse<AdSpaceResponse>;
+          expect(typedResponse.data).toBeDefined();
+          expect(typedResponse.meta).toBeDefined();
+          expect(typedResponse.data.length).toBeGreaterThan(0);
         });
     });
 
@@ -163,8 +168,9 @@ describe("AdSpaceController (e2e)", () => {
         .set("Authorization", "Bearer " + accessToken)
         .expect(200)
         .expect(({ body }) => {
-          expect(body).toBeDefined();
-          expect((body as { id: string }).id).toBe(adSpaceId);
+          const typedBody = body as AdSpaceResponse;
+          expect(typedBody).toBeDefined();
+          expect(typedBody.id).toBe(adSpaceId);
         });
     });
 
@@ -215,11 +221,10 @@ describe("AdSpaceController (e2e)", () => {
         .send(updateAdSpaceDto)
         .expect(200)
         .expect(({ body }) => {
-          expect(body).toBeDefined();
-          expect((body as { name: string }).name).toBe(updateAdSpaceDto.name);
-          expect((body as { visibility: AdSpaceVisibility }).visibility).toBe(
-            updateAdSpaceDto.visibility,
-          );
+          const typedBody = body as AdSpaceResponse;
+          expect(typedBody).toBeDefined();
+          expect(typedBody.name).toBe(updateAdSpaceDto.name);
+          expect(typedBody.visibility).toBe(updateAdSpaceDto.visibility);
         });
     });
 
