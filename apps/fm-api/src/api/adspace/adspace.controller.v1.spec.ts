@@ -11,7 +11,10 @@ import {
   IListPaginationParams,
   IListPaginationResult,
 } from "@repo/fm-domain";
-import { createAdSpaceFake } from "@repo/fm-mock-data";
+import {
+  createAdSpaceFake,
+  generateCreateAdSpacePayload,
+} from "@repo/fm-mock-data";
 import { IdParams } from "src/common/dto";
 import { v4 as uuid4 } from "uuid";
 
@@ -109,7 +112,6 @@ describe("AdSpaceControllerV1", () => {
       );
 
       listAdSpaceUseCase.execute.mockResolvedValue(mockPaginatedResult);
-
       mapper.toList.mockReturnValue(mockDtos);
 
       const result = await controller.listPagination(mockParams);
@@ -142,7 +144,6 @@ describe("AdSpaceControllerV1", () => {
       const controllerGetSpy = jest.spyOn(controller, "get");
 
       getAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
-
       mapper.to.mockReturnValue(mockDto);
 
       const result = await controller.get(mockParams);
@@ -154,7 +155,27 @@ describe("AdSpaceControllerV1", () => {
     });
   });
 
-  describe("create", () => {});
+  describe("create", () => {
+    it("should create an AdSpace", async () => {
+      const mockPayload = generateCreateAdSpacePayload();
+
+      const mockEntity = createAdSpaceFake();
+
+      const mockDto = { ...mockEntity, id: uuid4() } as AdSpaceDto;
+
+      const controllerCreateSpy = jest.spyOn(controller, "create");
+
+      createAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+      mapper.to.mockReturnValue(mockDto);
+
+      const result = await controller.create(mockPayload);
+
+      expect(controllerCreateSpy).toHaveBeenCalledWith(mockPayload);
+      expect(createAdSpaceUseCase.execute).toHaveBeenCalledWith(mockPayload);
+      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(result).toEqual(mockDto);
+    });
+  });
 
   describe("update", () => {});
 
