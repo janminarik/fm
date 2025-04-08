@@ -1,3 +1,13 @@
+import {
+  jest,
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  afterEach,
+  it,
+} from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 import { PrismaService } from "@repo/fm-db";
 import {
@@ -7,10 +17,10 @@ import {
 } from "@repo/fm-domain";
 import { generateCreateAdSpacePayload } from "@repo/fm-mock-data";
 import { generateId } from "@repo/nest-common";
-import { PaginationResponseDto } from "src/common/dto";
 
 import { AdSpaceDto, UpdateAdSpaceDto } from "../../src/api/adspace/dto";
 import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
+import { PaginationResponseDto } from "../../src/common/dto/pagination";
 import {
   AdSpaceControllerUrl,
   AuthControlerUrl,

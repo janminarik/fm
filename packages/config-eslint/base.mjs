@@ -39,7 +39,7 @@ export default tselint.config(
     },
   },
   {
-    files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts"],
+    files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts", "e2e/**/*.ts"],
     languageOptions: {
       parserOptions: {
         project: projectPath("./tsconfig.spec.json"),

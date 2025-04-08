@@ -1,3 +1,12 @@
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  afterEach,
+} from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 import { AuthCookieService } from "@repo/fm-auth";
 

@@ -1,3 +1,12 @@
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  afterEach,
+  it,
+} from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 
 import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";

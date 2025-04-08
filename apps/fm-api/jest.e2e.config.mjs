@@ -3,13 +3,19 @@ import baseConfig from "@repo/config-jest/base";
 /** @type {import('jest').Config} */
 const config = {
   ...baseConfig,
-  // preset: "ts-jest",
   displayName: "fm-api-e2e",
-  // testEnvironment: "node",
   rootDir: ".",
+  roots: ["<rootDir>/e2e"],
   testRegex: ".*\\.e2e.spec\\.ts$",
-  testTimeout: 9999999,
-  collectCoverage: false,
+  coverageDirectory: "../../coverage/app/fm-api-e2e",
+  transform: {
+    "^.+\\.ts?$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.spec.json",
+      },
+    ],
+  },
 };
 
 export default config;

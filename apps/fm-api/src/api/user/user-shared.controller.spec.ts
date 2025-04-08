@@ -1,3 +1,13 @@
+import {
+  jest,
+  afterAll,
+  beforeAll,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GetUserByIdUseCase } from "@repo/fm-application";
 import { JwtAccessPayloadDto } from "@repo/fm-auth";
@@ -7,6 +17,7 @@ import { v4 as uuid4 } from "uuid";
 import { UserMapper } from "./common/user.mapper";
 import { UserDto } from "./dtos";
 import { UserSharedController } from "./user-shared.controller";
+import { User } from "@repo/fm-domain";
 
 describe("UserSharedController", () => {
   let controller: UserSharedController;
@@ -47,7 +58,7 @@ describe("UserSharedController", () => {
 
   describe("getProfile", () => {
     it("should get a user profile and return the mapped user DTO", async () => {
-      const mockEntity = createUserFake();
+      const mockEntity: User = createUserFake();
       const userId = uuid4();
       const mockJwtPayload: JwtAccessPayloadDto = { userId, jti: uuid4() };
 

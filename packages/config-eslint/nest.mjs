@@ -3,13 +3,6 @@ import baseConfig from "./base.mjs";
 export default [
   ...baseConfig,
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-      },
-    },
-  },
-  {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/interface-name-prefix": "off",

@@ -1,3 +1,12 @@
+import {
+  jest,
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { CreateUserUseCase } from "@repo/fm-application";
 import { createUserFake } from "@repo/fm-mock-data";

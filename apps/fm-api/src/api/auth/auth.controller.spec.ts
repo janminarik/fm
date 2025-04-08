@@ -1,4 +1,12 @@
-import { afterEach } from "node:test";
+import {
+  jest,
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from "@jest/globals";
 
 import { UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -74,12 +82,6 @@ describe("AuthController", () => {
 
     controller = moduleFixture.get<AuthController>(AuthController);
   });
-
-  beforeEach(async () => {});
-
-  afterAll(async () => {});
-
-  afterEach(async () => {});
 
   it("should init controller", () => {
     expect(controller).toBeDefined();

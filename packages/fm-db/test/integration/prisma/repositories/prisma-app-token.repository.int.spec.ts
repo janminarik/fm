@@ -9,7 +9,11 @@ import {
 import { NotFoundException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { APP_TOKEN_REPOSITORY, USER_REPOSITORY } from "@repo/fm-domain";
-import { createAppTokenPayload, createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
+import {
+  createAppTokenPayload,
+  createUserPayload,
+  TEST_DEFAULT_USER,
+} from "@repo/fm-mock-data";
 import { HashService } from "@repo/fm-shared";
 
 import {
@@ -67,7 +71,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
     appTokenRepository = moduleFixture.get(APP_TOKEN_REPOSITORY);
     userRepository = moduleFixture.get(USER_REPOSITORY);
 
-    const user = await userRepository.findUserByEmail(TEST_DEFAULT_USER)
+    const user = await userRepository.findUserByEmail(TEST_DEFAULT_USER);
     userId = user.id;
   });
 

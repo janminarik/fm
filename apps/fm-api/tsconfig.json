@@ -3,7 +3,10 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist",
-    "baseUrl": "./"
-  }
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "e2e", "dist", "**/*spec.ts"]
 }

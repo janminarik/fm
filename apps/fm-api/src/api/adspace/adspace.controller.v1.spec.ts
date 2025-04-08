@@ -1,3 +1,4 @@
+import { jest, beforeEach, describe, expect, it } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
   CreateAdSpaceUseCase,
@@ -16,12 +17,12 @@ import {
   generateCreateAdSpacePayload,
   generateUpdatedSpacePayload,
 } from "@repo/fm-mock-data";
-import { IdParams } from "src/common/dto";
 import { v4 as uuid4 } from "uuid";
 
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
 import { AdSpaceMapper } from "./adspace.mapper";
 import { AdSpaceDto } from "./dto";
+import { IdParams } from "../../common/dto/id.params";
 
 describe("AdSpaceControllerV1", () => {
   let controller: AdSpaceControllerV1;

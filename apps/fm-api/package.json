@@ -15,10 +15,11 @@
     "start": "nest start",
     "start:debug": "pnpm use-dev-env nest start --debug --watch",
     "start:prod": "node dist/src/main",
-    "test": "jest",
-    "test:cov": "jest --coverage",
+    "test": "jest --testPathIgnorePatterns=e2e",
+    "test:cov": "jest --testPathIgnorePatterns=e2e --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest.e2e.config.mjs",
+    "test:e2e:cov": "jest --config ./jest.e2e.config.mjs --coverage",
     "test:watch": "jest --watch",
     "use-dev-env": "dotenv -e ../../.env.development --",
     "use-e2e-env": "dotenv -e ../../.env.test --"
@@ -61,6 +62,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
+    "@jest/globals": "^29.7.0",
     "@jest/types": "^29.6.3",
     "@nestjs/cli": "^11.0.5",
     "@nestjs/mapped-types": "^2.1.0",
