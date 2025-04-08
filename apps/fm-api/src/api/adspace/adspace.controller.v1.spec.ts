@@ -14,6 +14,7 @@ import {
 import {
   createAdSpaceFake,
   generateCreateAdSpacePayload,
+  generateUpdatedSpacePayload,
 } from "@repo/fm-mock-data";
 import { IdParams } from "src/common/dto";
 import { v4 as uuid4 } from "uuid";
@@ -158,26 +159,49 @@ describe("AdSpaceControllerV1", () => {
   describe("create", () => {
     it("should create an AdSpace", async () => {
       const mockPayload = generateCreateAdSpacePayload();
-
       const mockEntity = createAdSpaceFake();
+      const mockResponse = { ...mockEntity, id: uuid4() } as AdSpaceDto;
 
-      const mockDto = { ...mockEntity, id: uuid4() } as AdSpaceDto;
-
-      const controllerCreateSpy = jest.spyOn(controller, "create");
+      const controllerSpy = jest.spyOn(controller, "create");
 
       createAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
-      mapper.to.mockReturnValue(mockDto);
+      mapper.to.mockReturnValue(mockResponse);
 
       const result = await controller.create(mockPayload);
 
-      expect(controllerCreateSpy).toHaveBeenCalledWith(mockPayload);
+      expect(controllerSpy).toHaveBeenCalledWith(mockPayload);
       expect(createAdSpaceUseCase.execute).toHaveBeenCalledWith(mockPayload);
       expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
-      expect(result).toEqual(mockDto);
+      expect(result).toEqual(mockResponse);
     });
   });
 
-  describe("update", () => {});
+  describe("update", () => {
+    it("should update AdSpace", async () => {
+      const mockId = uuid4();
+      const mockParams: IdParams = {
+        id: mockId,
+      };
+      const mockPayload = generateUpdatedSpacePayload();
+      const mockEntity = { ...mockPayload, id: mockId };
+      const mockResponse = { ...mockEntity } as AdSpaceDto;
+
+      const controllerUpdateSpy = jest.spyOn(controller, "update");
+
+      mapper.to.mockReturnValue(mockResponse);
+      updateAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+
+      const result = await controller.update(mockParams, mockPayload);
+
+      expect(controllerUpdateSpy).toHaveBeenCalledWith(mockParams, mockPayload);
+      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
+        mockId,
+        mockPayload,
+      );
+      expect(result).toEqual(mockResponse);
+    });
+  });
 
   describe("delete", () => {});
 

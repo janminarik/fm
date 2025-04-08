@@ -23,11 +23,24 @@ export function generateCreateAdSpacePayload() {
   return adSpace;
 }
 
-export function createAdSpaceFake(): AdSpace {
+export function generateUpdatedSpacePayload() {
+  const fake = new AdSpaceFake();
+
+  const adSpace = {
+    name: fake.name(),
+    type: fake.adSpaceType(),
+    status: fake.adSpaceStatus(),
+    visibility: fake.adSpaceVisibility(),
+  };
+
+  return adSpace;
+}
+
+export function createAdSpaceFake(id?: string): AdSpace {
   const fake = new AdSpaceFake();
 
   const adSpace = new AdSpace({
-    id: fake.id(),
+    id: id ?? fake.id(),
     name: fake.name(),
     type: fake.adSpaceType(),
     visibility: fake.adSpaceVisibility(),
