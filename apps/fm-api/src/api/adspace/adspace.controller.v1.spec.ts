@@ -154,6 +154,12 @@ describe("AdSpaceControllerV1", () => {
     });
   });
 
+  describe("create", () => {});
+
+  describe("update", () => {});
+
+  describe("delete", () => {});
+
   // describe("get", () => {
   //   it("should return an AdSpaceDto by id", async () => {
   //     // Arrange
