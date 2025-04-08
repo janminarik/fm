@@ -1,11 +1,10 @@
 import {
   jest,
-  afterAll,
-  beforeAll,
   beforeEach,
   describe,
   expect,
   it,
+  afterEach,
 } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { CreateUserUseCase } from "@repo/fm-application";

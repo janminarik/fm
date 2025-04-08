@@ -1,7 +1,5 @@
 import {
   jest,
-  afterAll,
-  beforeAll,
   afterEach,
   beforeEach,
   describe,
@@ -11,13 +9,13 @@ import {
 import { Test, TestingModule } from "@nestjs/testing";
 import { GetUserByIdUseCase } from "@repo/fm-application";
 import { JwtAccessPayloadDto } from "@repo/fm-auth";
+import { User } from "@repo/fm-domain";
 import { createUserFake } from "@repo/fm-mock-data";
 import { v4 as uuid4 } from "uuid";
 
 import { UserMapper } from "./common/user.mapper";
 import { UserDto } from "./dtos";
 import { UserSharedController } from "./user-shared.controller";
-import { User } from "@repo/fm-domain";
 
 describe("UserSharedController", () => {
   let controller: UserSharedController;
