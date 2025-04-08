@@ -123,6 +123,39 @@ describe("AdSpaceControllerV1", () => {
         },
       });
     });
+
+    it("should return an empty list when no ad spaces exist", async () => {
+      const mockParams: IListPaginationParams = {
+        page: 1,
+        limit: 10,
+      };
+      const mockResponse: IListPaginationResult<AdSpace> = {
+        data: [],
+        meta: {
+          count: 0,
+          total: 0,
+          page: 1,
+          totalPage: 0,
+        },
+      };
+
+      listAdSpaceUseCase.execute.mockResolvedValue(mockResponse);
+      mapper.toList.mockReturnValue([]);
+
+      const result = await controller.listPagination(mockParams);
+
+      expect(listAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams);
+      expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, []);
+      expect(result).toEqual({
+        data: [],
+        meta: {
+          count: 0,
+          total: 0,
+          page: 1,
+          totalPage: 0,
+        },
+      });
+    });
   });
 
   describe("get", () => {
@@ -144,6 +177,19 @@ describe("AdSpaceControllerV1", () => {
       expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
       expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
       expect(result).toEqual(mockResponse);
+    });
+
+    it("should throw an error when ad space with specified ID does not exist", async () => {
+      const mockId = uuid4();
+      const mockParams: IdParams = {
+        id: mockId,
+      };
+      const error = new Error("Ad space not found");
+
+      getAdSpaceUseCase.execute.mockRejectedValue(error);
+
+      await expect(controller.get(mockParams)).rejects.toThrow(error);
+      expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
     });
   });
 
@@ -192,6 +238,25 @@ describe("AdSpaceControllerV1", () => {
       );
       expect(result).toEqual(mockResponse);
     });
+
+    it("should throw an error when ad space with specified ID does not exist", async () => {
+      const mockId = uuid4();
+      const mockParams: IdParams = {
+        id: mockId,
+      };
+      const mockPayload = generateUpdatedSpacePayload();
+      const error = new Error("Ad space not found");
+
+      updateAdSpaceUseCase.execute.mockRejectedValue(error);
+
+      await expect(controller.update(mockParams, mockPayload)).rejects.toThrow(
+        error,
+      );
+      expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
+        mockId,
+        mockPayload,
+      );
+    });
   });
 
   describe("delete", () => {
@@ -212,81 +277,18 @@ describe("AdSpaceControllerV1", () => {
       expect(controllerSpy).toHaveBeenLastCalledWith(mockParamas);
       expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParamas.id);
     });
+
+    it("should throw an error when ad space with specified ID does not exist", async () => {
+      const mockId = uuid4();
+      const mockParams: IdParams = {
+        id: mockId,
+      };
+      const error = new Error("Ad space not found");
+
+      deleteAdSpaceUseCase.execute.mockRejectedValue(error);
+
+      await expect(controller.delete(mockParams)).rejects.toThrow(error);
+      expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
+    });
   });
-
-  //     // Arrange
-  //     const mockId = "1";
-  //     const mockAdSpace = { id: mockId, name: "Test AdSpace" };
-  //     const mockDto = { id: mockId, name: "Test AdSpace DTO" };
-
-  //     getAdSpaceUseCase.execute.mockResolvedValue(mockAdSpace);
-  //     mapper.to.mockReturnValue(mockDto);
-
-  //     // Act
-  //     const result = await controller.get({ id: mockId });
-
-  //     // Assert
-  //     expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockId);
-  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockAdSpace);
-  //     expect(result).toEqual(mockDto);
-  //   });
-  // });
-
-  // describe("create", () => {
-  //   it("should create and return an AdSpaceDto", async () => {
-  //     // Arrange
-  //     const createDto: CreateAdSpaceDto = { name: "New AdSpace" };
-  //     const mockCreatedAdSpace = { id: "1", ...createDto };
-  //     const mockDto = { id: "1", name: "New AdSpace DTO" };
-
-  //     createAdSpaceUseCase.execute.mockResolvedValue(mockCreatedAdSpace);
-  //     mapper.to.mockReturnValue(mockDto);
-
-  //     // Act
-  //     const result = await controller.create(createDto);
-
-  //     // Assert
-  //     expect(createAdSpaceUseCase.execute).toHaveBeenCalledWith(createDto);
-  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockCreatedAdSpace);
-  //     expect(result).toEqual(mockDto);
-  //   });
-  // });
-
-  // describe("update", () => {
-  //   it("should update and return an AdSpaceDto", async () => {
-  //     // Arrange
-  //     const mockId = "1";
-  //     const updateDto: UpdateAdSpaceDto = { name: "Updated AdSpace" };
-  //     const mockUpdatedAdSpace = { id: mockId, ...updateDto };
-  //     const mockDto = { id: mockId, name: "Updated AdSpace DTO" };
-
-  //     updateAdSpaceUseCase.execute.mockResolvedValue(mockUpdatedAdSpace);
-  //     mapper.to.mockReturnValue(mockDto);
-
-  //     // Act
-  //     const result = await controller.update({ id: mockId }, updateDto);
-
-  //     // Assert
-  //     expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
-  //       mockId,
-  //       updateDto,
-  //     );
-  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockUpdatedAdSpace);
-  //     expect(result).toEqual(mockDto);
-  //   });
-  // });
-
-  // describe("delete", () => {
-  //   it("should call deleteAdSpaceUseCase with the correct id", async () => {
-  //     // Arrange
-  //     const mockId = "1";
-  //     deleteAdSpaceUseCase.execute.mockResolvedValue(undefined);
-
-  //     // Act
-  //     await controller.delete({ id: mockId });
-
-  //     // Assert
-  //     expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockId);
-  //   });
-  // });
 });
