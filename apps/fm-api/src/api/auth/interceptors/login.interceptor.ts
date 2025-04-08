@@ -14,20 +14,22 @@ import { AuthTokenPairDto } from "../dto/auth-token-pair.dto";
 export class LoginInterceptor implements NestInterceptor {
   constructor(private readonly authCookieService: AuthCookieService) {}
 
-  intercept(
+  intercept<T>(
     context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
+    next: CallHandler<T>,
+  ): Observable<T> | Promise<Observable<T>> {
     return next.handle().pipe(
-      map((data: AuthTokenPairDto) => {
+      map((data: T) => {
         const response = context.switchToHttp().getResponse<Response>();
+
+        const auth = data as AuthTokenPairDto;
 
         const {
           accessToken,
           accessTokenExpiresAt,
           refreshToken,
           refreshTokenExpiresAt,
-        } = data;
+        } = auth;
 
         this.authCookieService.setCookie(response, {
           accessToken: {
