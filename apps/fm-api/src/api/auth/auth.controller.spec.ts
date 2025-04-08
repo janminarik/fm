@@ -25,29 +25,21 @@ describe("AuthController", () => {
   ) => Promise<AuthTokenPairDto>;
 
   let controller: AuthController;
+  let tokenServiceMock: jest.Mocked<Partial<IAccessTokenService>>;
+  let refreshTokenServiceMock: jest.Mocked<Partial<IRefreshTokenService>>;
+  let renewTokenServiceMock: jest.Mocked<Partial<IRenewTokenService>>;
+  let cookieServiceMock: jest.Mocked<Partial<AuthCookieService>>;
   let authServiceMock: {
     login: jest.Mock<LoginFunction>;
   };
-  let tokenServiceMock: Partial<Record<keyof IAccessTokenService, jest.Mock>>;
-  let refreshTokenServiceMock: Partial<
-    Record<keyof IRefreshTokenService, jest.Mock>
-  >;
-  let renewTokenServiceMock: Partial<
-    Record<keyof IRenewTokenService, jest.Mock>
-  >;
-  let cookieServiceMock: Partial<Record<keyof AuthCookieService, jest.Mock>>;
 
   beforeAll(async () => {
     authServiceMock = {
       login: jest.fn<LoginFunction>(),
     };
-
     tokenServiceMock = {};
-
     refreshTokenServiceMock = {};
-
     renewTokenServiceMock = {};
-
     cookieServiceMock = {
       setCookie: jest.fn(),
     };
