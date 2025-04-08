@@ -19,8 +19,15 @@ import { AuthService } from "./services/auth.service";
 import { validateDto } from "../../utils/test/test-utils";
 
 describe("AuthController", () => {
+  type LoginFunction = (
+    email: string,
+    password: string,
+  ) => Promise<AuthTokenPairDto>;
+
   let controller: AuthController;
-  let authServiceMock: Partial<Record<keyof AuthService, jest.Mock>>;
+  let authServiceMock: {
+    login: jest.Mock<LoginFunction>;
+  };
   let tokenServiceMock: Partial<Record<keyof IAccessTokenService, jest.Mock>>;
   let refreshTokenServiceMock: Partial<
     Record<keyof IRefreshTokenService, jest.Mock>
@@ -32,7 +39,7 @@ describe("AuthController", () => {
 
   beforeAll(async () => {
     authServiceMock = {
-      login: jest.fn(),
+      login: jest.fn<LoginFunction>(),
     };
 
     tokenServiceMock = {};

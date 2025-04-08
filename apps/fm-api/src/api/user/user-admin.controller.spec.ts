@@ -7,7 +7,8 @@ import {
   afterEach,
 } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CreateUserUseCase } from "@repo/fm-application";
+import { CreateUserPayload, CreateUserUseCase } from "@repo/fm-application";
+import { User } from "@repo/fm-domain";
 import { createUserFake } from "@repo/fm-mock-data";
 
 import { UserMapper } from "./common/user.mapper";
@@ -16,7 +17,11 @@ import { UserAdminController } from "./user-admin.controller";
 
 describe("UserAdminController", () => {
   let controller: UserAdminController;
-  let createUserUseCase: { execute: jest.Mock };
+  let createUserUseCase: {
+    execute: jest.Mock<
+      (createUserPayload: CreateUserPayload) => Promise<User | null>
+    >;
+  };
   let userMapper: { to: jest.Mock };
 
   beforeEach(async () => {
