@@ -22,7 +22,6 @@ import { v4 as uuid4 } from "uuid";
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
 import { AdSpaceMapper } from "./adspace.mapper";
 import { AdSpaceDto } from "./dto";
-import { ListPaginationParams } from "../../common/dto/pagination/pagination-params.dto";
 
 describe("AdSpaceControllerV1", () => {
   let controller: AdSpaceControllerV1;
