@@ -128,8 +128,9 @@ describe("AdSpaceControllerV1", () => {
 
   describe("get", () => {
     it("should return AdSpaceDto", async () => {
+      const mockId = uuid4();
       const mockParams: IdParams = {
-        id: uuid4(),
+        id: mockId,
       };
       const mockEntity: AdSpace = createAdSpaceFake();
       const mockResponse = { ...mockEntity } as AdSpaceDto;
@@ -194,9 +195,26 @@ describe("AdSpaceControllerV1", () => {
     });
   });
 
-  describe("delete", () => {});
+  describe("delete", () => {
+    it("should delete AdSpace", async () => {
+      const mockId = uuid4();
+      const mockParamas: IdParams = {
+        id: mockId,
+      };
 
-  // describe("get", () => {
+      const mockEntity = createAdSpaceFake(mockId);
+
+      const controllerSpy = jest.spyOn(controller, "delete");
+
+      deleteAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+
+      await controller.delete(mockParamas);
+
+      expect(controllerSpy).toHaveBeenLastCalledWith(mockParamas);
+      expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParamas.id);
+    });
+  });
+
   //   it("should return an AdSpaceDto by id", async () => {
   //     // Arrange
   //     const mockId = "1";
