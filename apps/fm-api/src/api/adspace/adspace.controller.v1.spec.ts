@@ -90,10 +90,8 @@ describe("AdSpaceControllerV1", () => {
         page: 1,
         limit: 10,
       };
-
       const mockEntities: AdSpace[] = [createAdSpaceFake()];
-
-      const mockPaginatedResult: IListPaginationResult<AdSpace> = {
+      const mockResponse: IListPaginationResult<AdSpace> = {
         data: mockEntities,
         meta: {
           count: 1,
@@ -102,22 +100,18 @@ describe("AdSpaceControllerV1", () => {
           totalPage: 10,
         },
       };
-
       const mockDtos: AdSpaceDto[] = mockEntities.map(
         (adspace) => ({ ...adspace }) as AdSpaceDto,
       );
 
-      const controllerListPaginationSpy = jest.spyOn(
-        controller,
-        "listPagination",
-      );
+      const controllerSpy = jest.spyOn(controller, "listPagination");
 
-      listAdSpaceUseCase.execute.mockResolvedValue(mockPaginatedResult);
+      listAdSpaceUseCase.execute.mockResolvedValue(mockResponse);
       mapper.toList.mockReturnValue(mockDtos);
 
       const result = await controller.listPagination(mockParams);
 
-      expect(controllerListPaginationSpy).toHaveBeenLastCalledWith(mockParams);
+      expect(controllerSpy).toHaveBeenLastCalledWith(mockParams);
       expect(listAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams);
       expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, mockEntities);
       expect(result).toEqual({
@@ -137,22 +131,19 @@ describe("AdSpaceControllerV1", () => {
       const mockParams: IdParams = {
         id: uuid4(),
       };
-
       const mockEntity: AdSpace = createAdSpaceFake();
-
-      const mockDto = { ...mockEntity } as AdSpaceDto;
-
-      const controllerGetSpy = jest.spyOn(controller, "get");
+      const mockResponse = { ...mockEntity } as AdSpaceDto;
+      const controllerSpy = jest.spyOn(controller, "get");
 
       getAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
-      mapper.to.mockReturnValue(mockDto);
+      mapper.to.mockReturnValue(mockResponse);
 
       const result = await controller.get(mockParams);
 
-      expect(controllerGetSpy).toHaveBeenLastCalledWith(mockParams);
+      expect(controllerSpy).toHaveBeenLastCalledWith(mockParams);
       expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
       expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
-      expect(result).toEqual(mockDto);
+      expect(result).toEqual(mockResponse);
     });
   });
 
