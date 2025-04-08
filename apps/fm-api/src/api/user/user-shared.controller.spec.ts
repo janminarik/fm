@@ -19,7 +19,9 @@ import { UserSharedController } from "./user-shared.controller";
 
 describe("UserSharedController", () => {
   let controller: UserSharedController;
-  let getUserByIdUseCase: { execute: jest.Mock };
+  let getUserByIdUseCase: {
+    execute: jest.Mock<(id: string) => Promise<User | null>>;
+  };
   let userMapper: { to: jest.Mock };
 
   beforeEach(async () => {

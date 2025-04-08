@@ -1,10 +1,12 @@
 import { jest, beforeEach, describe, expect, it } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
+  CreateAdSpacePayload,
   CreateAdSpaceUseCase,
   DeleteAdSpaceUseCase,
   GetAdSpaceUseCase,
   ListAdSpaceUseCase,
+  UpdateAdSpacePayload,
   UpdateAdSpaceUseCase,
 } from "@repo/fm-application";
 import {
@@ -21,16 +23,32 @@ import { v4 as uuid4 } from "uuid";
 
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
 import { AdSpaceMapper } from "./adspace.mapper";
-import { AdSpaceDto } from "./dto";
+import { AdSpaceDto, UpdateAdSpaceDto } from "./dto";
 import { IdParams } from "../../common/dto/id.params";
 
 describe("AdSpaceControllerV1", () => {
   let controller: AdSpaceControllerV1;
-  let getAdSpaceUseCase: { execute: jest.Mock };
-  let createAdSpaceUseCase: { execute: jest.Mock };
-  let updateAdSpaceUseCase: { execute: jest.Mock };
-  let deleteAdSpaceUseCase: { execute: jest.Mock };
-  let listAdSpaceUseCase: { execute: jest.Mock };
+  let getAdSpaceUseCase: {
+    execute: jest.Mock<(id: string) => Promise<AdSpace>>;
+  };
+  let createAdSpaceUseCase: {
+    execute: jest.Mock<(payload: CreateAdSpacePayload) => Promise<AdSpace>>;
+  };
+  let updateAdSpaceUseCase: {
+    execute: jest.Mock<
+      (payload: UpdateAdSpacePayload) => Promise<AdSpace | null>
+    >;
+  };
+  let deleteAdSpaceUseCase: {
+    execute: jest.Mock<(id: string) => Promise<AdSpace>>;
+  };
+  let listAdSpaceUseCase: {
+    execute: jest.Mock<
+      (
+        paginationParams: IListPaginationParams,
+      ) => Promise<IListPaginationResult<AdSpace>>
+    >;
+  };
   let mapper: { to: jest.Mock; toList: jest.Mock };
 
   beforeEach(async () => {
@@ -220,9 +238,13 @@ describe("AdSpaceControllerV1", () => {
       const mockParams: IdParams = {
         id: mockId,
       };
-      const mockPayload = generateUpdatedSpacePayload();
-      const mockEntity = { ...mockPayload, id: mockId };
-      const mockResponse = { ...mockEntity } as AdSpaceDto;
+
+      const newAdSpaceName = "updated-name";
+
+      const mockPayload: UpdateAdSpaceDto = { name: newAdSpaceName };
+
+      const mockEntity = createAdSpaceFake(mockId, newAdSpaceName);
+      const mockResponse = mockEntity;
 
       const controllerUpdateSpy = jest.spyOn(controller, "update");
 

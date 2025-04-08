@@ -36,12 +36,12 @@ export function generateUpdatedSpacePayload() {
   return adSpace;
 }
 
-export function createAdSpaceFake(id?: string): AdSpace {
+export function createAdSpaceFake(id?: string, name?: string): AdSpace {
   const fake = new AdSpaceFake();
 
   const adSpace = new AdSpace({
     id: id ?? fake.id(),
-    name: fake.name(),
+    name: name ?? fake.name(),
     type: fake.adSpaceType(),
     visibility: fake.adSpaceVisibility(),
     status: fake.adSpaceStatus(),
