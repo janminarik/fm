@@ -12,6 +12,8 @@ import {
   IListPaginationResult,
 } from "@repo/fm-domain";
 import { createAdSpaceFake } from "@repo/fm-mock-data";
+import { IdParams } from "src/common/dto";
+import { v4 as uuid4 } from "uuid";
 
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
 import { AdSpaceMapper } from "./adspace.mapper";
@@ -25,10 +27,9 @@ describe("AdSpaceControllerV1", () => {
   let updateAdSpaceUseCase: { execute: jest.Mock };
   let deleteAdSpaceUseCase: { execute: jest.Mock };
   let listAdSpaceUseCase: { execute: jest.Mock };
-  let mapper: { toList: jest.Mock };
+  let mapper: { to: jest.Mock; toList: jest.Mock };
 
   beforeEach(async () => {
-    // Create mock implementations for all dependencies
     const mockGetAdSpaceUseCase = {
       execute: jest.fn(),
     };
@@ -54,7 +55,6 @@ describe("AdSpaceControllerV1", () => {
       toList: jest.fn(),
     };
 
-    // Create the testing module
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdSpaceControllerV1],
       providers: [
@@ -67,7 +67,6 @@ describe("AdSpaceControllerV1", () => {
       ],
     }).compile();
 
-    // Get the controller and mock dependencies
     controller = module.get<AdSpaceControllerV1>(AdSpaceControllerV1);
     getAdSpaceUseCase = module.get(GetAdSpaceUseCase);
     createAdSpaceUseCase = module.get(CreateAdSpaceUseCase);
@@ -88,10 +87,10 @@ describe("AdSpaceControllerV1", () => {
         limit: 10,
       };
 
-      const mockAdSpaces: AdSpace[] = [createAdSpaceFake()];
+      const mockEntities: AdSpace[] = [createAdSpaceFake()];
 
       const mockPaginatedResult: IListPaginationResult<AdSpace> = {
-        data: mockAdSpaces,
+        data: mockEntities,
         meta: {
           count: 1,
           total: 1,
@@ -100,19 +99,24 @@ describe("AdSpaceControllerV1", () => {
         },
       };
 
-      const mockDtos: AdSpaceDto[] = mockAdSpaces.map(
+      const mockDtos: AdSpaceDto[] = mockEntities.map(
         (adspace) => ({ ...adspace }) as AdSpaceDto,
       );
 
+      const controllerListPaginationSpy = jest.spyOn(
+        controller,
+        "listPagination",
+      );
+
       listAdSpaceUseCase.execute.mockResolvedValue(mockPaginatedResult);
+
       mapper.toList.mockReturnValue(mockDtos);
 
       const result = await controller.listPagination(mockParams);
 
+      expect(controllerListPaginationSpy).toHaveBeenLastCalledWith(mockParams);
       expect(listAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams);
-
-      expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, mockAdSpaces);
-
+      expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, mockEntities);
       expect(result).toEqual({
         data: mockDtos,
         meta: {
@@ -122,6 +126,31 @@ describe("AdSpaceControllerV1", () => {
           totalPage: 10,
         },
       });
+    });
+  });
+
+  describe("get", () => {
+    it("should return AdSpaceDto", async () => {
+      const mockParams: IdParams = {
+        id: uuid4(),
+      };
+
+      const mockEntity: AdSpace = createAdSpaceFake();
+
+      const mockDto = { ...mockEntity } as AdSpaceDto;
+
+      const controllerGetSpy = jest.spyOn(controller, "get");
+
+      getAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+
+      mapper.to.mockReturnValue(mockDto);
+
+      const result = await controller.get(mockParams);
+
+      expect(controllerGetSpy).toHaveBeenLastCalledWith(mockParams);
+      expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
+      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(result).toEqual(mockDto);
     });
   });
 
