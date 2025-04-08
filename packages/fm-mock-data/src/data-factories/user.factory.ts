@@ -1,3 +1,6 @@
+import { User } from "@repo/fm-domain";
+import { v4 as uuid4 } from "uuid";
+
 import { UserFakes } from "../fakes/user.fakes";
 
 export const TEST_DEFAULT_USER = "jozef@mak.sk";
@@ -13,4 +16,18 @@ export function generateCreateUserPayload() {
     firstName: fakes.firstName(),
     lastName: fakes.lastName(),
   };
+}
+
+export function createUserFake(id?: string): User {
+  const fakes = new UserFakes();
+
+  return new User({
+    id: id ?? uuid4(),
+    createdAt: fakes.createdAt(),
+    updatedAt: fakes.updatedAt(),
+    email: fakes.email(),
+    passwordHash: TEST_DEFAULT_PASSWORD,
+    firstName: fakes.firstName(),
+    lastName: fakes.lastName(),
+  });
 }
