@@ -20,12 +20,12 @@ import { ListPaginationParams } from "../../common/dto/pagination/pagination-par
 
 describe("AdSpaceControllerV1", () => {
   let controller: AdSpaceControllerV1;
-  let getAdSpaceUseCase: jest.Mocked<GetAdSpaceUseCase>;
-  let createAdSpaceUseCase: jest.Mocked<CreateAdSpaceUseCase>;
-  let updateAdSpaceUseCase: jest.Mocked<UpdateAdSpaceUseCase>;
-  let deleteAdSpaceUseCase: jest.Mocked<DeleteAdSpaceUseCase>;
-  let listAdSpaceUseCase: jest.Mocked<ListAdSpaceUseCase>;
-  let mapper: jest.Mocked<AdSpaceMapper>;
+  let getAdSpaceUseCase: { execute: jest.Mock };
+  let createAdSpaceUseCase: { execute: jest.Mock };
+  let updateAdSpaceUseCase: { execute: jest.Mock };
+  let deleteAdSpaceUseCase: { execute: jest.Mock };
+  let listAdSpaceUseCase: { execute: jest.Mock };
+  let mapper: { toList: jest.Mock };
 
   beforeEach(async () => {
     // Create mock implementations for all dependencies
