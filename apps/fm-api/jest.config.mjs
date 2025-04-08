@@ -7,6 +7,13 @@ const config = {
   roots: ["<rootDir>/src", "<rootDir>/e2e"],
   testRegex: ".*\\.spec\\.ts$|.*\\.test\\.ts$",
   coverageDirectory: "../../coverage/app/fm-api",
+  collectCoverageFrom: [
+    "<rootDir>/src/**/*.ts", 
+    "!<rootDir>/src/**/*.spec.ts", 
+    "!<rootDir>/src/**/*.test.ts", 
+    "!<rootDir>/src/**/*.module.ts", 
+    "!<rootDir>/src/main.ts"
+  ],
   transform: {
     "^.+\\.ts?$": [
       "ts-jest",
