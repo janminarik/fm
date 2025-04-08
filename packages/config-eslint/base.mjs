@@ -34,7 +34,8 @@ export default tselint.config(
     files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
-        project: projectPath("./tsconfig.json"),
+        //project: projectPath("./tsconfig.json"),
+        projectService: true,
       },
     },
   },
@@ -44,8 +45,12 @@ export default tselint.config(
       parserOptions: {
         project: projectPath("./tsconfig.spec.json"),
         // Deactivate projectService for test files to avoid conflicts
-        projectService: false,
+        projectService: true,
       },
+    },
+    rules: {
+      "@typescript-eslint/no-unsafe-argument": "error",
+      "@typescript-eslint/no-unsafe-assignment": "error",
     },
   },
   {
