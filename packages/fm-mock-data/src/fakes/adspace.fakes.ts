@@ -1,13 +1,15 @@
 import { en, Faker } from "@faker-js/faker";
 import { AdSpaceStatus, AdSpaceType, AdSpaceVisibility } from "@repo/fm-domain";
 
-export class AdSpaceFake {
-  private faker: Faker;
+import { BaseFake } from "./base.fake";
+
+export class AdSpaceFake extends BaseFake {
   private _adSpaceType = Object.values(AdSpaceType);
   private _adSpaceVisibility = Object.values(AdSpaceVisibility);
   private _adSpaceStatus = Object.values(AdSpaceStatus);
 
   constructor() {
+    super();
     this.faker = new Faker({ locale: [en] });
   }
 

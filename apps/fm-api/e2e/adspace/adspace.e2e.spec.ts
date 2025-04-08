@@ -5,7 +5,7 @@ import {
   AdSpaceVisibility,
   IAdSpaceRepository,
 } from "@repo/fm-domain";
-import { createAdSpace } from "@repo/fm-mock-data";
+import { generateCreateAdSpacePayload } from "@repo/fm-mock-data";
 import { generateId } from "@repo/nest-common";
 import { PaginationResponseDto } from "src/common/dto";
 
@@ -36,7 +36,7 @@ describe("AdSpaceController (e2e)", () => {
   let adSpaceId: string | null;
 
   async function insertAdSpaceInDb() {
-    const adSpaceData = createAdSpace();
+    const adSpaceData = generateCreateAdSpacePayload();
     const adSpace = await adSpaceRepository.create(adSpaceData);
     adSpaceId = adSpace ? adSpace.id : null;
   }
@@ -89,7 +89,7 @@ describe("AdSpaceController (e2e)", () => {
     it("should create an ad space and return data (200)", async () => {
       accessToken = accessToken = await login();
 
-      const createAdSpaceDto = createAdSpace();
+      const createAdSpaceDto = generateCreateAdSpacePayload();
 
       const { data } = await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,
@@ -118,7 +118,7 @@ describe("AdSpaceController (e2e)", () => {
     });
 
     it("should fail to create an ad space if user is unathorized (401)", async () => {
-      const createAdSpaceDto = createAdSpace();
+      const createAdSpaceDto = generateCreateAdSpacePayload();
 
       await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,

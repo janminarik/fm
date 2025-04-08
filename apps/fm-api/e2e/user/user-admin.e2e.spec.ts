@@ -1,7 +1,7 @@
 import { INestApplication } from "@nestjs/common";
 import { User } from "@repo/fm-db";
 import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
-import { createUserPayload } from "@repo/fm-mock-data";
+import { generateCreateUserPayload } from "@repo/fm-mock-data";
 
 import { UserDto } from "../../src/api/user/dtos/user.dto";
 import { UserControllerUrl } from "../utils/api-url.config";
@@ -34,7 +34,7 @@ describe("UserAdminController (e2e)", () => {
 
   describe("/api/user/create (POST)", () => {
     it("should create a new user and return the user data (201)", async () => {
-      const createUserDto = createUserPayload();
+      const createUserDto = generateCreateUserPayload();
 
       const { data } = await apiClient.post<UserDto>(
         UserControllerUrl.Create,
@@ -51,7 +51,7 @@ describe("UserAdminController (e2e)", () => {
     });
 
     it("should fail when creating a user with an already used email (409)", async () => {
-      const createUserDto = createUserPayload();
+      const createUserDto = generateCreateUserPayload();
 
       // Create user
       await apiClient.post<UserDto>(
@@ -69,7 +69,7 @@ describe("UserAdminController (e2e)", () => {
     });
 
     it("should fail creating user when password is missing (422)", async () => {
-      const createUserDto = createUserPayload();
+      const createUserDto = generateCreateUserPayload();
 
       await apiClient.post<UserDto>(
         UserControllerUrl.Create,

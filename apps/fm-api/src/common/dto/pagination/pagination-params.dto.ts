@@ -49,5 +49,5 @@ export class ListPaginationParams implements IListPaginationParams {
   })
   @IsString()
   @IsOptional()
-  filter: string;
+  filter?: string;
 }

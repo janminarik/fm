@@ -1,9 +1,10 @@
 import { en, Faker } from "@faker-js/faker";
 
-export class UserFakes {
-  private faker: Faker;
+import { BaseFake } from "./base.fake";
 
+export class UserFakes extends BaseFake {
   constructor() {
+    super();
     this.faker = new Faker({ locale: [en] });
   }
 

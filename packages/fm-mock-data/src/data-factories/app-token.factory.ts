@@ -10,7 +10,7 @@ export interface AppTokenPayload {
   type?: AppTokenType;
 }
 
-export const createAppTokenPayload = (
+export const generateCreateAppTokenPayload = (
   overrides?: Partial<AppTokenPayload>,
 ): AppTokenPayload => {
   const expiresAt = new Date();

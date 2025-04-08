@@ -17,7 +17,7 @@ import { AuthController } from "./auth.controller";
 import { LoginRequestDto } from "./dto";
 import { AuthTokenPairDto } from "./dto/auth-token-pair.dto";
 import { AuthService } from "./services/auth.service";
-import { validateDto } from "../../utils/test-utils";
+import { validateDto } from "../../utils/test/test-utils";
 
 describe("AuthController", () => {
   let controller: AuthController;
