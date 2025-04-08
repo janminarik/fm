@@ -124,4 +124,82 @@ describe("AdSpaceControllerV1", () => {
       });
     });
   });
+
+  // describe("get", () => {
+  //   it("should return an AdSpaceDto by id", async () => {
+  //     // Arrange
+  //     const mockId = "1";
+  //     const mockAdSpace = { id: mockId, name: "Test AdSpace" };
+  //     const mockDto = { id: mockId, name: "Test AdSpace DTO" };
+
+  //     getAdSpaceUseCase.execute.mockResolvedValue(mockAdSpace);
+  //     mapper.to.mockReturnValue(mockDto);
+
+  //     // Act
+  //     const result = await controller.get({ id: mockId });
+
+  //     // Assert
+  //     expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockId);
+  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockAdSpace);
+  //     expect(result).toEqual(mockDto);
+  //   });
+  // });
+
+  // describe("create", () => {
+  //   it("should create and return an AdSpaceDto", async () => {
+  //     // Arrange
+  //     const createDto: CreateAdSpaceDto = { name: "New AdSpace" };
+  //     const mockCreatedAdSpace = { id: "1", ...createDto };
+  //     const mockDto = { id: "1", name: "New AdSpace DTO" };
+
+  //     createAdSpaceUseCase.execute.mockResolvedValue(mockCreatedAdSpace);
+  //     mapper.to.mockReturnValue(mockDto);
+
+  //     // Act
+  //     const result = await controller.create(createDto);
+
+  //     // Assert
+  //     expect(createAdSpaceUseCase.execute).toHaveBeenCalledWith(createDto);
+  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockCreatedAdSpace);
+  //     expect(result).toEqual(mockDto);
+  //   });
+  // });
+
+  // describe("update", () => {
+  //   it("should update and return an AdSpaceDto", async () => {
+  //     // Arrange
+  //     const mockId = "1";
+  //     const updateDto: UpdateAdSpaceDto = { name: "Updated AdSpace" };
+  //     const mockUpdatedAdSpace = { id: mockId, ...updateDto };
+  //     const mockDto = { id: mockId, name: "Updated AdSpace DTO" };
+
+  //     updateAdSpaceUseCase.execute.mockResolvedValue(mockUpdatedAdSpace);
+  //     mapper.to.mockReturnValue(mockDto);
+
+  //     // Act
+  //     const result = await controller.update({ id: mockId }, updateDto);
+
+  //     // Assert
+  //     expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
+  //       mockId,
+  //       updateDto,
+  //     );
+  //     expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockUpdatedAdSpace);
+  //     expect(result).toEqual(mockDto);
+  //   });
+  // });
+
+  // describe("delete", () => {
+  //   it("should call deleteAdSpaceUseCase with the correct id", async () => {
+  //     // Arrange
+  //     const mockId = "1";
+  //     deleteAdSpaceUseCase.execute.mockResolvedValue(undefined);
+
+  //     // Act
+  //     await controller.delete({ id: mockId });
+
+  //     // Assert
+  //     expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockId);
+  //   });
+  // });
 });
