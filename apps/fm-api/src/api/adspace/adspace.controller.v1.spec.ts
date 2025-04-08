@@ -84,7 +84,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("listPagination", () => {
-    it("should return a paginated list of AdSpaceDto", async () => {
+    it("should return a paginated list of AdSpaceDto with proper metadata", async () => {
       const mockParams: IListPaginationParams = {
         page: 1,
         limit: 10,
@@ -126,7 +126,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("get", () => {
-    it("should return AdSpaceDto", async () => {
+    it("should return an AdSpaceDto when provided with a valid ID", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -148,7 +148,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("create", () => {
-    it("should create an AdSpace", async () => {
+    it("should create and return an AdSpaceDto when given valid payload", async () => {
       const mockPayload = generateCreateAdSpacePayload();
       const mockEntity = createAdSpaceFake();
       const mockResponse = { ...mockEntity, id: uuid4() } as AdSpaceDto;
@@ -168,7 +168,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("update", () => {
-    it("should update AdSpace", async () => {
+    it("should update and return AdSpaceDto when given valid ID and payload", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -195,7 +195,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("delete", () => {
-    it("should delete AdSpace", async () => {
+    it("should delete an AdSpace with the correct ID", async () => {
       const mockId = uuid4();
       const mockParamas: IdParams = {
         id: mockId,
@@ -214,7 +214,6 @@ describe("AdSpaceControllerV1", () => {
     });
   });
 
-  //   it("should return an AdSpaceDto by id", async () => {
   //     // Arrange
   //     const mockId = "1";
   //     const mockAdSpace = { id: mockId, name: "Test AdSpace" };
