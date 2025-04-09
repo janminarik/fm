@@ -116,8 +116,8 @@ describe("AuthControler (e2e)", () => {
     });
   });
 
-  describe("/api/auth/refesh-access-token (POST)", () => {
-    it("should issue a new acesss token (200)", async () => {
+  describe("/api/auth/refresh-access-token (POST)", () => {
+    it("should issue a new access token (200)", async () => {
       const loginPayload: LoginRequestDto = {
         email: testUser.email,
         password: testUser.password,

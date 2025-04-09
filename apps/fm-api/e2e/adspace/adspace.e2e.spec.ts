@@ -97,7 +97,7 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace (POST)", () => {
     it("should create an ad space and return data (200)", async () => {
-      accessToken = accessToken = await login();
+      accessToken = await login();
 
       const createAdSpaceDto = generateCreateAdSpacePayload();
 
@@ -127,7 +127,7 @@ describe("AdSpaceController (e2e)", () => {
       );
     });
 
-    it("should fail to create an ad space if user is unathorized (401)", async () => {
+    it("should fail to create an ad space if user is unauthorized (401)", async () => {
       const createAdSpaceDto = generateCreateAdSpacePayload();
 
       await apiClient.post<AdSpaceDto>(
@@ -165,7 +165,7 @@ describe("AdSpaceController (e2e)", () => {
       );
     });
 
-    it("should fail to return paginated list of ad spaces if user is unathorized (404)", async () => {
+    it("should fail to return paginated list of ad spaces if user is unauthorized (401)", async () => {
       await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
         AdSpaceControllerUrl.List,
         401,
@@ -211,7 +211,7 @@ describe("AdSpaceController (e2e)", () => {
       );
     });
 
-    it("should fail to get ad space if user is unathorized (401)", async () => {
+    it("should fail to get ad space if user is unauthorized (401)", async () => {
       await insertAdSpaceInDb();
       accessToken = await login();
 

@@ -94,7 +94,7 @@ describe("UserSharedController (e2e)", () => {
       expect(profileData.userName).toEqual(testUser.userName);
     });
 
-    it("should fail get a user profile when user is unathorized (404)", async () => {
+    it("should fail get a user profile when user is unauthorized (401)", async () => {
       await apiClient.get(UserControllerUrl.Profile, 401);
     });
   });
