@@ -107,15 +107,14 @@ describe("AuthService", () => {
 
       const result = await authService.login(email, password);
 
-      expect(() =>
-        userRepositoryMock.findUserByEmail(email),
-      ).toHaveBeenCalled();
-      expect(() =>
-        accessTokenServiceMock.createToken(userMock.id),
-      ).toHaveBeenCalled();
-      expect(() =>
-        refreshTokenServiceMock.createToken(userMock.id),
-      ).toHaveBeenCalled();
+      expect(userRepositoryMock.findUserByEmail).toHaveBeenCalledWith(email);
+      expect(accessTokenServiceMock.createToken).toHaveBeenCalledWith(
+        userMock.id,
+      ),
+        expect(refreshTokenServiceMock.createToken).toHaveBeenCalledWith(
+          userMock.id,
+        );
+
       expect(result).toEqual({
         accessToken: accessTokenMock.token,
         accessTokenExpiresAt: accessTokenMock.expiresAt,

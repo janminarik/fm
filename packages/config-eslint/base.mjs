@@ -6,9 +6,6 @@ import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import turboPlugin from "eslint-plugin-turbo";
 import importPlugin from "eslint-plugin-import";
-import path from "path";
-
-const projectPath = (fileName) => path.resolve(process.cwd(), fileName);
 
 export default tselint.config(
   {
@@ -34,8 +31,8 @@ export default tselint.config(
     files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
-        //project: projectPath("./tsconfig.json"),
         projectService: true,
+        allowDefaultProject: true,
       },
     },
   },
@@ -43,9 +40,9 @@ export default tselint.config(
     files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts", "e2e/**/*.ts"],
     languageOptions: {
       parserOptions: {
-        project: projectPath("./tsconfig.spec.json"),
-        // Deactivate projectService for test files to avoid conflicts
-        projectService: true,
+        project: "./tsconfig.spec.json", // Relative path is better
+        tsconfigRootDir: process.cwd(), // Let ESLint resolve from the current working directory
+        projectService: false, // Explicitly disable project service for test files
       },
     },
     rules: {
