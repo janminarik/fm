@@ -34,8 +34,6 @@ describe("AuthService", () => {
   let accessTokenServiceMock: jest.Mocked<IAccessTokenService>;
   let refreshTokenServiceMock: jest.Mocked<IRefreshTokenService>;
 
-  beforeEach(() => {});
-
   beforeAll(async () => {
     userRepositoryMock = mock<IUserRepository>();
     hashServiceMock = mock<IHashService>();
@@ -73,6 +71,11 @@ describe("AuthService", () => {
     authService = moduleFixture.get<AuthService>(AuthService);
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
   it("should init", async () => {
     expect(authService).toBeDefined();
   });
@@ -80,7 +83,6 @@ describe("AuthService", () => {
   describe("login", () => {
     it("should login", async () => {
       const userMock: User = createUserFake();
-
       const email = userMock.email;
       const password = "password-hash";
 
@@ -118,15 +120,13 @@ describe("AuthService", () => {
       });
     });
 
-    it("login should when user does not exists", async () => {
+    it("login should fail when user does not exists", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
       const expectedError = new UnauthorizedException("Invalid credentials");
 
       userRepositoryMock.findUserByEmail.mockResolvedValue(null);
-
-      const result = await authService.login(email, password);
 
       await expect(authService.login(email, password)).rejects.toThrow(
         expectedError,
@@ -147,6 +147,22 @@ describe("AuthService", () => {
       await expect(authService.login(email, password)).rejects.toThrow(
         expectedError,
       );
+    });
+  });
+
+  describe("verifyUserPassword", () => {
+    it("should verified user if passwordHash is equal", async () => {
+      const password = "password";
+      const passwordHash = "password-hash";
+
+      hashServiceMock.compare.mockResolvedValue(true);
+
+      const result = await authService.verifyUserPassword(
+        password,
+        passwordHash,
+      );
+
+      expect(result).toBe(true);
     });
   });
 });
