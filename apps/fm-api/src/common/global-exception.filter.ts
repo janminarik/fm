@@ -12,7 +12,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private readonly debug: boolean,
   ) {}
 
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost) {
     const { httpAdapter } = this.httpAdapterHost;
     const context = host.switchToHttp();
 

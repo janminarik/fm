@@ -24,8 +24,9 @@ import { ClsModule } from "nestjs-cls";
 import { AuthService } from "../services/auth.service";
 
 jest.mock("@nestjs-cls/transactional", () => ({
-  Transactional: () => (_: any, __: string, descriptor: PropertyDescriptor) =>
-    descriptor,
+  Transactional:
+    () => (_: unknown, __: string, descriptor: PropertyDescriptor) =>
+      descriptor,
 }));
 
 describe("AuthService", () => {
@@ -77,7 +78,7 @@ describe("AuthService", () => {
     jest.restoreAllMocks();
   });
 
-  it("should init", async () => {
+  it("should init", () => {
     expect(authService).toBeDefined();
   });
 
@@ -106,13 +107,15 @@ describe("AuthService", () => {
 
       const result = await authService.login(email, password);
 
-      expect(userRepositoryMock.findUserByEmail).toHaveBeenCalledWith(email);
-      expect(accessTokenServiceMock.createToken).toHaveBeenCalledWith(
-        userMock.id,
-      );
-      expect(refreshTokenServiceMock.createToken).toHaveBeenCalledWith(
-        userMock.id,
-      );
+      expect(() =>
+        userRepositoryMock.findUserByEmail(email),
+      ).toHaveBeenCalled();
+      expect(() =>
+        accessTokenServiceMock.createToken(userMock.id),
+      ).toHaveBeenCalled();
+      expect(() =>
+        refreshTokenServiceMock.createToken(userMock.id),
+      ).toHaveBeenCalled();
       expect(result).toEqual({
         accessToken: accessTokenMock.token,
         accessTokenExpiresAt: accessTokenMock.expiresAt,
