@@ -16,57 +16,9 @@ import {
 } from "@repo/fm-auth";
 import { AuthService } from "../services/auth.service";
 import { Test } from "@nestjs/testing";
-import { mock } from "jest-mock-extended";
 import { AuthToken } from "@repo/fm-auth";
-import { ClsPluginTransactional } from "@nestjs-cls/transactional";
 import { ClsModule } from "nestjs-cls";
 import { createUserFake } from "@repo/fm-mock-data";
-
-export class Ahoj {
-  pozdrav: string;
-}
-
-// const mockTransactionalAdapter = {
-//   connection: undefined, // Nepotrebné pre unit testy
-//   options: {},
-//   getTransactionHost: () => ({
-//     withTransaction: async (fn: () => Promise<any>) => await fn(),
-//     tx: undefined,
-//   }),
-// };
-
-// const mockClsPluginTransactional = {
-//   adapter: {
-//     connection: undefined,
-//     options: {},
-//     getTransactionHost: jest.fn(() => ({
-//       withTransaction: jest.fn(async (fn: () => Promise<any>) => await fn()),
-//       tx: undefined,
-//     })),
-//   },
-// };
-
-// const mockTransactionHost = {
-//   withTransaction: jest.fn(async (fn) => await fn()),
-//   tx: undefined,
-// };
-
-// const mockAdapter = {
-//   getTransactionHost: jest.fn().mockReturnValue(mockTransactionHost),
-// };
-
-// jest.mock("@nestjs-cls/transactional", () => {
-//   return {
-//     ClsPluginTransactional: jest.fn().mockImplementation(() => ({
-//       getHandler: jest.fn().mockReturnValue({
-//         methodIsDecorated: jest.fn().mockReturnValue(true),
-//         getMethodOptions: jest.fn().mockReturnValue({}),
-//       }),
-//       setup: jest.fn(),
-//     })),
-//     Transactional: () => jest.fn(),
-//   };
-// });
 
 jest.mock("@nestjs-cls/transactional", () => {
   const actualModule = jest.requireActual("@nestjs-cls/transactional");
@@ -99,10 +51,7 @@ describe("AuthService", () => {
   let accessTokenServiceMock: jest.Mocked<IAccessTokenService>;
   let refreshTokenServiceMock: jest.Mocked<IRefreshTokenService>;
 
-  beforeEach(() => {
-    //TODO:
-    // mockReset()
-  });
+  beforeEach(() => {});
 
   beforeAll(async () => {
     // userRepositoryMock = mock<IUserRepository>();
@@ -131,36 +80,7 @@ describe("AuthService", () => {
       revokeToken: jest.fn(),
     };
 
-    // const clsPluginTransactionalMock = {
-    //   // Pridaj metódy, ktoré potrebuješ mockovať
-    //   runWithTransaction: jest.fn((callback) => callback()), // Simuluje spustenie transakcie
-    //   // Môžeš pridať ďalšie metódy podľa potreby
-    // };
-
     const moduleFixture = await Test.createTestingModule({
-      // imports: [
-      //   ClsModule.forRoot({
-      //     global: true,
-      //     middleware: { mount: false },
-      //     plugins: [
-      //       new ClsPluginTransactional({
-      //         adapter: mockTransactionalAdapter as any,
-      //         connectionName: "default",
-      //       }),
-      //     ],
-      //   }),
-      // ],
-      // imports: [
-      //   ClsModule.forRoot({
-      //     global: true,
-      //     middleware: { mount: false },
-      //     plugins: [
-      //       new ClsPluginTransactional(
-      //         mockClsPluginTransactional.adapter as any,
-      //       ),
-      //     ],
-      //   }),
-      // ],
       imports: [
         ClsModule.forRoot({
           global: true,
