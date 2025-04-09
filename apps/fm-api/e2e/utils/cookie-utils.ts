@@ -1,6 +1,6 @@
 export function getJwtToken(
   tokenName: string,
-  cookies: any,
+  cookies: unknown,
 ): string | undefined {
   return Array.isArray(cookies)
     ? (cookies.find(

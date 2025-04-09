@@ -134,7 +134,7 @@ describe("AuthController", () => {
 
         const validationErrors = await validateDto(dto);
 
-        expect(validationErrors.length).toHaveLength(0);
+        expect(validationErrors).toHaveLength(0);
       });
 
       it("should fail validation if email is not valid", async () => {

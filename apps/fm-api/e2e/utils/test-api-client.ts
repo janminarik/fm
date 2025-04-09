@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 
@@ -20,8 +22,6 @@ export class TestApiClient {
     jwt?: string,
   ): Promise<ApiResponse<TResponse>> {
     const server = this.app.getHttpServer();
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const req = request(server)[method](url);
 
     if (payload && ["post", "put", "patch"].includes(method)) req.send(payload);
