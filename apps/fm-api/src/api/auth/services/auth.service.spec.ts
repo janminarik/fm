@@ -20,6 +20,7 @@ import { AuthToken } from "@repo/fm-auth";
 import { ClsModule } from "nestjs-cls";
 import { createUserFake } from "@repo/fm-mock-data";
 import { mock } from "jest-mock-extended";
+import { UnauthorizedException } from "@nestjs/common";
 
 jest.mock("@nestjs-cls/transactional", () => ({
   Transactional: () => (_: any, __: string, descriptor: PropertyDescriptor) =>
@@ -115,6 +116,37 @@ describe("AuthService", () => {
         refreshToken: refreshTokenMock.token,
         refreshTokenExpiresAt: refreshTokenMock.expiresAt,
       });
+    });
+
+    it("login should when user does not exists", async () => {
+      const userMock: User = createUserFake();
+      const email = userMock.email;
+      const password = "password-hash";
+      const expectedError = new UnauthorizedException("Invalid credentials");
+
+      userRepositoryMock.findUserByEmail.mockResolvedValue(null);
+
+      const result = await authService.login(email, password);
+
+      await expect(authService.login(email, password)).rejects.toThrow(
+        expectedError,
+      );
+    });
+
+    it("login should when user is not verified", async () => {
+      const userMock: User = createUserFake();
+      const email = userMock.email;
+      const password = "password-hash";
+      const expectedError = new UnauthorizedException("Invalid credentials");
+
+      userRepositoryMock.findUserByEmail.mockResolvedValue(userMock);
+
+      const authServiceSpy = jest.spyOn(authService, "verifyUserPassword");
+      authServiceSpy.mockResolvedValue(false);
+
+      await expect(authService.login(email, password)).rejects.toThrow(
+        expectedError,
+      );
     });
   });
 });
