@@ -134,7 +134,7 @@ describe("AuthController", () => {
 
         const validationErrors = await validateDto(dto);
 
-        expect(validationErrors.length).toBe(0);
+        expect(validationErrors.length).toHaveLength(0);
       });
 
       it("should fail validation if email is not valid", async () => {
@@ -147,7 +147,7 @@ describe("AuthController", () => {
 
         const validationErrors = await validateDto(dto);
 
-        expect(validationErrors.length).toBe(1);
+        expect(validationErrors).toHaveLength(1);
         expect(validationErrors[0]?.property).toBe("email");
       });
 
@@ -160,7 +160,7 @@ describe("AuthController", () => {
 
         const validationErrors = await validateDto(dto);
 
-        expect(validationErrors.length).toBe(1);
+        expect(validationErrors).toHaveLength(1);
         expect(validationErrors[0]?.property).toBe("password");
       });
       it("should fail validation if password is weak", async () => {
@@ -173,7 +173,7 @@ describe("AuthController", () => {
 
         const validationErrors = await validateDto(dto);
 
-        expect(validationErrors.length).toBe(1);
+        expect(validationErrors).toHaveLength(1);
         expect(validationErrors[0]?.property).toBe("password");
         expect(validationErrors[0]?.constraints?.isStrongPassword).toBe(
           "password is not strong enough",

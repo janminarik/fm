@@ -6,6 +6,7 @@ import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import turboPlugin from "eslint-plugin-turbo";
 import importPlugin from "eslint-plugin-import";
+import jestPlugin from "eslint-plugin-jest";
 
 export default tselint.config(
   {
@@ -39,22 +40,32 @@ export default tselint.config(
   {
     files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts", "e2e/**/*.ts"],
     languageOptions: {
+      globals: jestPlugin.environments.globals.globals,
       parserOptions: {
-        project: "./tsconfig.spec.json", // Relative path is better
-        tsconfigRootDir: process.cwd(), // Let ESLint resolve from the current working directory
-        projectService: false, // Explicitly disable project service for test files
+        project: "./tsconfig.spec.json",
+        tsconfigRootDir: process.cwd(),
+        projectService: false,
       },
     },
     rules: {
       "@typescript-eslint/no-unsafe-argument": "error",
       "@typescript-eslint/no-unsafe-assignment": "error",
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+      "@typescript-eslint/unbound-method": "off",
+      "jest/unbound-method": "error",
     },
   },
+
   {
     plugins: {
       turbo: turboPlugin,
       prettier: prettierPlugin,
       import: importPlugin,
+      jest: jestPlugin,
       "unused-imports": unusedImportsPlugin,
     },
     rules: {

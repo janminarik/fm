@@ -101,19 +101,18 @@ describe("AuthService", () => {
       userRepositoryMock.findUserByEmail.mockResolvedValue(userMock);
       accessTokenServiceMock.createToken.mockResolvedValue(accessTokenMock);
       refreshTokenServiceMock.createToken.mockResolvedValue(refreshTokenMock);
-
-      const authServiceSpy = jest.spyOn(authService, "verifyUserPassword");
-      authServiceSpy.mockResolvedValue(true);
+      hashServiceMock.compare.mockResolvedValue(true);
 
       const result = await authService.login(email, password);
 
       expect(userRepositoryMock.findUserByEmail).toHaveBeenCalledWith(email);
+      expect(hashServiceMock.compare).toHaveBeenCalled();
       expect(accessTokenServiceMock.createToken).toHaveBeenCalledWith(
         userMock.id,
-      ),
-        expect(refreshTokenServiceMock.createToken).toHaveBeenCalledWith(
-          userMock.id,
-        );
+      );
+      expect(refreshTokenServiceMock.createToken).toHaveBeenCalledWith(
+        userMock.id,
+      );
 
       expect(result).toEqual({
         accessToken: accessTokenMock.token,
@@ -144,8 +143,7 @@ describe("AuthService", () => {
 
       userRepositoryMock.findUserByEmail.mockResolvedValue(userMock);
 
-      const authServiceSpy = jest.spyOn(authService, "verifyUserPassword");
-      authServiceSpy.mockResolvedValue(false);
+      hashServiceMock.compare.mockResolvedValue(false);
 
       await expect(authService.login(email, password)).rejects.toThrow(
         expectedError,
