@@ -12,7 +12,7 @@ import { AuthCookieService } from "@repo/fm-auth";
 
 import { LoginRequestDto } from "../../src/api/auth/dto";
 import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
-import { AuthControlerUrl } from "../utils/api-url.config";
+import { AuthControllerUrl } from "../utils/api-url.config";
 import { getJwtToken } from "../utils/cookie-utils";
 import { TestApiClient } from "../utils/test-api-client";
 import {
@@ -53,7 +53,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       const { data } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -71,7 +71,7 @@ describe("AuthControler (e2e)", () => {
       const cookieService = app.get(AuthCookieService);
 
       const { response } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -96,7 +96,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         401,
       );
@@ -109,7 +109,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         401,
       );
@@ -124,7 +124,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -133,7 +133,7 @@ describe("AuthControler (e2e)", () => {
 
       // Refresh
       const { data: refreshData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.RefreshAccessToken,
+        AuthControllerUrl.RefreshAccessToken,
         loginPayload,
         200,
         loginData.refreshToken,
@@ -154,7 +154,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -163,7 +163,7 @@ describe("AuthControler (e2e)", () => {
 
       // Refresh s neplatným tokenom
       await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.RefreshAccessToken,
+        AuthControllerUrl.RefreshAccessToken,
         loginPayload,
         401,
         loginData.refreshToken + " invalid-token",
@@ -179,7 +179,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -187,7 +187,7 @@ describe("AuthControler (e2e)", () => {
       expect(loginData.accessToken).toBeDefined();
 
       const { data: refreshData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.RefreshTokens,
+        AuthControllerUrl.RefreshTokens,
         loginPayload,
         200,
         loginData.refreshToken,
@@ -206,7 +206,7 @@ describe("AuthControler (e2e)", () => {
       };
 
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         loginPayload,
         200,
       );
@@ -214,7 +214,7 @@ describe("AuthControler (e2e)", () => {
       expect(loginData.accessToken).toBeDefined();
 
       await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.RefreshTokens,
+        AuthControllerUrl.RefreshTokens,
         loginPayload,
         401,
         loginData.refreshToken + "invalid-token",

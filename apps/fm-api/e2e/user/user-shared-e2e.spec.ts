@@ -11,7 +11,7 @@ import { INestApplication } from "@nestjs/common";
 
 import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
 import { UserDto } from "../../src/api/user/dtos/user.dto";
-import { AuthControlerUrl, UserControllerUrl } from "../utils/api-url.config";
+import { AuthControllerUrl, UserControllerUrl } from "../utils/api-url.config";
 import { TestApiClient } from "../utils/test-api-client";
 import {
   createTestApp,
@@ -46,7 +46,7 @@ describe("UserSharedController (e2e)", () => {
   describe("/api/user/profile (GET)", () => {
     it("should get a user profile - auth header - (200)", async () => {
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         {
           email: testUser.email,
           password: testUser.password,
@@ -71,7 +71,7 @@ describe("UserSharedController (e2e)", () => {
 
     it("should get a user profile - auth cookie - (200)", async () => {
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
-        AuthControlerUrl.Login,
+        AuthControllerUrl.Login,
         {
           email: testUser.email,
           password: testUser.password,

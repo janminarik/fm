@@ -11,8 +11,8 @@ export function configureSwagger(app: INestApplication) {
 
   const docName = `${appName} documentation`;
 
-  const jwtCookieService = app.get(AuthCookieService);
-  const authCookieName = jwtCookieService.getAccessTokenCookieName();
+  const authCookieService = app.get(AuthCookieService);
+  const authCookieName = authCookieService.getAccessTokenCookieName();
 
   const documentBuild = new DocumentBuilder()
     .setTitle(appName)
@@ -37,7 +37,6 @@ export function configureSwagger(app: INestApplication) {
 
   const document = SwaggerModule.createDocument(app, documentBuild, {
     deepScanRoutes: true,
-    // extraModels: [UpdateAdSpaceReqDto],
   });
 
   SwaggerModule.setup("docs", app, document, {

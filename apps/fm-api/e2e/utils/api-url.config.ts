@@ -1,6 +1,6 @@
 const BASE_API_URL = "/api/v1";
 
-export const AuthControlerUrl = {
+export const AuthControllerUrl = {
   Base: `${BASE_API_URL}/auth`,
   Login: `${BASE_API_URL}/auth/login`,
   RefreshAccessToken: `${BASE_API_URL}/auth/refresh-access-token`,

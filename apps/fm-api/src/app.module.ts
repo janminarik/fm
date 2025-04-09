@@ -14,7 +14,7 @@ import { ClsModule } from "nestjs-cls";
 
 import { ApiModule } from "./api/api.module";
 import { LoggerModule } from "./logger.module";
-import { AppMiddleWareModule } from "./middlewares/app.middleware.module";
+import { AppMiddlewareModule } from "./middlewares/app.middleware.module";
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { AppMiddleWareModule } from "./middlewares/app.middleware.module";
       load: [apiConfig, jwtAuthConfig],
     }),
     LoggerModule,
-    AppMiddleWareModule,
+    AppMiddlewareModule,
     PrismaModule.forRootAsync({ global: true }),
     ClsModule.forRoot({
       global: true,

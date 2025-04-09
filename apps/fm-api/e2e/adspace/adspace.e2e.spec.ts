@@ -23,7 +23,7 @@ import { AuthTokenPairDto } from "../../src/api/auth/dto/auth-token-pair.dto";
 import { PaginationResponseDto } from "../../src/common/dto/pagination";
 import {
   AdSpaceControllerUrl,
-  AuthControlerUrl,
+  AuthControllerUrl,
 } from "../utils/api-url.config";
 import { TestApiClient } from "../utils/test-api-client";
 import {
@@ -45,21 +45,21 @@ describe("AdSpaceController (e2e)", () => {
   let accessToken: string | null;
   let adSpaceId: string | null;
 
-  async function insertAdSpaceInDb() {
+  async function insertAdSpaceInDatabase() {
     const adSpaceData = generateCreateAdSpacePayload();
     const adSpace = await adSpaceRepository.create(adSpaceData);
     adSpaceId = adSpace ? adSpace.id : null;
   }
 
-  async function seedDb(adSpaceCount: number = 15) {
+  async function seedDatabase(adSpaceCount: number = 15) {
     for (let i = 0; i < adSpaceCount; i++) {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
     }
   }
 
   async function login(): Promise<string> {
     const { data } = await apiClient.post<AuthTokenPairDto>(
-      AuthControlerUrl.Login,
+      AuthControllerUrl.Login,
       {
         email: testUser.email,
         password: testUser.password,
@@ -140,7 +140,7 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace/list  (GET)", () => {
     it("should return paginated list of ad spaces (200)", async () => {
-      await seedDb();
+      await seedDatabase();
 
       accessToken = await login();
 
@@ -175,7 +175,7 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace/:id  (GET)", () => {
     it("should successfully return  an existing ad space (200)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
@@ -212,7 +212,7 @@ describe("AdSpaceController (e2e)", () => {
     });
 
     it("should fail to get ad space if user is unauthorized (401)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
       accessToken = await login();
 
       await apiClient.get(`${AdSpaceControllerUrl.Get}/${adSpaceId}`, 401);
@@ -221,7 +221,7 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace/:id  (PATCH)", () => {
     it("should successfully update an existing ad space (200)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
@@ -261,7 +261,7 @@ describe("AdSpaceController (e2e)", () => {
     });
 
     it("should fail when updating an ad space with invalid data (422)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
@@ -279,7 +279,7 @@ describe("AdSpaceController (e2e)", () => {
     });
 
     it("should reject update when the user is unauthorized (401)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
@@ -298,7 +298,7 @@ describe("AdSpaceController (e2e)", () => {
 
   describe("/api/adspace/:id  (DELETE)", () => {
     it("should successfully delete an existing ad space (204)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
@@ -335,7 +335,7 @@ describe("AdSpaceController (e2e)", () => {
     });
 
     it("should reject deletion when the user is unauthorized (401)", async () => {
-      await insertAdSpaceInDb();
+      await insertAdSpaceInDatabase();
       accessToken = await login();
 
       await apiClient.delete(

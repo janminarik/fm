@@ -30,7 +30,7 @@ import { AppConfig } from "../config/app.config";
     }),
   ],
 })
-export class AppMiddleWareModule implements NestModule {
+export class AppMiddlewareModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(

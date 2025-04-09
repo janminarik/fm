@@ -75,10 +75,10 @@ export class AdSpaceControllerV1 {
   @Patch(":id")
   async update(
     @Param() { id }: IdParams,
-    @Body() addSpaceDto: UpdateAdSpaceDto,
+    @Body() adSpaceDto: UpdateAdSpaceDto,
   ): Promise<AdSpaceDto> {
     const adSpace = await this.updateAdSpaceUseCase.execute(id, {
-      ...addSpaceDto,
+      ...adSpaceDto,
     });
     return this.mapper.to(AdSpaceDto, adSpace);
   }
