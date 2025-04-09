@@ -6,3 +6,4 @@ export * from "./interfaces";
 export * from "./jwt-auth.module";
 export * from "./services";
 export * from "./strategies";
+export * from "./types";

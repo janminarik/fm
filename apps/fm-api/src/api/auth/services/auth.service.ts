@@ -23,7 +23,7 @@ export class AuthService {
     private readonly refreshTokenService: IRefreshTokenService,
   ) {}
 
-  @Transactional()
+  //@Transactional()
   async login(email: string, password: string): Promise<AuthTokenPairDto> {
     const user = await this.userRepository.findUserByEmail(email);
 
