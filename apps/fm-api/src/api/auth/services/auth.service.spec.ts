@@ -120,7 +120,7 @@ describe("AuthService", () => {
       });
     });
 
-    it("login should fail when user does not exists", async () => {
+    it("login should fail when user does not exist", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
@@ -133,7 +133,7 @@ describe("AuthService", () => {
       );
     });
 
-    it("login should when user is not verified", async () => {
+    it("login should fail when user is not verified", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
@@ -151,7 +151,7 @@ describe("AuthService", () => {
   });
 
   describe("verifyUserPassword", () => {
-    it("should verified user if passwordHash is equal", async () => {
+    it("should verify user if passwordHash is equal", async () => {
       const password = "password";
       const passwordHash = "password-hash";
 
