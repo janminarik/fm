@@ -197,18 +197,12 @@ importers:
       jest-mock-extended:
         specifier: 4.0.0-beta1
         version: 4.0.0-beta1(@jest/globals@29.7.0)(jest@29.7.0(@types/node@22.13.15)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.13.15)(typescript@5.8.2)))(typescript@5.8.2)
-      jest-ts-auto-mock:
-        specifier: ^2.1.0
-        version: 2.1.0(ts-auto-mock@3.7.4(typescript@5.8.2))
       prisma:
         specifier: ^6.5.0
         version: 6.5.0(typescript@5.8.2)
       supertest:
         specifier: ^7.0.0
         version: 7.1.0
-      ts-auto-mock:
-        specifier: ^3.7.4
-        version: 3.7.4(typescript@5.8.2)
       ts-jest:
         specifier: ^29.2.6
         version: 29.3.1(@babel/core@7.26.10)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.10))(esbuild@0.25.2)(jest@29.7.0(@types/node@22.13.15)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@22.13.15)(typescript@5.8.2)))(typescript@5.8.2)
@@ -218,9 +212,6 @@ importers:
       tsx:
         specifier: ^4.19.3
         version: 4.19.3
-      ttypescript:
-        specifier: ^1.5.15
-        version: 1.5.15(ts-node@10.9.2(@types/node@22.13.15)(typescript@5.8.2))(typescript@5.8.2)
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -4610,11 +4601,6 @@ packages:
     resolution: {integrity: sha512-Rm0BMWtxBcioHr1/OX5YCP8Uov4riHvKPknOGs804Zg9JGZgmIBkbtlxJC/7Z4msKYVbIJtfU+tKb8xlYNfdkw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  jest-ts-auto-mock@2.1.0:
-    resolution: {integrity: sha512-ubL0pweKUHQNY2xCgwXjYllEQMgpKDojcEODpraQVevHqBFBsFDJZkpZp/2JsmujMu4TNJPzmSugXOLfKndmlQ==}
-    peerDependencies:
-      ts-auto-mock: ^3.5.0
-
   jest-util@29.7.0:
     resolution: {integrity: sha512-z6EbKajIpqGKU56y5KBUgy1dt1ihhQJgWzUlZHArA/+X2ad7Cb5iF+AK1EWVL/Bo7Rz9uurpqw6SiBCefUbCGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -4777,9 +4763,6 @@ packages:
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
-
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
@@ -6237,12 +6220,6 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-auto-mock@3.7.4:
-    resolution: {integrity: sha512-+/X+7yjpUBsIJBRxl/hs9aq3pA76w3Pcu70uHDxdr4C8TbXXwd/gq6t3b81xqU9N/KPFIFata1HcQZ2lwGKDRQ==}
-    engines: {node: '>=14.x.x', npm: '>=6.x.x'}
-    peerDependencies:
-      typescript: ^5.0.4
-
   ts-easing@0.2.0:
     resolution: {integrity: sha512-Z86EW+fFFh/IFB1fqQ3/+7Zpf9t2ebOAxNI/V6Wo7r5gqiqtxmgTlQ1qbqQcjLKYeSHPTsEmvlJUDg/EuL0uHQ==}
 
@@ -6313,13 +6290,6 @@ packages:
     resolution: {integrity: sha512-4H8vUNGNjQ4V2EOoGw005+c+dGuPSnhpPBPHBtsZdGZBk/iJb4kguGlPWaZTZ3q5nMtFOEsY0nRDlh9PJyd6SQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
-
-  ttypescript@1.5.15:
-    resolution: {integrity: sha512-48ykDNHzFnPMnv4hYX1P8Q84TvCZyL1QlFxeuxsuZ48X2+ameBgPenvmCkHJtoOSxpoWTWi8NcgNrRnVDOmfSg==}
-    hasBin: true
-    peerDependencies:
-      ts-node: '>=8.0.2'
-      typescript: '>=3.2.2'
 
   turbo-darwin-64@2.4.4:
     resolution: {integrity: sha512-5kPvRkLAfmWI0MH96D+/THnDMGXlFNmjeqNRj5grLKiry+M9pKj3pRuScddAXPdlxjO5Ptz06UNaOQrrYGTx1g==}
@@ -11138,10 +11108,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  jest-ts-auto-mock@2.1.0(ts-auto-mock@3.7.4(typescript@5.8.2)):
-    dependencies:
-      ts-auto-mock: 3.7.4(typescript@5.8.2)
-
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
@@ -11357,8 +11323,6 @@ snapshots:
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
-
-  lodash-es@4.17.21: {}
 
   lodash.get@4.4.2: {}
 
@@ -12929,12 +12893,6 @@ snapshots:
     dependencies:
       typescript: 5.8.2
 
-  ts-auto-mock@3.7.4(typescript@5.8.2):
-    dependencies:
-      lodash-es: 4.17.21
-      micromatch: 4.0.8
-      typescript: 5.8.2
-
   ts-easing@0.2.0: {}
 
   ts-essentials@10.0.4(typescript@5.8.2):
@@ -13010,12 +12968,6 @@ snapshots:
       get-tsconfig: 4.10.0
     optionalDependencies:
       fsevents: 2.3.3
-
-  ttypescript@1.5.15(ts-node@10.9.2(@types/node@22.13.15)(typescript@5.8.2))(typescript@5.8.2):
-    dependencies:
-      resolve: 1.22.10
-      ts-node: 10.9.2(@types/node@22.13.15)(typescript@5.8.2)
-      typescript: 5.8.2
 
   turbo-darwin-64@2.4.4:
     optional: true

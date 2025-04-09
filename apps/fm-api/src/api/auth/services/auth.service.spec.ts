@@ -19,30 +19,12 @@ import { Test } from "@nestjs/testing";
 import { AuthToken } from "@repo/fm-auth";
 import { ClsModule } from "nestjs-cls";
 import { createUserFake } from "@repo/fm-mock-data";
+import { mock } from "jest-mock-extended";
 
-jest.mock("@nestjs-cls/transactional", () => {
-  const actualModule = jest.requireActual("@nestjs-cls/transactional");
-
-  return {
-    ...actualModule,
-    Transactional: () => {
-      return function (
-        _target: any,
-        _key: string,
-        descriptor: PropertyDescriptor,
-      ) {
-        const originalMethod = descriptor.value;
-
-        descriptor.value = function (...args: any[]) {
-          // Jednoducho zavolá pôvodnú metódu bez wrappera transakcie
-          return originalMethod.apply(this, args);
-        };
-
-        return descriptor;
-      };
-    },
-  };
-});
+jest.mock("@nestjs-cls/transactional", () => ({
+  Transactional: () => (_: any, __: string, descriptor: PropertyDescriptor) =>
+    descriptor,
+}));
 
 describe("AuthService", () => {
   let authService: AuthService;
@@ -54,31 +36,10 @@ describe("AuthService", () => {
   beforeEach(() => {});
 
   beforeAll(async () => {
-    // userRepositoryMock = mock<IUserRepository>();
-    // hashServiceMock = mock<IHashService>();
-    // accessTokenServiceMock = mock<IAccessTokenService>();
-    // refreshTokenServiceMock = mock<IRefreshTokenService>();
-
-    userRepositoryMock = {
-      findUserByEmail: jest.fn(),
-      create: jest.fn(),
-      findById: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
-    hashServiceMock = {
-      getSalt: jest.fn(),
-      hash: jest.fn(),
-      compare: jest.fn(),
-    };
-    accessTokenServiceMock = {
-      createToken: jest.fn(),
-    };
-    refreshTokenServiceMock = {
-      createToken: jest.fn(),
-      validateToken: jest.fn(),
-      revokeToken: jest.fn(),
-    };
+    userRepositoryMock = mock<IUserRepository>();
+    hashServiceMock = mock<IHashService>();
+    accessTokenServiceMock = mock<IAccessTokenService>();
+    refreshTokenServiceMock = mock<IRefreshTokenService>();
 
     const moduleFixture = await Test.createTestingModule({
       imports: [
