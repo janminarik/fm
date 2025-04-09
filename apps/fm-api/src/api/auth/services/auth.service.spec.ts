@@ -6,21 +6,22 @@ import {
   it,
   beforeEach,
 } from "@jest/globals";
-import { type IUserRepository, User, USER_REPOSITORY } from "@repo/fm-domain";
-import { HASH_SERVICE, type IHashService } from "@repo/fm-shared";
+import { UnauthorizedException } from "@nestjs/common";
+import { Test } from "@nestjs/testing";
 import {
   ACCESS_TOKEN_SERVICE,
   type IAccessTokenService,
   type IRefreshTokenService,
   REFRESH_TOKEN_SERVICE,
 } from "@repo/fm-auth";
-import { AuthService } from "../services/auth.service";
-import { Test } from "@nestjs/testing";
 import { AuthToken } from "@repo/fm-auth";
-import { ClsModule } from "nestjs-cls";
+import { type IUserRepository, User, USER_REPOSITORY } from "@repo/fm-domain";
 import { createUserFake } from "@repo/fm-mock-data";
+import { HASH_SERVICE, type IHashService } from "@repo/fm-shared";
 import { mock } from "jest-mock-extended";
-import { UnauthorizedException } from "@nestjs/common";
+import { ClsModule } from "nestjs-cls";
+
+import { AuthService } from "../services/auth.service";
 
 jest.mock("@nestjs-cls/transactional", () => ({
   Transactional: () => (_: any, __: string, descriptor: PropertyDescriptor) =>
