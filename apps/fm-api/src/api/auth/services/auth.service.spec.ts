@@ -26,14 +26,71 @@ export class Ahoj {
   pozdrav: string;
 }
 
-const mockTransactionalAdapter = {
-  connection: undefined, // Nepotrebné pre unit testy
-  options: {},
-  getTransactionHost: () => ({
-    withTransaction: async (fn: () => Promise<any>) => await fn(),
-    tx: undefined,
-  }),
-};
+// const mockTransactionalAdapter = {
+//   connection: undefined, // Nepotrebné pre unit testy
+//   options: {},
+//   getTransactionHost: () => ({
+//     withTransaction: async (fn: () => Promise<any>) => await fn(),
+//     tx: undefined,
+//   }),
+// };
+
+// const mockClsPluginTransactional = {
+//   adapter: {
+//     connection: undefined,
+//     options: {},
+//     getTransactionHost: jest.fn(() => ({
+//       withTransaction: jest.fn(async (fn: () => Promise<any>) => await fn()),
+//       tx: undefined,
+//     })),
+//   },
+// };
+
+// const mockTransactionHost = {
+//   withTransaction: jest.fn(async (fn) => await fn()),
+//   tx: undefined,
+// };
+
+// const mockAdapter = {
+//   getTransactionHost: jest.fn().mockReturnValue(mockTransactionHost),
+// };
+
+// jest.mock("@nestjs-cls/transactional", () => {
+//   return {
+//     ClsPluginTransactional: jest.fn().mockImplementation(() => ({
+//       getHandler: jest.fn().mockReturnValue({
+//         methodIsDecorated: jest.fn().mockReturnValue(true),
+//         getMethodOptions: jest.fn().mockReturnValue({}),
+//       }),
+//       setup: jest.fn(),
+//     })),
+//     Transactional: () => jest.fn(),
+//   };
+// });
+
+jest.mock("@nestjs-cls/transactional", () => {
+  const actualModule = jest.requireActual("@nestjs-cls/transactional");
+
+  return {
+    ...actualModule,
+    Transactional: () => {
+      return function (
+        _target: any,
+        _key: string,
+        descriptor: PropertyDescriptor,
+      ) {
+        const originalMethod = descriptor.value;
+
+        descriptor.value = function (...args: any[]) {
+          // Jednoducho zavolá pôvodnú metódu bez wrappera transakcie
+          return originalMethod.apply(this, args);
+        };
+
+        return descriptor;
+      };
+    },
+  };
+});
 
 describe("AuthService", () => {
   let authService: AuthService;
@@ -74,6 +131,12 @@ describe("AuthService", () => {
       revokeToken: jest.fn(),
     };
 
+    // const clsPluginTransactionalMock = {
+    //   // Pridaj metódy, ktoré potrebuješ mockovať
+    //   runWithTransaction: jest.fn((callback) => callback()), // Simuluje spustenie transakcie
+    //   // Môžeš pridať ďalšie metódy podľa potreby
+    // };
+
     const moduleFixture = await Test.createTestingModule({
       // imports: [
       //   ClsModule.forRoot({
@@ -87,6 +150,23 @@ describe("AuthService", () => {
       //     ],
       //   }),
       // ],
+      // imports: [
+      //   ClsModule.forRoot({
+      //     global: true,
+      //     middleware: { mount: false },
+      //     plugins: [
+      //       new ClsPluginTransactional(
+      //         mockClsPluginTransactional.adapter as any,
+      //       ),
+      //     ],
+      //   }),
+      // ],
+      imports: [
+        ClsModule.forRoot({
+          global: true,
+          middleware: { mount: false },
+        }),
+      ],
       providers: [
         {
           provide: USER_REPOSITORY,
