@@ -1,7 +1,6 @@
 import {
   test,
   jest,
-  beforeAll,
   describe,
   expect,
   beforeEach,
@@ -17,11 +16,20 @@ import {
   IRefreshTokenService,
   IRenewTokenService,
   JwtRefreshPayloadDto,
+  JwtWrapperService,
   REFRESH_TOKEN_SERVICE,
   RENEW_TOKEN_SERVICE,
+  RenewTokenService,
 } from "@repo/fm-auth";
+import {
+  APP_TOKEN_REPOSITORY,
+  IAppTokenRepository,
+  IUserRepository,
+  USER_REPOSITORY,
+} from "@repo/fm-domain";
 import { plainToInstance } from "class-transformer";
 import { mock, MockProxy } from "jest-mock-extended";
+import { ClsModule } from "nestjs-cls";
 
 import { AuthController } from "./auth.controller";
 import { LoginRequestDto } from "./dto";
@@ -29,22 +37,41 @@ import { AuthTokenPairDto } from "./dto/auth-token-pair.dto";
 import { AuthService } from "./services/auth.service";
 import { validateDto } from "../../utils/test/test-utils";
 
+jest.mock("@nestjs-cls/transactional", () => ({
+  Transactional:
+    () => (_: unknown, __: string, descriptor: PropertyDescriptor) =>
+      descriptor,
+}));
+
 describe("AuthController", () => {
   let controller: AuthController;
   let mockTokenService: MockProxy<IAccessTokenService>;
   let mockRefreshTokenService: MockProxy<IRefreshTokenService>;
-  let mockRenewTokenService: MockProxy<IRenewTokenService>;
   let mockCookieService: MockProxy<AuthCookieService>;
   let mockAuthService: MockProxy<AuthService>;
+  let mockRenewTokenService: MockProxy<IRenewTokenService>;
+  let mockUserRepository: MockProxy<IUserRepository>;
+  let mockAppTokenRepository: MockProxy<IAppTokenRepository>;
+  let mockJwtServiceWrapper: MockProxy<JwtWrapperService>;
+  let renewTokenService: IRenewTokenService;
 
   beforeEach(async () => {
     mockAuthService = mock<AuthService>();
     mockTokenService = mock<IAccessTokenService>();
     mockRefreshTokenService = mock<IRefreshTokenService>();
-    mockRenewTokenService = mock<IRenewTokenService>();
     mockCookieService = mock<AuthCookieService>();
+    mockRenewTokenService = mock<IRenewTokenService>();
+    mockUserRepository = mock<IUserRepository>();
+    mockAppTokenRepository = mock<IAppTokenRepository>();
+    mockJwtServiceWrapper = mock<JwtWrapperService>();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [
+        ClsModule.forRoot({
+          global: true,
+          middleware: { mount: false },
+        }),
+      ],
       controllers: [AuthController],
       providers: [
         {
@@ -60,17 +87,31 @@ describe("AuthController", () => {
           useValue: mockRefreshTokenService,
         },
         {
-          provide: RENEW_TOKEN_SERVICE,
-          useValue: mockRenewTokenService,
+          provide: USER_REPOSITORY,
+          useValue: mockUserRepository,
+        },
+        {
+          provide: APP_TOKEN_REPOSITORY,
+          useValue: mockAppTokenRepository,
         },
         {
           provide: AuthCookieService,
           useValue: mockCookieService,
         },
+        {
+          provide: JwtWrapperService,
+          useValue: mockJwtServiceWrapper,
+        },
+        {
+          provide: RENEW_TOKEN_SERVICE,
+          useClass: RenewTokenService,
+        },
       ],
     }).compile();
 
     controller = moduleFixture.get<AuthController>(AuthController);
+    renewTokenService =
+      moduleFixture.get<IRenewTokenService>(RENEW_TOKEN_SERVICE);
   });
 
   afterEach(() => {
@@ -187,7 +228,7 @@ describe("AuthController", () => {
   });
 
   describe("refresh token", () => {
-    test("should refresh token", async () => {
+    test("should refresh token successfully", async () => {
       const mockJwtPayload: JwtRefreshPayloadDto = {
         userId: "550e8400-e29b-41d4-a716-446655440000",
         jti: "550e8400-e29b-41d4-a716-446655440001",
@@ -211,14 +252,35 @@ describe("AuthController", () => {
 
       const result = await controller.refreshAccessToken(mockJwtPayload);
 
-      expect(
-        mockRenewTokenService.generateAccessToken,
-      ).toHaveBeenLastCalledWith(mockJwtPayload.userId, mockJwtPayload.token);
+      expect(renewTokenService.generateAccessToken).toHaveBeenLastCalledWith(
+        mockJwtPayload.userId,
+        mockJwtPayload.token,
+      );
       expect(result).toBeDefined();
-      expect(result.accessToken).toBeDefined();
-      expect(result.accessTokenExpiresAt).toBeDefined();
-      expect(result.refreshToken).toBeDefined();
-      expect(result.refreshTokenExpiresAt).toBeDefined();
+      expect(result.accessToken).toBe(mockTokenPair.accessToken.token);
+      expect(result.accessTokenExpiresAt).toBe(
+        mockTokenPair.accessToken.expiresAt,
+      );
+      expect(result.refreshToken).toBe(mockTokenPair.refreshToken.token);
+      expect(result.refreshTokenExpiresAt).toBe(
+        mockTokenPair.refreshToken.expiresAt,
+      );
+    });
+
+    test("should fail refresh token", async () => {
+      const mockJwtPayload: JwtRefreshPayloadDto = {
+        userId: "550e8400-e29b-41d4-a716-446655440000",
+        jti: "550e8400-e29b-41d4-a716-446655440001",
+        token: "token",
+      };
+
+      const error = new Error("Invalid refresh token");
+
+      mockRefreshTokenService.validateToken.mockRejectedValue(error);
+
+      await expect(
+        controller.refreshAccessToken(mockJwtPayload),
+      ).rejects.toThrow(error);
     });
   });
 });
