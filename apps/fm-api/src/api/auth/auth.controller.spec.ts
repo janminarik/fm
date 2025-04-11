@@ -6,11 +6,7 @@ import {
   beforeEach,
   afterEach,
 } from "@jest/globals";
-import {
-  CanActivate,
-  ExecutionContext,
-  UnauthorizedException,
-} from "@nestjs/common";
+import { UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
   ACCESS_TOKEN_SERVICE,
@@ -19,7 +15,6 @@ import {
   IAccessTokenService,
   IRefreshTokenService,
   IRenewTokenService,
-  JwtAccessGuard,
   JwtRefreshPayloadDto,
   JwtWrapperService,
   REFRESH_TOKEN_SERVICE,
