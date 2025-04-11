@@ -9,8 +9,11 @@ export class JwtWrapperService {
 
   constructor(private readonly jwtService: NestJwtService) {}
 
-  jwtEncrypt(payload: Record<string, unknown>, options: IJwtOptions): string {
-    return this.jwtService.sign(payload, {
+  async jwtEncrypt(
+    payload: Record<string, unknown>,
+    options: IJwtOptions,
+  ): Promise<string> {
+    return this.jwtService.signAsync(payload, {
       secret: options.secretKey,
       subject: options.subject,
       audience: options.audience,
@@ -24,9 +27,9 @@ export class JwtWrapperService {
     return this.jwtService.decode<T>(token);
   }
 
-  jwtVerify(token: string, options: IJwtVerifyOptions): boolean {
+  async jwtVerify(token: string, options: IJwtVerifyOptions): Promise<boolean> {
     try {
-      this.jwtService.verify(token, {
+      await this.jwtService.verifyAsync(token, {
         secret: options.secretKey,
         subject: options.subject,
         audience: options.audience,

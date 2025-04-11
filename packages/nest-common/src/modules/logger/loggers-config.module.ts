@@ -1,10 +1,11 @@
 import { DynamicModule, Provider } from "@nestjs/common";
 import { ConfigModule, ConfigService, registerAs } from "@nestjs/config";
 
+import { BaseLoggerConfig } from "./config";
 import { LoggerConfigProvider } from "./types/logger-config-provider";
 
 export interface LoggersConfigModuleOptions {
-  configProviders: LoggerConfigProvider<any>[];
+  configProviders: LoggerConfigProvider<BaseLoggerConfig>[];
   isGlobal: boolean;
 }
 
@@ -18,7 +19,7 @@ export class LoggersConfigModule {
       inject: [ConfigService],
       provide: def.provideToken,
       useFactory: (configService: ConfigService) =>
-        configService.get(def.namespace),
+        configService.get<string>(def.namespace),
     }));
 
     return {

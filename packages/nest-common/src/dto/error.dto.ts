@@ -21,10 +21,10 @@ export class ErrorDto {
   /**
    * Onlye for debug mode
    */
-  trace?: Error;
+  exception?: unknown;
 }
 
-export class ValidatioErrorDto extends ErrorDto {
+export class ValidationErrorDto extends ErrorDto {
   @ApiPropertyOptional({
     type: String,
     isArray: true,

@@ -8,7 +8,7 @@ import {
   ValidationError,
 } from "@nestjs/common";
 
-import { ErrorDto, ValidatioErrorDto } from "../dto";
+import { ErrorDto, ValidationErrorDto } from "../dto";
 
 @Injectable()
 export class ExceptionHandlerService {
@@ -47,7 +47,7 @@ export class ExceptionHandlerService {
   }
   protected handleUnprocessableEntityException(
     exception: UnprocessableEntityException,
-  ): ValidatioErrorDto {
+  ): ValidationErrorDto {
     const r = exception.getResponse() as { message: ValidationError[] };
     const validationErrors = r?.message;
 
@@ -62,20 +62,24 @@ export class ExceptionHandlerService {
     };
   }
 
-  handleException(exception: any, debug: boolean): ErrorDto {
+  handleException(exception: unknown, debug: boolean): ErrorDto {
     let error: ErrorDto;
 
     if (exception instanceof UnprocessableEntityException) {
       error = this.handleUnprocessableEntityException(exception);
     } else if (exception instanceof HttpException) {
       error = this.handleHttpException(exception);
-    } else {
+    } else if (exception instanceof Error) {
       error = this.handleError(exception);
+    } else {
+      error = this.handleError(new Error("Unknown exception occurred"));
     }
 
-    if (debug) {
-      error.stack = exception.stack;
-      error.trace = exception;
+    if (debug && exception instanceof Error) {
+      if (error) {
+        error.stack = exception.stack;
+        error.exception = exception;
+      }
     }
 
     return error;

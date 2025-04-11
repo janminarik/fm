@@ -1,5 +1,5 @@
 import { ClassConstructor, plainToClass } from "class-transformer";
-import { validateSync } from "class-validator";
+import { validateSync, ValidationError } from "class-validator";
 
 export function validateConfig<T extends object>(
   config: Record<string, unknown>,
@@ -14,13 +14,17 @@ export function validateConfig<T extends object>(
 
   if (errors.length > 0) {
     const errorMsg = errors
-      .map(
-        (error: any) =>
-          `\nError in ${error.property}:\n` +
-          Object.entries(error.constraints || {})
-            .map(([key, value]) => `+ ${key}: ${value}`)
-            .join("\n"),
-      )
+      .map((error: unknown) => {
+        if (error instanceof ValidationError) {
+          return (
+            `\nError in ${error.property}:\n` +
+            Object.entries(error.constraints || {})
+              .map(([key, value]) => `+ ${key}: ${value}`)
+              .join("\n")
+          );
+        }
+        return "\nUnknown validation error";
+      })
       .join("\n");
 
     console.error(`\n${errors.toString()}`);
