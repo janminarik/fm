@@ -10,22 +10,22 @@ export interface AppTokenPayload {
   type?: AppTokenType;
 }
 
-export const generateCreateAppTokenPayload = (
-  overrides?: Partial<AppTokenPayload>,
-): AppTokenPayload => {
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 7); // Token expires in 7 days
+// export const generateCreateAppTokenPayload = (
+//   overrides?: Partial<AppTokenPayload>,
+// ): AppTokenPayload => {
+//   const expiresAt = new Date();
+//   expiresAt.setDate(expiresAt.getDate() + 7); // Token expires in 7 days
 
-  return {
-    value: overrides?.value ?? faker.string.alphanumeric(64),
-    publicId: overrides?.publicId ?? uuidv4(),
-    userId: overrides?.userId ?? uuidv4(),
-    expiresAt: overrides?.expiresAt ?? expiresAt,
-    type: overrides?.type ?? AppTokenType.RefreshToken,
-  };
-};
+//   return {
+//     value: overrides?.value ?? faker.string.alphanumeric(64),
+//     publicId: overrides?.publicId ?? uuidv4(),
+//     userId: overrides?.userId ?? uuidv4(),
+//     expiresAt: overrides?.expiresAt ?? expiresAt,
+//     type: overrides?.type ?? AppTokenType.RefreshToken,
+//   };
+// };
 
-export function createAppTokenFake(
+export function generateCreateAppTokenPayload(
   overrides?: Partial<CreateAppToken>,
 ): CreateAppToken {
   const expiresAt = new Date();
