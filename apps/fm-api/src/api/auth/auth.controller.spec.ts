@@ -1,4 +1,12 @@
-import { test, jest, beforeAll, describe, expect } from "@jest/globals";
+import {
+  test,
+  jest,
+  beforeAll,
+  describe,
+  expect,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
 import { UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
@@ -11,6 +19,7 @@ import {
   RENEW_TOKEN_SERVICE,
 } from "@repo/fm-auth";
 import { plainToInstance } from "class-transformer";
+import { mock, MockProxy } from "jest-mock-extended";
 
 import { AuthController } from "./auth.controller";
 import { LoginRequestDto } from "./dto";
@@ -19,58 +28,51 @@ import { AuthService } from "./services/auth.service";
 import { validateDto } from "../../utils/test/test-utils";
 
 describe("AuthController", () => {
-  type LoginFunction = (
-    email: string,
-    password: string,
-  ) => Promise<AuthTokenPairDto>;
-
   let controller: AuthController;
-  let tokenServiceMock: jest.Mocked<Partial<IAccessTokenService>>;
-  let refreshTokenServiceMock: jest.Mocked<Partial<IRefreshTokenService>>;
-  let renewTokenServiceMock: jest.Mocked<Partial<IRenewTokenService>>;
-  let cookieServiceMock: jest.Mocked<Partial<AuthCookieService>>;
-  let authServiceMock: {
-    login: jest.Mock<LoginFunction>;
-  };
+  let mockTokenService: MockProxy<IAccessTokenService>;
+  let mockRefreshTokenService: MockProxy<IRefreshTokenService>;
+  let mockRenewTokenService: MockProxy<IRenewTokenService>;
+  let mockCookieService: MockProxy<AuthCookieService>;
+  let mockAuthService: MockProxy<AuthService>;
 
-  beforeAll(async () => {
-    authServiceMock = {
-      login: jest.fn<LoginFunction>(),
-    };
-    tokenServiceMock = {};
-    refreshTokenServiceMock = {};
-    renewTokenServiceMock = {};
-    cookieServiceMock = {
-      setCookie: jest.fn(),
-    };
+  beforeEach(async () => {
+    mockAuthService = mock<AuthService>();
+    mockTokenService = mock<IAccessTokenService>();
+    mockRefreshTokenService = mock<IRefreshTokenService>();
+    mockRenewTokenService = mock<IRenewTokenService>();
+    mockCookieService = mock<AuthCookieService>();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
         {
           provide: AuthService,
-          useValue: authServiceMock,
+          useValue: mockAuthService,
         },
         {
           provide: ACCESS_TOKEN_SERVICE,
-          useValue: tokenServiceMock,
+          useValue: mockTokenService,
         },
         {
           provide: REFRESH_TOKEN_SERVICE,
-          useValue: refreshTokenServiceMock,
+          useValue: mockRefreshTokenService,
         },
         {
           provide: RENEW_TOKEN_SERVICE,
-          useValue: renewTokenServiceMock,
+          useValue: mockRenewTokenService,
         },
         {
           provide: AuthCookieService,
-          useValue: cookieServiceMock,
+          useValue: mockCookieService,
         },
       ],
     }).compile();
 
     controller = moduleFixture.get<AuthController>(AuthController);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test("should init controller", () => {
@@ -91,12 +93,12 @@ describe("AuthController", () => {
         refreshTokenExpiresAt: Math.floor(Date.now() / 1000),
       };
 
-      authServiceMock.login?.mockResolvedValueOnce(loginResDto);
+      mockAuthService.login?.mockResolvedValueOnce(loginResDto);
 
       const result = await controller.login(loginReqDto);
 
       expect(result).toBe(loginResDto);
-      expect(authServiceMock.login).toHaveBeenNthCalledWith(
+      expect(mockAuthService.login).toHaveBeenNthCalledWith(
         1,
         loginReqDto.email,
         loginReqDto.password,
@@ -109,14 +111,14 @@ describe("AuthController", () => {
         password: "P@ssw0rd2025",
       };
 
-      authServiceMock.login?.mockRejectedValueOnce(
+      mockAuthService.login?.mockRejectedValueOnce(
         new UnauthorizedException("Invalid credentials"),
       );
 
       await expect(controller.login(loginReqDto)).rejects.toThrow(
         "Invalid credentials",
       );
-      expect(authServiceMock.login).toHaveBeenNthCalledWith(
+      expect(mockAuthService.login).toHaveBeenNthCalledWith(
         1,
         loginReqDto.email,
         loginReqDto.password,
