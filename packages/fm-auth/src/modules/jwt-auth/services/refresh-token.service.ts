@@ -74,7 +74,7 @@ export class RefreshTokenService implements IRefreshTokenService {
       subject: userId,
     };
 
-    const token = this.jwtService.jwtEncrypt({ ...payload }, options);
+    const token = await this.jwtService.jwtEncrypt({ ...payload }, options);
 
     await this.refreshTokenRepository.create({
       value: token,
@@ -103,7 +103,7 @@ export class RefreshTokenService implements IRefreshTokenService {
       subject: userId,
     };
 
-    const isValid = this.jwtService.jwtVerify(token, options);
+    const isValid = await this.jwtService.jwtVerify(token, options);
 
     if (!isValid) throw new UnauthorizedException("Invalid refresh token");
 

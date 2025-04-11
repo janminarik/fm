@@ -10,15 +10,11 @@ export interface LoggerOptions {
 }
 
 export interface ILogger {
-  debug: (message: string, meta?: Record<string, any>) => void;
-  info: (message: string, meta?: Record<string, any>) => void;
-  warn: (message: string, meta?: Record<string, any>) => void;
-  error: (message: string, meta?: Record<string, any>) => void;
+  debug: (message: string, meta?: object) => void;
+  info: (message: string, meta?: object) => void;
+  warn: (message: string, meta?: object) => void;
+  error: (message: string, error?: Error | object, meta?: object) => void;
 }
-
-// function test(lalal: any) {
-//   return "xx";
-// }
 
 export class Logger implements ILogger {
   private logger: pino.Logger;
@@ -39,19 +35,19 @@ export class Logger implements ILogger {
     return Logger.instance;
   }
 
-  debug(message: string, meta?: Record<string, any>) {
+  debug(message: string, meta?: object) {
     this.logger.debug({ ...meta, msg: message });
   }
 
-  info(message: string, meta?: Record<string, any>) {
+  info(message: string, meta?: object) {
     this.logger.info({ ...meta, msg: message });
   }
 
-  warn(message: string, meta?: Record<string, any>) {
+  warn(message: string, meta?: object) {
     this.logger.warn({ ...meta, msg: message });
   }
 
-  error(message: string, meta?: Record<string, any>) {
+  error(message: string, meta?: object) {
     this.logger.error({ ...meta, msg: message });
   }
 }

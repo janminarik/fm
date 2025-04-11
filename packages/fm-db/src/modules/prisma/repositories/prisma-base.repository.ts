@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Prisma, PrismaClient } from "@prisma/client";
 import {
   type IListPaginationParams,
@@ -60,7 +61,7 @@ export interface IPrismaBaseRepository<
 }
 
 // Typ pre Prisma model delegate
-type PrismaModelDelegate<TEntity, TCreate, TCreateMany, TUpdate, TWhere> = {
+type PrismaModelDelegate<TEntity, TCreate, TCreateMany, TUpdate, _TWhere> = {
   findMany: (args: any) => Promise<TEntity[]>;
   findUnique: (args: any) => Promise<TEntity>;
   create: (args: {

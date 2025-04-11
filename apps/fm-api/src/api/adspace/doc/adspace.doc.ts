@@ -7,7 +7,7 @@ import {
   DocPaginatedResponse,
   DocRequest,
   DocResponse,
-  ValidatioErrorDto,
+  ValidationErrorDto,
 } from "@repo/nest-common";
 
 import { PaginationResponseDto } from "../../../common/dto";
@@ -18,7 +18,7 @@ const commonErrors = [
     {
       status: HttpStatus.UNPROCESSABLE_ENTITY,
     },
-    ValidatioErrorDto,
+    ValidationErrorDto,
   ),
   DocError({
     status: HttpStatus.INTERNAL_SERVER_ERROR,

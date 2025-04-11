@@ -6,7 +6,7 @@ import {
   DocOperation,
   DocRequest,
   DocResponse,
-  ValidatioErrorDto,
+  ValidationErrorDto,
 } from "@repo/nest-common";
 
 import { LoginRequestDto } from "../dto";
@@ -17,7 +17,7 @@ const commonErrors = [
     {
       status: HttpStatus.UNPROCESSABLE_ENTITY,
     },
-    ValidatioErrorDto,
+    ValidationErrorDto,
   ),
   DocError({
     status: HttpStatus.INTERNAL_SERVER_ERROR,

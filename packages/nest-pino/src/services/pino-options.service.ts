@@ -15,6 +15,10 @@ import { TransportTargetOptions } from "pino";
 
 import type { Options as PinoHttpOptions } from "pino-http";
 
+interface ExtendedError extends Error {
+  statusCode?: number;
+}
+
 export interface PinoOptions {
   pinoHttp: PinoHttpOptions;
 }
@@ -50,9 +54,9 @@ export class PinoOptionsService {
         serializers: {
           req: (request: IRequest) => this.requestSerializer(request),
           res: (response: Response) => this.responseSerializer(response),
-          err: (error: Error) => this.errorSerializer(config.nodeEnv, error),
+          err: (error: Error) =>
+            this.errorSerializer(config.nodeEnv as Environment, error),
         },
-
         transport,
       },
     };
@@ -77,9 +81,7 @@ export class PinoOptionsService {
     path: request.path,
     query: request.query,
     referer: request.headers.referer,
-    route: request.route?.path,
-    session: (request as any).user?.session,
-    user: (request as any).user?.user,
+    user: request.user,
     userAgent: request.headers[REQUEST_USER_AGENT_HEADER],
   });
 
@@ -91,10 +93,13 @@ export class PinoOptionsService {
     };
   };
 
-  private errorSerializer = (enviroment: string, error: Error) => ({
+  private errorSerializer = (
+    environment: Environment,
+    error: ExtendedError,
+  ) => ({
     type: error.name,
     message: error.message,
-    code: (error as any).statusCode,
-    stack: enviroment === Environment.PRODUCTION ? undefined : error.stack,
+    code: error.statusCode ?? undefined,
+    stack: environment === Environment.PRODUCTION ? undefined : error.stack,
   });
 }

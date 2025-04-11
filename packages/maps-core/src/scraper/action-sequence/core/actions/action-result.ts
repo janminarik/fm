@@ -5,5 +5,5 @@ export interface ActionResult<T extends ActionType = ActionType> {
   success: boolean;
   action?: Action<T>;
   error?: Error;
-  data?: any;
+  data?: unknown;
 }

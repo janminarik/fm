@@ -13,6 +13,7 @@ import {
 import { ILogger } from "../../../logger/logger";
 import { ActionResult, Action, ActionType } from "../core/actions";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface BrowserOptions extends PuppeteerLaunchOptions {}
 
 export interface PageOptions {
@@ -82,7 +83,7 @@ export class ActionSequenceExecutor {
     while (attempts < maxAttempts) {
       attempts++;
       try {
-        let result: any;
+        let result;
 
         switch (action.type) {
           case "goto": {

@@ -8,7 +8,7 @@ import {
 import { Prisma } from "@prisma/client";
 
 function handlePrismaError(
-  error: any,
+  error: unknown,
   entityId?: string,
   entityName?: string,
 ): never {
@@ -121,8 +121,8 @@ function handlePrismaError(
 }
 
 export function PrismaErrorHandler() {
-  return function <T, A extends any[], R>(
-    target: any,
+  return function <T, A extends unknown[], R>(
+    target: unknown,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<(this: T, ...args: A) => Promise<R>>,
   ) {
