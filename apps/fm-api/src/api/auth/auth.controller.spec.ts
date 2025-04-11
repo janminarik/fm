@@ -27,6 +27,7 @@ import {
   IUserRepository,
   USER_REPOSITORY,
 } from "@repo/fm-domain";
+import { createUserFake } from "@repo/fm-mock-data";
 import { plainToInstance } from "class-transformer";
 import { mock, MockProxy } from "jest-mock-extended";
 import { ClsModule } from "nestjs-cls";
@@ -233,7 +234,71 @@ describe("AuthController", () => {
     });
   });
 
-  describe("refresh token", () => {
+  describe("refresh token pair", () => {
+    test("should token pair successfully", async () => {
+      const mockUser = createUserFake();
+
+      const mockJwtPayload: JwtRefreshPayloadDto = {
+        userId: "550e8400-e29b-41d4-a716-446655440000",
+        jti: "550e8400-e29b-41d4-a716-446655440001",
+        token: "token",
+      };
+
+      const mockTokenPair: AuthTokenPair = {
+        accessToken: {
+          token: "token",
+          expiresAt: Math.floor(Date.now() / 1000) + 3600,
+        },
+        refreshToken: {
+          token: "token",
+          expiresAt: Math.floor(Date.now() / 1000) + 86400,
+        },
+      };
+
+      mockRenewTokenService.generateTokenPair.mockResolvedValue(mockTokenPair);
+      mockUserRepository.findById.mockResolvedValue(mockUser);
+
+      const result = await controller.refreshTokens(mockJwtPayload);
+
+      expect(renewTokenService.generateTokenPair).toHaveBeenLastCalledWith(
+        mockJwtPayload.userId,
+        mockJwtPayload.token,
+      );
+      expect(result).toBeDefined();
+      expect(result.accessToken).toBe(mockTokenPair.accessToken.token);
+      expect(result.accessTokenExpiresAt).toBe(
+        mockTokenPair.accessToken.expiresAt,
+      );
+      expect(result.refreshToken).toBe(mockTokenPair.refreshToken.token);
+      expect(result.refreshTokenExpiresAt).toBe(
+        mockTokenPair.refreshToken.expiresAt,
+      );
+    });
+
+    test("should fail refresh token pair", async () => {
+      const moduleFixture = await createTestingModule(false);
+      controller = moduleFixture.get(AuthController);
+
+      const mockUser = createUserFake();
+
+      const mockJwtPayload: JwtRefreshPayloadDto = {
+        userId: "550e8400-e29b-41d4-a716-446655440000",
+        jti: "550e8400-e29b-41d4-a716-446655440001",
+        token: "token",
+      };
+
+      const error = new Error("Invalid refresh token");
+
+      mockRefreshTokenService.validateToken.mockRejectedValue(error);
+      mockUserRepository.findById.mockResolvedValue(mockUser);
+
+      await expect(controller.refreshTokens(mockJwtPayload)).rejects.toThrow(
+        error,
+      );
+    });
+  });
+
+  describe("refresh access token", () => {
     test("should refresh token successfully", async () => {
       const mockJwtPayload: JwtRefreshPayloadDto = {
         userId: "550e8400-e29b-41d4-a716-446655440000",
