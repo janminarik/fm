@@ -22,8 +22,7 @@ async function main(prisma: PrismaClient) {
 
     await cleanupDatabase(prisma);
 
-    //create test user:
-    const user = await testDataFactory.getDefaultUser();
+    const user = testDataFactory.getDefaultUser();
 
     const hashService = new HashService();
 
