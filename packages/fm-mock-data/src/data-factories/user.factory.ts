@@ -1,4 +1,4 @@
-import { CreateUser, User, UserAlreadyExistError } from "@repo/fm-domain";
+import { User } from "@repo/fm-domain";
 import { v4 as uuid4 } from "uuid";
 
 import { UserFakes } from "../fakes/user.fakes";
