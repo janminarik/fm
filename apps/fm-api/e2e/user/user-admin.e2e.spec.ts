@@ -1,11 +1,11 @@
 import {
+  test,
   afterAll,
   beforeAll,
   beforeEach,
   describe,
   expect,
   afterEach,
-  it,
 } from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 import { User } from "@repo/fm-db";
@@ -42,7 +42,7 @@ describe("UserAdminController (e2e)", () => {
   });
 
   describe("/api/user/create (POST)", () => {
-    it("should create a new user and return the user data (201)", async () => {
+    test("should create a new user and return the user data (201)", async () => {
       const createUserDto = generateCreateUserPayload();
 
       const { data } = await apiClient.post<UserDto>(
@@ -59,7 +59,7 @@ describe("UserAdminController (e2e)", () => {
       testUsers.push(data as unknown as User);
     });
 
-    it("should fail when creating a user with an already used email (409)", async () => {
+    test("should fail when creating a user with an already used email (409)", async () => {
       const createUserDto = generateCreateUserPayload();
 
       // Create user
@@ -70,21 +70,25 @@ describe("UserAdminController (e2e)", () => {
       );
 
       // Try create user with same email
-      await apiClient.post<UserDto>(
+      const { status } = await apiClient.post<UserDto>(
         UserControllerUrl.Create,
         createUserDto,
         409,
       );
+
+      expect(status).toBe(409);
     });
 
-    it("should fail creating user when password is missing (422)", async () => {
+    test("should fail creating user when password is missing (422)", async () => {
       const createUserDto = generateCreateUserPayload();
 
-      await apiClient.post<UserDto>(
+      const { status } = await apiClient.post<UserDto>(
         UserControllerUrl.Create,
         { ...createUserDto, password: undefined },
         422,
       );
+
+      expect(status).toBe(422);
     });
   });
 });

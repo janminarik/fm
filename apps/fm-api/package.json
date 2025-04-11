@@ -18,7 +18,7 @@
     "test": "jest --testPathIgnorePatterns=e2e",
     "test:cov": "jest --testPathIgnorePatterns=e2e --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./jest.e2e.config.mjs",
+    "test:e2e": "jest --config ./jest.e2e.config.mjs --verbose",
     "test:e2e:cov": "jest --config ./jest.e2e.config.mjs --coverage",
     "test:watch": "jest --watch",
     "use-dev-env": "dotenv -e ../../.env.development --",

@@ -1,10 +1,10 @@
 import {
+  test,
   jest,
   afterEach,
   beforeEach,
   describe,
   expect,
-  it,
 } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { GetUserByIdUseCase } from "@repo/fm-application";
@@ -57,7 +57,7 @@ describe("UserSharedController", () => {
   });
 
   describe("getProfile", () => {
-    it("should get a user profile and return the mapped user DTO", async () => {
+    test("should get a user profile and return the mapped user DTO", async () => {
       const mockEntity: User = createUserFake();
       const userId = uuid4();
       const mockJwtPayload: JwtAccessPayloadDto = { userId, jti: uuid4() };

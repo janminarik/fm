@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 
@@ -17,7 +17,6 @@ export class TestApiClient {
   async request<TResponse>(
     method: HttpMethod,
     url: string,
-    expectedStatus: number = 200,
     payload?: string | object,
     jwt?: string,
   ): Promise<ApiResponse<TResponse>> {
@@ -28,7 +27,7 @@ export class TestApiClient {
 
     if (jwt) req.set("Authorization", "Bearer " + jwt);
 
-    const res = await req.expect(expectedStatus);
+    const res = await req;
 
     return {
       data: res.body as TResponse,
@@ -37,26 +36,20 @@ export class TestApiClient {
     };
   }
 
-  async get<TResponse>(url: string, expectedStatus?: number, jwt?: string) {
-    return await this.request<TResponse>(
-      "get",
-      url,
-      expectedStatus,
-      undefined,
-      jwt,
-    );
+  async get<TResponse>(url: string, jwt?: string) {
+    return await this.request<TResponse>("get", url, undefined, jwt);
   }
 
   async post<TResponse>(
     url: string,
     payload?: string | object,
-    expectedStatus: number = 201,
+    // expectedStatus: number = 201,
     jwt?: string,
   ) {
     return await this.request<TResponse>(
       "post",
       url,
-      expectedStatus,
+      // expectedStatus,
       payload,
       jwt,
     );
@@ -65,13 +58,13 @@ export class TestApiClient {
   async put<TResponse>(
     url: string,
     payload?: string | object,
-    expectedStatus: number = 200,
+    // expectedStatus: number = 200,
     jwt?: string,
   ) {
     return await this.request<TResponse>(
       "put",
       url,
-      expectedStatus,
+      // expectedStatus,
       payload,
       jwt,
     );
@@ -80,13 +73,13 @@ export class TestApiClient {
   async patch<TResponse>(
     url: string,
     payload?: string | object,
-    expectedStatus: number = 200,
+    // expectedStatus: number = 200,
     jwt?: string,
   ) {
     return await this.request<TResponse>(
       "patch",
       url,
-      expectedStatus,
+      // expectedStatus,
       payload,
       jwt,
     );
@@ -95,13 +88,13 @@ export class TestApiClient {
   async delete<TResponse>(
     url: string,
     payload?: string | object,
-    expectedStatus: number = 204,
+    // expectedStatus: number = 204,
     jwt?: string,
   ) {
     return await this.request<TResponse>(
       "delete",
       url,
-      expectedStatus,
+      // expectedStatus,
       payload,
       jwt,
     );

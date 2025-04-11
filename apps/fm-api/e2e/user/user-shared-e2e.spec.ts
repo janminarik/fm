@@ -1,11 +1,11 @@
 import {
+  test,
   afterAll,
   beforeAll,
   beforeEach,
   describe,
   expect,
   afterEach,
-  it,
 } from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 
@@ -44,7 +44,7 @@ describe("UserSharedController (e2e)", () => {
   });
 
   describe("/api/user/profile (GET)", () => {
-    it("should get a user profile - auth header - (200)", async () => {
+    test("should get a user profile - auth header - (200)", async () => {
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
         AuthControllerUrl.Login,
         {
@@ -69,7 +69,7 @@ describe("UserSharedController (e2e)", () => {
       expect(profileData.userName).toEqual(testUser.userName);
     });
 
-    it("should get a user profile - auth cookie - (200)", async () => {
+    test("should get a user profile - auth cookie - (200)", async () => {
       const { data: loginData } = await apiClient.post<AuthTokenPairDto>(
         AuthControllerUrl.Login,
         {
@@ -94,8 +94,9 @@ describe("UserSharedController (e2e)", () => {
       expect(profileData.userName).toEqual(testUser.userName);
     });
 
-    it("should fail get a user profile when user is unauthorized (401)", async () => {
-      await apiClient.get(UserControllerUrl.Profile, 401);
+    test("should fail get a user profile when user is unauthorized (401)", async () => {
+      const { status } = await apiClient.get(UserControllerUrl.Profile, 401);
+      expect(status).toBe(401);
     });
   });
 });

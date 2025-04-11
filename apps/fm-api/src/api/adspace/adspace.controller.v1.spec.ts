@@ -1,4 +1,4 @@
-import { jest, beforeEach, describe, expect, it } from "@jest/globals";
+import { jest, beforeEach, describe, expect } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
   CreateAdSpacePayload,
@@ -98,12 +98,12 @@ describe("AdSpaceControllerV1", () => {
     mapper = module.get(AdSpaceMapper);
   });
 
-  it("should be defined", () => {
+  test("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
   describe("listPagination", () => {
-    it("should return a paginated list of AdSpaceDto with proper metadata", async () => {
+    test("should return a paginated list of AdSpaceDto with proper metadata", async () => {
       const mockParams: IListPaginationParams = {
         page: 1,
         limit: 10,
@@ -143,7 +143,7 @@ describe("AdSpaceControllerV1", () => {
       });
     });
 
-    it("should return an empty list when no ad spaces exist", async () => {
+    test("should return an empty list when no ad spaces exist", async () => {
       const mockParams: IListPaginationParams = {
         page: 1,
         limit: 10,
@@ -178,7 +178,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("get", () => {
-    it("should return an AdSpaceDto when provided with a valid ID", async () => {
+    test("should return an AdSpaceDto when provided with a valid ID", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -198,7 +198,7 @@ describe("AdSpaceControllerV1", () => {
       expect(result).toEqual(mockResponse);
     });
 
-    it("should throw an error when ad space with specified ID does not exist", async () => {
+    test("should throw an error when ad space with specified ID does not exist", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -213,7 +213,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("create", () => {
-    it("should create and return an AdSpaceDto when given valid payload", async () => {
+    test("should create and return an AdSpaceDto when given valid payload", async () => {
       const mockPayload = generateCreateAdSpacePayload();
       const mockEntity = createAdSpaceFake();
       const mockResponse = { ...mockEntity, id: uuid4() } as AdSpaceDto;
@@ -233,7 +233,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("update", () => {
-    it("should update and return AdSpaceDto when given valid ID and payload", async () => {
+    test("should update and return AdSpaceDto when given valid ID and payload", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -262,7 +262,7 @@ describe("AdSpaceControllerV1", () => {
       expect(result).toEqual(mockResponse);
     });
 
-    it("should throw an error when ad space with specified ID does not exist", async () => {
+    test("should throw an error when ad space with specified ID does not exist", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,
@@ -283,7 +283,7 @@ describe("AdSpaceControllerV1", () => {
   });
 
   describe("delete", () => {
-    it("should delete an AdSpace with the correct ID", async () => {
+    test("should delete an AdSpace with the correct ID", async () => {
       const mockId = uuid4();
       const mockParamas: IdParams = {
         id: mockId,
@@ -301,7 +301,7 @@ describe("AdSpaceControllerV1", () => {
       expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParamas.id);
     });
 
-    it("should throw an error when ad space with specified ID does not exist", async () => {
+    test("should throw an error when ad space with specified ID does not exist", async () => {
       const mockId = uuid4();
       const mockParams: IdParams = {
         id: mockId,

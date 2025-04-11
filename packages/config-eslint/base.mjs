@@ -32,13 +32,22 @@ export default tselint.config(
     files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: process.cwd(),
         projectService: true,
         allowDefaultProject: true,
       },
     },
   },
   {
-    files: ["**/*.spec.ts", "**/*.test.ts", "test/**/*.ts", "e2e/**/*.ts"],
+    files: [
+      "**/*.spec.ts",
+      "**/*.test.ts",
+      "**/*.spec.tsx",
+      "**/*.test.tsx",
+      "test/**/*.ts",
+      "e2e/**/*.ts",
+    ],
     languageOptions: {
       globals: jestPlugin.environments.globals.globals,
       parserOptions: {
@@ -47,7 +56,12 @@ export default tselint.config(
         projectService: false,
       },
     },
+    plugins: {
+      jest: jestPlugin,
+    },
     rules: {
+      ...jestPlugin.configs.recommended.rules,
+      ...jestPlugin.configs.style.rules,
       "@typescript-eslint/no-unsafe-argument": "error",
       "@typescript-eslint/no-unsafe-assignment": "error",
       "jest/no-disabled-tests": "warn",
@@ -55,6 +69,15 @@ export default tselint.config(
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
+      "jest/expect-expect": "error",
+      "jest/no-conditional-expect": "error",
+      "jest/no-mocks-import": "error",
+      "jest/consistent-test-it": [
+        "error",
+        { fn: "test", withinDescribe: "test" },
+      ],
+      "jest/no-standalone-expect": "error",
+      "jest/no-duplicate-hooks": "error",
       "@typescript-eslint/unbound-method": "off",
       "jest/unbound-method": "error",
     },

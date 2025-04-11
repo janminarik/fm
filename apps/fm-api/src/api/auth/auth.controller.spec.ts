@@ -1,4 +1,4 @@
-import { jest, beforeAll, describe, expect, it } from "@jest/globals";
+import { test, jest, beforeAll, describe, expect } from "@jest/globals";
 import { UnauthorizedException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
@@ -73,12 +73,12 @@ describe("AuthController", () => {
     controller = moduleFixture.get<AuthController>(AuthController);
   });
 
-  it("should init controller", () => {
+  test("should init controller", () => {
     expect(controller).toBeDefined();
   });
 
   describe("login", () => {
-    it("should return JWT tokens", async () => {
+    test("should return JWT tokens", async () => {
       const loginReqDto: LoginRequestDto = {
         email: "john.doe@example.com",
         password: "P@ssw0rd2025",
@@ -103,7 +103,7 @@ describe("AuthController", () => {
       );
     });
 
-    it("should throw and error if login fails", async () => {
+    test("should throw and error if login fails", async () => {
       const loginReqDto: LoginRequestDto = {
         email: "john.doe@example.com",
         password: "P@ssw0rd2025",
@@ -124,7 +124,7 @@ describe("AuthController", () => {
     });
 
     describe("LoginRequestDto", () => {
-      it("should validate successfully with valid data", async () => {
+      test("should validate successfully with valid data", async () => {
         const validData = {
           email: "john.doe@example.com",
           password: "P@ssw0rd2025",
@@ -137,7 +137,7 @@ describe("AuthController", () => {
         expect(validationErrors).toHaveLength(0);
       });
 
-      it("should fail validation if email is not valid", async () => {
+      test("should fail validation if email is not valid", async () => {
         const invalidData = {
           email: "johndoe@example",
           password: "P@ssw0rd",
@@ -151,7 +151,7 @@ describe("AuthController", () => {
         expect(validationErrors[0]?.property).toBe("email");
       });
 
-      it("should fail validation if password is missing", async () => {
+      test("should fail validation if password is missing", async () => {
         const invaliData = {
           email: "john.doe@example.com",
         };
@@ -163,7 +163,7 @@ describe("AuthController", () => {
         expect(validationErrors).toHaveLength(1);
         expect(validationErrors[0]?.property).toBe("password");
       });
-      it("should fail validation if password is weak", async () => {
+      test("should fail validation if password is weak", async () => {
         const invaliData = {
           email: "john.doe@example.com",
           password: "Password123",

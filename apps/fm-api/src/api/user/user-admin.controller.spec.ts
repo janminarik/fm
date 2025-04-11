@@ -1,9 +1,9 @@
 import {
+  test,
   jest,
   beforeEach,
   describe,
   expect,
-  it,
   afterEach,
 } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -57,7 +57,7 @@ describe("UserAdminController", () => {
   });
 
   describe("createUser", () => {
-    it("should create a user and return the mapped user DTO", async () => {
+    test("should create a user and return the mapped user DTO", async () => {
       const userData = createUserFake();
 
       const mockEntity = userData;

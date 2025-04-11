@@ -1,11 +1,4 @@
-import {
-  jest,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  beforeEach,
-} from "@jest/globals";
+import { jest, beforeAll, describe, expect, beforeEach } from "@jest/globals";
 import { UnauthorizedException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import {
@@ -78,12 +71,12 @@ describe("AuthService", () => {
     jest.restoreAllMocks();
   });
 
-  it("should init", () => {
+  test("should init", () => {
     expect(authService).toBeDefined();
   });
 
   describe("login", () => {
-    it("should login", async () => {
+    test("should login", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
@@ -122,7 +115,7 @@ describe("AuthService", () => {
       });
     });
 
-    it("login should fail when user does not exist", async () => {
+    test("login should fail when user does not exist", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
@@ -135,7 +128,7 @@ describe("AuthService", () => {
       );
     });
 
-    it("login should fail when user is not verified", async () => {
+    test("login should fail when user is not verified", async () => {
       const userMock: User = createUserFake();
       const email = userMock.email;
       const password = "password-hash";
@@ -152,7 +145,7 @@ describe("AuthService", () => {
   });
 
   describe("verifyUserPassword", () => {
-    it("should verify user if passwordHash is equal", async () => {
+    test("should verify user if passwordHash is equal", async () => {
       const password = "password";
       const passwordHash = "password-hash";
 

@@ -1,12 +1,12 @@
 import {
   jest,
+  test,
   afterAll,
   beforeAll,
   beforeEach,
   describe,
   expect,
   afterEach,
-  it,
 } from "@jest/globals";
 import { INestApplication } from "@nestjs/common";
 import { PrismaService } from "@repo/fm-db";
@@ -58,15 +58,15 @@ describe("AdSpaceController (e2e)", () => {
   }
 
   async function login(): Promise<string> {
-    const { data } = await apiClient.post<AuthTokenPairDto>(
+    const { data, status } = await apiClient.post<AuthTokenPairDto>(
       AuthControllerUrl.Login,
       {
         email: testUser.email,
         password: testUser.password,
       },
-      200,
     );
 
+    expect(status).toBe(200);
     expect(data.accessToken).toBeDefined();
     expect(data.refreshToken).toBeDefined();
 
@@ -96,18 +96,18 @@ describe("AdSpaceController (e2e)", () => {
   });
 
   describe("/api/adspace (POST)", () => {
-    it("should create an ad space and return data (200)", async () => {
+    test("should create an ad space and return data (201)", async () => {
       accessToken = await login();
 
       const createAdSpaceDto = generateCreateAdSpacePayload();
 
-      const { data } = await apiClient.post<AdSpaceDto>(
+      const { status, data } = await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,
         createAdSpaceDto,
-        201,
         accessToken,
       );
 
+      expect(status).toBe(201);
       expect(data).toBeDefined();
       expect(data.id).toBeDefined();
       expect(data.name).toBe(createAdSpaceDto.name);
@@ -116,37 +116,38 @@ describe("AdSpaceController (e2e)", () => {
       expect(data.address).toBeDefined();
     });
 
-    it("should fail to create an ad space if request is invalid (422)", async () => {
+    test("should fail to create an ad space if request is invalid (422)", async () => {
       accessToken = await login();
 
-      await apiClient.post<AdSpaceDto>(
+      const { status } = await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,
         {},
-        422,
         accessToken,
       );
+
+      expect(status).toBe(422);
     });
 
-    it("should fail to create an ad space if user is unauthorized (401)", async () => {
+    test("should fail to create an ad space if user is unauthorized (401)", async () => {
       const createAdSpaceDto = generateCreateAdSpacePayload();
 
-      await apiClient.post<AdSpaceDto>(
+      const { status } = await apiClient.post<AdSpaceDto>(
         AdSpaceControllerUrl.Create,
         createAdSpaceDto,
-        401,
       );
+
+      expect(status).toBe(401);
     });
   });
 
   describe("/api/adspace/list  (GET)", () => {
-    it("should return paginated list of ad spaces (200)", async () => {
+    test("should return paginated list of ad spaces (200)", async () => {
       await seedDatabase();
 
       accessToken = await login();
 
       const { data } = await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
         AdSpaceControllerUrl.List,
-        200,
         accessToken,
       );
 
@@ -155,33 +156,34 @@ describe("AdSpaceController (e2e)", () => {
       expect(data.data.length).toBeGreaterThan(0);
     });
 
-    it("should fail to return paginated list of ad spaces if query is invalid (422)", async () => {
+    test("should fail to return paginated list of ad spaces if query is invalid (422)", async () => {
       accessToken = await login();
 
-      await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
+      const { status } = await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
         `${AdSpaceControllerUrl.List}?sortOrder=ABC`,
-        422,
         accessToken,
       );
+
+      expect(status).toBe(422);
     });
 
-    it("should fail to return paginated list of ad spaces if user is unauthorized (401)", async () => {
-      await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
+    test("should fail to return paginated list of ad spaces if user is unauthorized (401)", async () => {
+      const { status } = await apiClient.get<PaginationResponseDto<AdSpaceDto>>(
         AdSpaceControllerUrl.List,
-        401,
       );
+
+      expect(status).toBe(401);
     });
   });
 
   describe("/api/adspace/:id  (GET)", () => {
-    it("should successfully return  an existing ad space (200)", async () => {
+    test("should successfully return  an existing ad space (200)", async () => {
       await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
       const { data } = await apiClient.get<AdSpaceDto>(
         `${AdSpaceControllerUrl.Get}/${adSpaceId}`,
-        200,
         accessToken,
       );
 
@@ -189,38 +191,44 @@ describe("AdSpaceController (e2e)", () => {
       expect(data.id).toBe(adSpaceId);
     });
 
-    it("should fail when trying to get a non-existent ad space (404)", async () => {
+    test("should fail when trying to get a non-existent ad space (404)", async () => {
       const fakeAdSpaceId = generateId();
 
       accessToken = await login();
 
-      await apiClient.get<AdSpaceDto>(
+      const { status } = await apiClient.get<AdSpaceDto>(
         `${AdSpaceControllerUrl.Get}/${fakeAdSpaceId}`,
-        404,
         accessToken,
       );
+
+      expect(status).toBe(404);
     });
 
-    it("should fail to get an ad space with invalid ID (422)", async () => {
+    test("should fail to get an ad space with invalid ID (422)", async () => {
       accessToken = await login();
 
-      await apiClient.get<AdSpaceDto>(
+      const { status } = await apiClient.get<AdSpaceDto>(
         `${AdSpaceControllerUrl.Get}/1234546`,
-        422,
         accessToken,
       );
+
+      expect(status).toBe(422);
     });
 
-    it("should fail to get ad space if user is unauthorized (401)", async () => {
+    test("should fail to get ad space if user is unauthorized (401)", async () => {
       await insertAdSpaceInDatabase();
       accessToken = await login();
 
-      await apiClient.get(`${AdSpaceControllerUrl.Get}/${adSpaceId}`, 401);
+      const { status } = await apiClient.get(
+        `${AdSpaceControllerUrl.Get}/${adSpaceId}`,
+      );
+
+      expect(status).toBe(401);
     });
   });
 
   describe("/api/adspace/:id  (PATCH)", () => {
-    it("should successfully update an existing ad space (200)", async () => {
+    test("should successfully update an existing ad space (200)", async () => {
       await insertAdSpaceInDatabase();
 
       accessToken = await login();
@@ -230,19 +238,20 @@ describe("AdSpaceController (e2e)", () => {
         visibility: AdSpaceVisibility.HIGH,
       };
 
-      const { data } = await apiClient.patch<AdSpaceDto>(
+      const { data, status } = await apiClient.patch<AdSpaceDto>(
         `${AdSpaceControllerUrl.Update}/${adSpaceId}`,
         updateAdSpaceDto,
-        200,
         accessToken,
       );
 
+      expect(status).toBe(200);
       expect(data).toBeDefined();
+      expect(data.name).toBe(updateAdSpaceDto.name);
       expect(data.name).toBe(updateAdSpaceDto.name);
       expect(data.visibility).toBe(updateAdSpaceDto.visibility);
     });
 
-    it("should fail when trying to update a non-existent ad space (404)", async () => {
+    test("should fail when trying to update a non-existent ad space (404)", async () => {
       const fakeAdSpaceId = generateId();
 
       accessToken = await login();
@@ -252,15 +261,16 @@ describe("AdSpaceController (e2e)", () => {
         visibility: AdSpaceVisibility.HIGH,
       };
 
-      await apiClient.patch<AdSpaceDto>(
+      const { status } = await apiClient.patch<AdSpaceDto>(
         `${AdSpaceControllerUrl.Update}/${fakeAdSpaceId}`,
         updateAdSpaceDto,
-        404,
         accessToken,
       );
+
+      expect(status).toBe(404);
     });
 
-    it("should fail when updating an ad space with invalid data (422)", async () => {
+    test("should fail when updating an ad space with invalid data (422)", async () => {
       await insertAdSpaceInDatabase();
 
       accessToken = await login();
@@ -270,15 +280,16 @@ describe("AdSpaceController (e2e)", () => {
         visibility: "NORMAL",
       };
 
-      await apiClient.patch<AdSpaceDto>(
+      const { status } = await apiClient.patch<AdSpaceDto>(
         `${AdSpaceControllerUrl.Update}/${adSpaceId}`,
         invalidUpdateAdSpaceDto,
-        422,
         accessToken,
       );
+
+      expect(status).toBe(422);
     });
 
-    it("should reject update when the user is unauthorized (401)", async () => {
+    test("should reject update when the user is unauthorized (401)", async () => {
       await insertAdSpaceInDatabase();
 
       accessToken = await login();
@@ -288,61 +299,66 @@ describe("AdSpaceController (e2e)", () => {
         visibility: AdSpaceVisibility.HIGH,
       };
 
-      await apiClient.patch<AdSpaceDto>(
+      const { status } = await apiClient.patch<AdSpaceDto>(
         `${AdSpaceControllerUrl.Update}/${adSpaceId}`,
         updateAdSpaceDto,
-        401,
       );
+
+      expect(status).toBe(401);
     });
   });
 
   describe("/api/adspace/:id  (DELETE)", () => {
-    it("should successfully delete an existing ad space (204)", async () => {
+    test("should successfully delete an existing ad space (204)", async () => {
       await insertAdSpaceInDatabase();
 
       accessToken = await login();
 
-      await apiClient.delete(
+      const { status } = await apiClient.delete(
         `${AdSpaceControllerUrl.Delete}/${adSpaceId}`,
         undefined,
-        204,
         accessToken,
       );
+
+      expect(status).toBe(204);
     });
 
-    it("should fail when attempting to delete a non-existent ad space (404)", async () => {
+    test("should fail when attempting to delete a non-existent ad space (404)", async () => {
       const fakeAdSpaceId = generateId();
 
       accessToken = await login();
 
-      await apiClient.delete(
+      const { status } = await apiClient.delete(
         `${AdSpaceControllerUrl.Delete}/${fakeAdSpaceId}`,
         undefined,
-        404,
         accessToken,
       );
+
+      expect(status).toBe(404);
     });
 
-    it("should fail when attempting to delete with an invalid ad space ID format(422)", async () => {
+    test("should fail when attempting to delete with an invalid ad space ID format(422)", async () => {
       accessToken = await login();
 
-      await apiClient.delete(
+      const { status } = await apiClient.delete(
         `${AdSpaceControllerUrl.Delete}/1234546`,
         undefined,
-        422,
         accessToken,
       );
+
+      expect(status).toBe(422);
     });
 
-    it("should reject deletion when the user is unauthorized (401)", async () => {
+    test("should reject deletion when the user is unauthorized (401)", async () => {
       await insertAdSpaceInDatabase();
       accessToken = await login();
 
-      await apiClient.delete(
+      const { status } = await apiClient.delete(
         `${AdSpaceControllerUrl.Delete}/${adSpaceId}`,
         undefined,
-        401,
       );
+
+      expect(status).toBe(401);
     });
   });
 });
