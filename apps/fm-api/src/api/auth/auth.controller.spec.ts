@@ -189,19 +189,19 @@ describe("AuthController", () => {
   describe("refresh token", () => {
     test("should refresh token", async () => {
       const mockJwtPayload: JwtRefreshPayloadDto = {
-        userId: "123",
-        jti: "456",
-        token: "refresh-token-value",
+        userId: "550e8400-e29b-41d4-a716-446655440000",
+        jti: "550e8400-e29b-41d4-a716-446655440001",
+        token: "token",
       };
 
       const mockTokenPair: AuthTokenPair = {
         accessToken: {
-          token: "accessToken value",
-          expiresAt: 123,
+          token: "token",
+          expiresAt: Math.floor(Date.now() / 1000) + 3600,
         },
         refreshToken: {
-          token: "refresh token value",
-          expiresAt: 123,
+          token: "token",
+          expiresAt: Math.floor(Date.now() / 1000) + 86400,
         },
       };
 
@@ -212,6 +212,10 @@ describe("AuthController", () => {
       const result = await controller.refreshAccessToken(mockJwtPayload);
 
       expect(result).toBeDefined();
+      expect(result.accessToken).toBeDefined();
+      expect(result.accessTokenExpiresAt).toBeDefined();
+      expect(result.refreshToken).toBeDefined();
+      expect(result.refreshTokenExpiresAt).toBeDefined();
     });
   });
 });
