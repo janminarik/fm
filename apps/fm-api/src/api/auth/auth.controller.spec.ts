@@ -55,7 +55,9 @@ describe("AuthController", () => {
   let mockJwtServiceWrapper: MockProxy<JwtWrapperService>;
   let renewTokenService: IRenewTokenService;
 
-  beforeEach(async () => {
+  const createTestingModule = async (
+    useMockRenewService: boolean = true,
+  ): Promise<TestingModule> => {
     mockAuthService = mock<AuthService>();
     mockTokenService = mock<IAccessTokenService>();
     mockRefreshTokenService = mock<IRefreshTokenService>();
@@ -65,7 +67,7 @@ describe("AuthController", () => {
     mockAppTokenRepository = mock<IAppTokenRepository>();
     mockJwtServiceWrapper = mock<JwtWrapperService>();
 
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    return await Test.createTestingModule({
       imports: [
         ClsModule.forRoot({
           global: true,
@@ -104,11 +106,15 @@ describe("AuthController", () => {
         },
         {
           provide: RENEW_TOKEN_SERVICE,
-          useClass: RenewTokenService,
+          useValue: useMockRenewService ? mockRenewTokenService : undefined,
+          useClass: useMockRenewService ? undefined : RenewTokenService,
         },
       ],
     }).compile();
+  };
 
+  beforeEach(async () => {
+    const moduleFixture = await createTestingModule();
     controller = moduleFixture.get<AuthController>(AuthController);
     renewTokenService =
       moduleFixture.get<IRenewTokenService>(RENEW_TOKEN_SERVICE);
@@ -268,6 +274,9 @@ describe("AuthController", () => {
     });
 
     test("should fail refresh token", async () => {
+      const moduleFixture = await createTestingModule(false);
+      controller = moduleFixture.get(AuthController);
+
       const mockJwtPayload: JwtRefreshPayloadDto = {
         userId: "550e8400-e29b-41d4-a716-446655440000",
         jti: "550e8400-e29b-41d4-a716-446655440001",
