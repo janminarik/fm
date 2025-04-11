@@ -211,6 +211,9 @@ describe("AuthController", () => {
 
       const result = await controller.refreshAccessToken(mockJwtPayload);
 
+      expect(
+        mockRenewTokenService.generateAccessToken,
+      ).toHaveBeenLastCalledWith(mockJwtPayload.userId, mockJwtPayload.token);
       expect(result).toBeDefined();
       expect(result.accessToken).toBeDefined();
       expect(result.accessTokenExpiresAt).toBeDefined();
