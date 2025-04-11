@@ -17,23 +17,23 @@ import { UserAdminController } from "./user-admin.controller";
 
 describe("UserAdminController", () => {
   let controller: UserAdminController;
-  let createUserUseCaseMock: MockProxy<CreateUserUseCase>;
-  let userMapperMock: MockProxy<UserMapper>;
+  let mockCreateUserUseCase: MockProxy<CreateUserUseCase>;
+  let mockUserMapper: MockProxy<UserMapper>;
 
   beforeEach(async () => {
-    createUserUseCaseMock = mock<CreateUserUseCase>();
-    userMapperMock = mock<UserMapper>();
+    mockCreateUserUseCase = mock<CreateUserUseCase>();
+    mockUserMapper = mock<UserMapper>();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserAdminController],
       providers: [
         {
           provide: CreateUserUseCase,
-          useValue: createUserUseCaseMock,
+          useValue: mockCreateUserUseCase,
         },
         {
           provide: UserMapper,
-          useValue: userMapperMock,
+          useValue: mockUserMapper,
         },
       ],
     }).compile();
@@ -52,16 +52,16 @@ describe("UserAdminController", () => {
       const mockEntity = userData;
       const mockPaylod: CreateUserDto = { ...mockEntity } as CreateUserDto;
 
-      createUserUseCaseMock.execute.mockResolvedValue(mockEntity);
-      userMapperMock.to.mockReturnValue(mockEntity);
+      mockCreateUserUseCase.execute.mockResolvedValue(mockEntity);
+      mockUserMapper.to.mockReturnValue(mockEntity);
 
       const controllerSpy = jest.spyOn(controller, "createUser");
 
       const result = await controller.createUser(mockPaylod);
 
       expect(controllerSpy).toHaveBeenCalledWith(mockPaylod);
-      expect(createUserUseCaseMock.execute).toHaveBeenCalledWith(mockPaylod);
-      expect(userMapperMock.to).toHaveBeenCalledWith(UserDto, mockEntity);
+      expect(mockCreateUserUseCase.execute).toHaveBeenCalledWith(mockPaylod);
+      expect(mockUserMapper.to).toHaveBeenCalledWith(UserDto, mockEntity);
       expect(result).toEqual(mockEntity);
     });
   });
