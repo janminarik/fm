@@ -7,7 +7,7 @@ import {
   generateId,
   IRequest,
   LOGGER_RESTRICTED_SENSITIVE_ATTRIBUTES,
-  REQUESR_USER_AGENT_HEADER,
+  REQUEST_USER_AGENT_HEADER,
   REQUEST_ID_HEADER,
 } from "@repo/nest-common";
 import { Response } from "express";
@@ -80,7 +80,7 @@ export class PinoOptionsService {
     route: request.route?.path,
     session: (request as any).user?.session,
     user: (request as any).user?.user,
-    userAgent: request.headers[REQUESR_USER_AGENT_HEADER],
+    userAgent: request.headers[REQUEST_USER_AGENT_HEADER],
   });
 
   private responseSerializer = (response: Response) => {

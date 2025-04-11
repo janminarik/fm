@@ -1,34 +1,27 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
 
-import { IRequestContext } from "../interfaces";
+import { IRequest, IRequestContext } from "../interfaces";
 
 export class RequestContextInterceptor implements NestInterceptor {
-  intercept(
+  intercept<T>(
     context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
-    const request = context.switchToHttp().getRequest<
-      Request & {
-        user: any;
-        params: Record<string, any>;
-        query: Record<string, any>;
-        cookies: Record<string, any>;
-        customContext: IRequestContext;
-      }
-    >();
+    next: CallHandler<T>,
+  ): Observable<T> | Promise<Observable<T>> {
+    const request = context.switchToHttp().getRequest<IRequest>();
 
     const customContext: IRequestContext = {
-      headers: request?.headers,
+      headers: request.headers,
       user: request.user,
       params: {
         params: request.params,
-        query: request.query,
-        body: request.body as Record<string, any>,
+        query: request.query as Record<string, string | string[] | undefined>,
+        body: request.body as Record<string, unknown>,
+        cookies: request.cookies,
       },
     };
 
-    request.customContext = customContext;
+    request.context = customContext;
 
     return next.handle();
   }

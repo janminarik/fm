@@ -1,6 +1,6 @@
 import * as fs from "fs/promises";
 
-import { jest, describe, expect, it, beforeAll } from "@jest/globals";
+import { jest, describe, expect, beforeAll, test } from "@jest/globals";
 
 import {
   ActionSequenceExecutor,
@@ -19,7 +19,7 @@ describe("MapyParserService (integration)", () => {
     testLogger = createTestLogger();
   });
 
-  it("MapyScraperService", async () => {
+  test("MapyScraperService", async () => {
     const sharedFolderUrl = "https://mapy.com/s/dodalupufa";
     const routeDetailBaseUrl = "https://mapy.com/en/turisticka?planovani-trasy";
 

@@ -1,4 +1,7 @@
-export class JwtAccessPayloadDto {
+import { IUser } from "@repo/nest-common";
+
+export class JwtAccessPayloadDto implements IUser {
+  id: string;
   /**
    * JWT ID
    * A unique identifier for the token.

@@ -5,23 +5,27 @@ import {
   Logger,
   NestInterceptor,
 } from "@nestjs/common";
+import { Request } from "express";
 import { Observable, tap } from "rxjs";
 
-import { REQUESR_USER_AGENT_HEADER } from "../constants";
+import { REQUEST_USER_AGENT_HEADER } from "../constants";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  private logger = new Logger(LoggingInterceptor.name);
+  private logger = new Logger("NestCommon.LoggingInterceptor");
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept<T>(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<T> | Promise<Observable<T>> {
     const startTime = performance.now();
 
-    const request = context.switchToHttp().getRequest();
-    const { ip, method, path: url } = request;
-    const userAgent = request.get(REQUESR_USER_AGENT_HEADER) || null;
+    const request = context.switchToHttp().getRequest<Request>();
+    const { ip, method, url } = request;
+    const userAgent = request.get(REQUEST_USER_AGENT_HEADER) || null;
 
     this.logger.log(
-      `Request ${method} | ${url} | ${ip} | Controlller ${context.getClass().name} | Route: ${context.getHandler().name}`,
+      `Request ${method} | ${url} | ${ip} | Controller ${context.getClass().name} | Route: ${context.getHandler().name}`,
     );
 
     return next.handle().pipe(
@@ -32,7 +36,7 @@ export class LoggingInterceptor implements NestInterceptor {
         const elapsedTime = performance.now() - startTime;
 
         this.logger.log(
-          `Response ${method} | ${url} | ${statusCode} | Duration: ${elapsedTime} ms  | ${userAgent} | ${ip}`,
+          `Response ${method} | ${url} | ${statusCode} | Duration: ${elapsedTime} ms | ${userAgent} | ${ip}`,
         );
       }),
     );
