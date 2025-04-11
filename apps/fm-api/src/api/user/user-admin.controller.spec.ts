@@ -7,9 +7,9 @@ import {
   afterEach,
 } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CreateUserPayload, CreateUserUseCase } from "@repo/fm-application";
-import { User } from "@repo/fm-domain";
+import { CreateUserUseCase } from "@repo/fm-application";
 import { createUserFake } from "@repo/fm-mock-data";
+import { mock, MockProxy } from "jest-mock-extended";
 
 import { UserMapper } from "./common/user.mapper";
 import { CreateUserDto, UserDto } from "./dtos";
@@ -17,39 +17,28 @@ import { UserAdminController } from "./user-admin.controller";
 
 describe("UserAdminController", () => {
   let controller: UserAdminController;
-  let createUserUseCase: {
-    execute: jest.Mock<
-      (createUserPayload: CreateUserPayload) => Promise<User | null>
-    >;
-  };
-  let userMapper: { to: jest.Mock };
+  let createUserUseCaseMock: MockProxy<CreateUserUseCase>;
+  let userMapperMock: MockProxy<UserMapper>;
 
   beforeEach(async () => {
-    const mockCreateUserUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockUserMapper = {
-      to: jest.fn(),
-    };
+    createUserUseCaseMock = mock<CreateUserUseCase>();
+    userMapperMock = mock<UserMapper>();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserAdminController],
       providers: [
         {
           provide: CreateUserUseCase,
-          useValue: mockCreateUserUseCase,
+          useValue: createUserUseCaseMock,
         },
         {
           provide: UserMapper,
-          useValue: mockUserMapper,
+          useValue: userMapperMock,
         },
       ],
     }).compile();
 
     controller = module.get<UserAdminController>(UserAdminController);
-    createUserUseCase = module.get(CreateUserUseCase);
-    userMapper = module.get(UserMapper);
   });
 
   afterEach(() => {
@@ -63,16 +52,16 @@ describe("UserAdminController", () => {
       const mockEntity = userData;
       const mockPaylod: CreateUserDto = { ...mockEntity } as CreateUserDto;
 
-      createUserUseCase.execute.mockResolvedValue(mockEntity);
-      userMapper.to.mockReturnValue(mockEntity);
+      createUserUseCaseMock.execute.mockResolvedValue(mockEntity);
+      userMapperMock.to.mockReturnValue(mockEntity);
 
       const controllerSpy = jest.spyOn(controller, "createUser");
 
       const result = await controller.createUser(mockPaylod);
 
       expect(controllerSpy).toHaveBeenCalledWith(mockPaylod);
-      expect(createUserUseCase.execute).toHaveBeenCalledWith(mockPaylod);
-      expect(userMapper.to).toHaveBeenCalledWith(UserDto, mockEntity);
+      expect(createUserUseCaseMock.execute).toHaveBeenCalledWith(mockPaylod);
+      expect(userMapperMock.to).toHaveBeenCalledWith(UserDto, mockEntity);
       expect(result).toEqual(mockEntity);
     });
   });
