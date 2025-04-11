@@ -12,9 +12,11 @@ import { Test, TestingModule } from "@nestjs/testing";
 import {
   ACCESS_TOKEN_SERVICE,
   AuthCookieService,
+  AuthTokenPair,
   IAccessTokenService,
   IRefreshTokenService,
   IRenewTokenService,
+  JwtRefreshPayloadDto,
   REFRESH_TOKEN_SERVICE,
   RENEW_TOKEN_SERVICE,
 } from "@repo/fm-auth";
@@ -181,6 +183,35 @@ describe("AuthController", () => {
           "password is not strong enough",
         );
       });
+    });
+  });
+
+  describe("refresh token", () => {
+    test("should refresh token", async () => {
+      const mockJwtPayload: JwtRefreshPayloadDto = {
+        userId: "123",
+        jti: "456",
+        token: "refresh-token-value",
+      };
+
+      const mockTokenPair: AuthTokenPair = {
+        accessToken: {
+          token: "accessToken value",
+          expiresAt: 123,
+        },
+        refreshToken: {
+          token: "refresh token value",
+          expiresAt: 123,
+        },
+      };
+
+      mockRenewTokenService.generateAccessToken.mockResolvedValue(
+        mockTokenPair,
+      );
+
+      const result = await controller.refreshAccessToken(mockJwtPayload);
+
+      expect(result).toBeDefined();
     });
   });
 });
