@@ -20,23 +20,23 @@ import { UserSharedController } from "./user-shared.controller";
 
 describe("UserSharedController", () => {
   let controller: UserSharedController;
-  let getUserByIdUseCaseMock: MockProxy<GetUserByIdUseCase>;
-  let userMapperMock: MockProxy<UserMapper>;
+  let mockGetUserByIdUseCase: MockProxy<GetUserByIdUseCase>;
+  let mockUserMapper: MockProxy<UserMapper>;
 
   beforeEach(async () => {
-    getUserByIdUseCaseMock = mock<GetUserByIdUseCase>();
-    userMapperMock = mock<UserMapper>();
+    mockGetUserByIdUseCase = mock<GetUserByIdUseCase>();
+    mockUserMapper = mock<UserMapper>();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserSharedController],
       providers: [
         {
           provide: GetUserByIdUseCase,
-          useValue: getUserByIdUseCaseMock,
+          useValue: mockGetUserByIdUseCase,
         },
         {
           provide: UserMapper,
-          useValue: userMapperMock,
+          useValue: mockUserMapper,
         },
       ],
     }).compile();
@@ -54,16 +54,16 @@ describe("UserSharedController", () => {
       const userId = uuid4();
       const mockJwtPayload: JwtAccessPayloadDto = { userId, jti: uuid4() };
 
-      getUserByIdUseCaseMock.execute.mockResolvedValue(mockEntity);
-      userMapperMock.to.mockReturnValue(mockEntity);
+      mockGetUserByIdUseCase.execute.mockResolvedValue(mockEntity);
+      mockUserMapper.to.mockReturnValue(mockEntity);
 
       const controllerSpy = jest.spyOn(controller, "getProfile");
 
       const result = await controller.getProfile(mockJwtPayload);
 
       expect(controllerSpy).toHaveBeenCalledWith(mockJwtPayload);
-      expect(getUserByIdUseCaseMock.execute).toHaveBeenCalledWith(userId);
-      expect(userMapperMock.to).toHaveBeenCalledWith(UserDto, mockEntity);
+      expect(mockGetUserByIdUseCase.execute).toHaveBeenCalledWith(userId);
+      expect(mockUserMapper.to).toHaveBeenCalledWith(UserDto, mockEntity);
       expect(result).toEqual(mockEntity);
     });
   });
