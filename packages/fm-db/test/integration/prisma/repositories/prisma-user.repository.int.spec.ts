@@ -9,7 +9,7 @@ import {
 import { ConflictException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { CreateUser, USER_REPOSITORY } from "@repo/fm-domain";
-import { createUserPayload, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
+import { generateCreateUser, TEST_DEFAULT_USER } from "@repo/fm-mock-data";
 import { HashService } from "@repo/fm-shared";
 
 import { UserMapper } from "../../../../src/modules/prisma/mappers";
@@ -82,7 +82,7 @@ describe("PrismaUserRepository (Integration)", () => {
 
   describe("create", () => {
     it("should create a new user", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -99,7 +99,7 @@ describe("PrismaUserRepository (Integration)", () => {
     });
 
     it("should throw ConflictException when user with email already exist", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -119,7 +119,7 @@ describe("PrismaUserRepository (Integration)", () => {
 
   describe("findById", () => {
     it("should find user by ID", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -127,6 +127,11 @@ describe("PrismaUserRepository (Integration)", () => {
         ...userData,
         passwordHash,
       });
+
+      if (!createdUser) {
+        expect(createdUser).toBeDefined();
+        return;
+      }
 
       const foundUser = await userRepository.findById(createdUser?.id);
 
@@ -143,7 +148,7 @@ describe("PrismaUserRepository (Integration)", () => {
 
   describe("findByEmail", () => {
     it("should find user by email", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -151,6 +156,11 @@ describe("PrismaUserRepository (Integration)", () => {
         ...userData,
         passwordHash,
       });
+
+      if (!createdUser) {
+        expect(createdUser).toBeDefined();
+        return;
+      }
 
       const foundUser = await userRepository.findUserByEmail(
         createdUser?.email,
@@ -163,7 +173,7 @@ describe("PrismaUserRepository (Integration)", () => {
 
   describe("update", () => {
     it("should update user properties", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -171,6 +181,11 @@ describe("PrismaUserRepository (Integration)", () => {
         ...userData,
         passwordHash,
       });
+
+      if (!createdUser) {
+        expect(createdUser).toBeDefined();
+        return;
+      }
 
       const updateData = {
         id: createdUser.id,
@@ -182,15 +197,15 @@ describe("PrismaUserRepository (Integration)", () => {
       const updatedUser = await userRepository.update(updateData);
 
       expect(updatedUser).toBeDefined();
-      expect(updatedUser.firstName).toBe(updateData.firstName);
-      expect(updatedUser.lastName).toBe(updateData.lastName);
-      expect(updatedUser.phoneNumber).toBe(updateData.phoneNumber);
+      expect(updatedUser?.firstName).toBe(updateData.firstName);
+      expect(updatedUser?.lastName).toBe(updateData.lastName);
+      expect(updatedUser?.phoneNumber).toBe(updateData.phoneNumber);
     });
   });
 
   describe("delete", () => {
     it("should delete a user by ID", async () => {
-      const { password, ...userData } = createUserPayload();
+      const { password, ...userData } = generateCreateUser();
       const hashService = new HashService();
       const passwordHash = await hashService.hash(password);
 
@@ -199,10 +214,15 @@ describe("PrismaUserRepository (Integration)", () => {
         passwordHash,
       });
 
+      if (!createdUser) {
+        expect(createdUser).toBeDefined();
+        return;
+      }
+
       const deletedUser = await userRepository.delete(createdUser.id);
 
       expect(deletedUser).toBeDefined();
-      expect(deletedUser.id).toBe(createdUser.id);
+      expect(deletedUser?.id).toBe(createdUser.id);
 
       const userInDb = await prismaService.user.findUnique({
         where: { id: createdUser.id },

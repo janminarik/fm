@@ -1,4 +1,4 @@
-import { User } from "@repo/fm-domain";
+import { CreateUser, User, UserAlreadyExistError } from "@repo/fm-domain";
 import { v4 as uuid4 } from "uuid";
 
 import { UserFakes } from "../fakes/user.fakes";
@@ -9,6 +9,27 @@ export const TEST_DEFAULT_PASSWORD = "H3slo123456*";
 export function generateCreateUserPayload() {
   const fakes = new UserFakes();
 
+  return {
+    email: fakes.email(),
+    password: TEST_DEFAULT_PASSWORD,
+    userName: fakes.userName(),
+    firstName: fakes.firstName(),
+    lastName: fakes.lastName(),
+  };
+}
+
+export type CreateUserFake = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  verified?: boolean;
+  disabled?: boolean;
+};
+
+export function generateCreateUser(): CreateUserFake {
+  const fakes = new UserFakes();
   return {
     email: fakes.email(),
     password: TEST_DEFAULT_PASSWORD,
