@@ -29,15 +29,6 @@ import { LoginRequestDto } from "./dto";
 import { AuthTokenPairDto } from "./dto/auth-token-pair.dto";
 import { AuthService } from "./services/auth.service";
 
-// C:\Dev\Repositories\github\ref-projects\ref-nestjs\nestjs-auth-refresh-token-example-main\src\modules\authentication\auth-refresh-token.service.ts
-
-//! toto zapracovat
-
-// const totalSec = ctx.jwtPayload.exp - ctx.jwtPayload.iat;
-// const elapsedMs = new Date().getTime() - ctx.jwtPayload.iat * 1000;
-// const thresholdMs = totalSec * 1000 * this.reciprocal20percent; // 20% of total time
-// if (elapsedMs >= thresholdMs)
-
 @Controller({ version: "1", path: "auth" })
 export class AuthController {
   constructor(
