@@ -1,5 +1,7 @@
+import { describe, expect, test } from "@jest/globals";
+
 describe("AccessTokenService", () => {
-  it("should init", () => {
+  test("should init", () => {
     expect(true);
   });
 });

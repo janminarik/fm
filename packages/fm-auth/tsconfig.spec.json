@@ -1,8 +1,10 @@
 {
-    "extends": "@repo/config-typescript/test.json",
-    "compilerOptions": {
-      "outDir": "dist",
-      "rootDir": "src",
-      "composite": true,
-    }
-  }
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@repo/config-typescript/test.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts", "e2e/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
