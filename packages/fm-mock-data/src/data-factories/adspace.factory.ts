@@ -3,7 +3,7 @@ import { AdSpace } from "@repo/fm-domain";
 import { AdSpaceFake } from "../fakes/adspace.fakes";
 import { AddressFakes } from "../fakes/location.fakes";
 
-export function generateCreateAdSpacePayload() {
+export function createAdSpacePayloadFake() {
   const fake = new AdSpaceFake();
   const locationFake = new AddressFakes();
 
@@ -23,7 +23,7 @@ export function generateCreateAdSpacePayload() {
   return adSpace;
 }
 
-export function generateUpdatedSpacePayload() {
+export function updateAdSpacePayloadFake() {
   const fake = new AdSpaceFake();
 
   const adSpace = {

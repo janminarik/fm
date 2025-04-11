@@ -6,7 +6,7 @@ import { UserFakes } from "../fakes/user.fakes";
 export const TEST_DEFAULT_USER = "jozef@mak.sk";
 export const TEST_DEFAULT_PASSWORD = "H3slo123456*";
 
-export function generateCreateUserPayload() {
+export function createUserPayloadFake() {
   const fakes = new UserFakes();
 
   return {
@@ -18,7 +18,7 @@ export function generateCreateUserPayload() {
   };
 }
 
-export type CreateUserFake = {
+export interface CreateUserProps {
   email: string;
   password: string;
   firstName: string;
@@ -26,9 +26,9 @@ export type CreateUserFake = {
   userName: string;
   verified?: boolean;
   disabled?: boolean;
-};
+}
 
-export function generateCreateUser(): CreateUserFake {
+export function createUserDbFake(): CreateUserProps {
   const fakes = new UserFakes();
   return {
     email: fakes.email(),

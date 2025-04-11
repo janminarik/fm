@@ -21,8 +21,8 @@ import {
 } from "@repo/fm-domain";
 import {
   createAdSpaceFake,
-  generateCreateAdSpacePayload,
-  generateUpdatedSpacePayload,
+  createAdSpacePayloadFake,
+  updateAdSpacePayloadFake,
 } from "@repo/fm-mock-data";
 import { mock, MockProxy } from "jest-mock-extended";
 import { v4 as uuid4 } from "uuid";
@@ -184,7 +184,7 @@ describe("AdSpaceControllerV1", () => {
 
   describe("create", () => {
     test("should create and return an AdSpaceDto when given valid payload", async () => {
-      const mockPayload = generateCreateAdSpacePayload();
+      const mockPayload = createAdSpacePayloadFake();
       const mockEntity = createAdSpaceFake();
       const mockResponse = { ...mockEntity, id: uuid4() } as AdSpaceDto;
 
@@ -239,7 +239,7 @@ describe("AdSpaceControllerV1", () => {
       const mockParams: IdParams = {
         id: mockId,
       };
-      const mockPayload = generateUpdatedSpacePayload();
+      const mockPayload = updateAdSpacePayloadFake();
       const error = new Error("Ad space not found");
 
       mockUpdateAdSpaceUseCase.execute.mockRejectedValue(error);

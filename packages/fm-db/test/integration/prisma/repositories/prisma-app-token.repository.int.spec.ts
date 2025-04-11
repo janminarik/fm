@@ -10,7 +10,7 @@ import { NotFoundException } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import { APP_TOKEN_REPOSITORY, USER_REPOSITORY } from "@repo/fm-domain";
 import {
-  generateCreateAppTokenPayload,
+  createAppTokenPayloadFake,
   TEST_DEFAULT_USER,
 } from "@repo/fm-mock-data";
 
@@ -97,7 +97,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
 
   describe("create", () => {
     it("should create a new app token", async () => {
-      const tokenData = generateCreateAppTokenPayload({ userId });
+      const tokenData = createAppTokenPayloadFake({ userId });
 
       const createdToken = await appTokenRepository.create(tokenData);
 
@@ -111,7 +111,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
 
   describe("findById", () => {
     it("should find token by ID", async () => {
-      const tokenData = generateCreateAppTokenPayload({ userId });
+      const tokenData = createAppTokenPayloadFake({ userId });
 
       const createdToken = await appTokenRepository.create(tokenData);
 
@@ -135,7 +135,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
   describe("findToken", () => {
     it("should find token by userId and publicId", async () => {
       const publicId = "test-public-id";
-      const tokenData = generateCreateAppTokenPayload({
+      const tokenData = createAppTokenPayloadFake({
         userId,
         publicId,
       });
@@ -158,7 +158,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
 
   describe("update", () => {
     it("should update token properties", async () => {
-      const tokenData = generateCreateAppTokenPayload({ userId });
+      const tokenData = createAppTokenPayloadFake({ userId });
 
       const createdToken = await appTokenRepository.create(tokenData);
 
@@ -195,7 +195,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
 
   describe("delete", () => {
     it("should delete a token by ID", async () => {
-      const tokenData = generateCreateAppTokenPayload({ userId });
+      const tokenData = createAppTokenPayloadFake({ userId });
 
       const createdToken = await appTokenRepository.create(tokenData);
 
@@ -220,7 +220,7 @@ describe("PrismaAppTokenRepository (Integration)", () => {
   describe("revokeToken", () => {
     it("should revoke a token by userId and publicId", async () => {
       const publicId = "token-to-revoke";
-      const tokenData = generateCreateAppTokenPayload({
+      const tokenData = createAppTokenPayloadFake({
         userId,
         publicId,
       });

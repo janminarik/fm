@@ -12,7 +12,7 @@ import { ConfigService } from "@nestjs/config";
 import { HttpAdapterHost, Reflector } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
 import { IUserRepository, USER_REPOSITORY } from "@repo/fm-domain";
-import { generateCreateUserPayload } from "@repo/fm-mock-data";
+import { createUserPayloadFake } from "@repo/fm-mock-data";
 import { HASH_SERVICE, IHashService } from "@repo/fm-shared";
 import {
   ExceptionHandlerService,
@@ -101,7 +101,7 @@ export async function createTestUser(): Promise<TestUser> {
   const userRepository: IUserRepository = app.get(USER_REPOSITORY);
   const hashService: IHashService = app.get(HASH_SERVICE);
 
-  const createUserDto = generateCreateUserPayload();
+  const createUserDto = createUserPayloadFake();
 
   const passwordHash = await hashService.hash(createUserDto.password);
 
