@@ -153,8 +153,8 @@ export function DocOperation(options: ApiOperationOptions): MethodDecorator {
   return applyDecorators(ApiOperation({ ...options }));
 }
 
-export type IDocResponseOptions<T = any> = ApiResponseOptions & {
-  dto?: T;
+export type IDocResponseOptions<T = object> = ApiResponseOptions & {
+  dto?: Type<T>;
 };
 
 export function DocResponse(options: IDocResponseOptions): MethodDecorator {

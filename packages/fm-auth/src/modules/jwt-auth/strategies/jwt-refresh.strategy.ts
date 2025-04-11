@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
@@ -43,6 +43,8 @@ export class JwtRefreshStrategy extends PassportStrategy(
     tokenPayload: JwtRefreshPayloadDto,
   ): Promise<JwtRefreshPayloadDto> {
     const token = this.jwtExtractorService.extractRefreshToken(req);
+
+    if (!token) throw new UnauthorizedException("Invalid token");
 
     await this.refreshTokenService.validateToken(token);
 

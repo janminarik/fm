@@ -9,6 +9,10 @@ import {
 } from "../config";
 import { AuthTokenPair } from "../types/auth-token";
 
+interface CookieRequest extends Request {
+  cookies: { [key: string]: string | undefined };
+}
+
 @Injectable()
 export class AuthCookieService {
   private appName: string;
@@ -31,10 +35,10 @@ export class AuthCookieService {
 
   getRefreshTokenCookieName = () => this.refreshTokenCookieName;
 
-  getAccessToken = (request: Request): string =>
+  getAccessToken = (request: CookieRequest): string | undefined =>
     request?.cookies?.[this.accessTokenCookieName];
 
-  getRefreshToken = (request: Request): string =>
+  getRefreshToken = (request: CookieRequest): string | undefined =>
     request?.cookies?.[this.refreshTokenCookieName];
 
   setCookie(response: Response, tokenPair: AuthTokenPair) {

@@ -15,7 +15,7 @@ export enum DocRequestBodyType {
   NONE = "NONE",
 }
 
-export interface IDocRequestOptions<T = any> {
+export interface IDocRequestOptions<T = unknown> {
   params?: ApiParamOptions[];
   queries?: ApiQueryOptions[];
   dto?: ClassConstructor<T>;

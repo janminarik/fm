@@ -9,7 +9,7 @@ export class JwtWrapperService {
 
   constructor(private readonly jwtService: NestJwtService) {}
 
-  jwtEncrypt(payload: Record<string, any>, options: IJwtOptions): string {
+  jwtEncrypt(payload: Record<string, unknown>, options: IJwtOptions): string {
     return this.jwtService.sign(payload, {
       secret: options.secretKey,
       subject: options.subject,

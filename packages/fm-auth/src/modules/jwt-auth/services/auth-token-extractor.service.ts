@@ -11,15 +11,15 @@ export class AuthTokenExtractorService {
     private readonly authHeaderService: AuthHeaderService,
   ) {}
 
-  extractAccessToken(req: Request): string {
+  extractAccessToken(req: Request): string | null {
     let token = this.authHeaderService.getToken(req);
     if (!token) token = this.authCookieService.getAccessToken(req);
-    return token;
+    return token ?? null;
   }
 
-  extractRefreshToken(req: Request): string {
+  extractRefreshToken(req: Request): string | null {
     let token = this.authHeaderService.getToken(req);
     if (!token) token = this.authCookieService.getRefreshToken(req);
-    return token;
+    return token ?? null;
   }
 }
