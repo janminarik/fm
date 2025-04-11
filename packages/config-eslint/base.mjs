@@ -62,6 +62,8 @@ export default tselint.config(
     rules: {
       ...jestPlugin.configs.recommended.rules,
       ...jestPlugin.configs.style.rules,
+
+      // "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-argument": "error",
       "@typescript-eslint/no-unsafe-assignment": "error",
       "jest/no-disabled-tests": "warn",
