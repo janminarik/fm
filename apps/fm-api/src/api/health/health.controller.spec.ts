@@ -20,29 +20,29 @@ import { HealthController } from "../health/health.controller";
 
 describe("HealthController", () => {
   let controller: HealthController;
-  let healthCheckServiceMock: MockProxy<HealthCheckService>;
-  let prismaHealthIndicatorMock: MockProxy<PrismaHealthIndicator>;
-  let prismaServiceMock: MockProxy<PrismaService>;
+  let mockHealthCheckService: MockProxy<HealthCheckService>;
+  let mockPrismaHealthIndicator: MockProxy<PrismaHealthIndicator>;
+  let mockPrismaService: MockProxy<PrismaService>;
 
   beforeEach(async () => {
-    healthCheckServiceMock = mock<HealthCheckService>();
-    prismaHealthIndicatorMock = mock<PrismaHealthIndicator>();
-    prismaServiceMock = mock<PrismaService>();
+    mockHealthCheckService = mock<HealthCheckService>();
+    mockPrismaHealthIndicator = mock<PrismaHealthIndicator>();
+    mockPrismaService = mock<PrismaService>();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [HealthController],
       providers: [
         {
           provide: HealthCheckService,
-          useValue: healthCheckServiceMock,
+          useValue: mockHealthCheckService,
         },
         {
           provide: PrismaHealthIndicator,
-          useValue: prismaHealthIndicatorMock,
+          useValue: mockPrismaHealthIndicator,
         },
         {
           provide: PrismaService,
-          useValue: prismaServiceMock,
+          useValue: mockPrismaService,
         },
       ],
     }).compile();
@@ -56,19 +56,19 @@ describe("HealthController", () => {
 
   test("should init", () => {
     expect(controller).toBeDefined();
-    expect(healthCheckServiceMock).toBeDefined();
-    expect(prismaHealthIndicatorMock).toBeDefined();
-    expect(prismaServiceMock).toBeDefined();
+    expect(mockHealthCheckService).toBeDefined();
+    expect(mockPrismaHealthIndicator).toBeDefined();
+    expect(mockPrismaService).toBeDefined();
   });
 
   test("should check OK", async () => {
-    const prismaHealthResultMock: HealthIndicatorResult = {
+    const mockPrismaHealthResult: HealthIndicatorResult = {
       database: {
         status: "up",
       },
     };
 
-    const healthCheckResultMock: HealthCheckResult = {
+    const mockHealthCheckResult: HealthCheckResult = {
       status: "ok",
       info: {
         database: {
@@ -83,10 +83,10 @@ describe("HealthController", () => {
       },
     };
 
-    prismaHealthIndicatorMock.pingCheck.mockResolvedValue(
-      prismaHealthResultMock,
+    mockPrismaHealthIndicator.pingCheck.mockResolvedValue(
+      mockPrismaHealthResult,
     );
-    healthCheckServiceMock.check.mockResolvedValue(healthCheckResultMock);
+    mockHealthCheckService.check.mockResolvedValue(mockHealthCheckResult);
 
     const result = await controller.check();
 
