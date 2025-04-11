@@ -1,4 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, test } from "@jest/globals";
+import {
+  afterEach,
+  jest,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from "@jest/globals";
 import {
   HealthCheckResult,
   HealthCheckService,
@@ -7,7 +14,7 @@ import {
 } from "@nestjs/terminus";
 import { TestingModule, Test } from "@nestjs/testing";
 import { PrismaService } from "@repo/fm-db";
-import { mock, MockProxy, mockReset } from "jest-mock-extended";
+import { mock, MockProxy } from "jest-mock-extended";
 
 import { HealthController } from "../health/health.controller";
 
@@ -17,7 +24,7 @@ describe("HealthController", () => {
   let prismaHealthIndicatorMock: MockProxy<PrismaHealthIndicator>;
   let prismaServiceMock: MockProxy<PrismaService>;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     healthCheckServiceMock = mock<HealthCheckService>();
     prismaHealthIndicatorMock = mock<PrismaHealthIndicator>();
     prismaServiceMock = mock<PrismaService>();
@@ -43,10 +50,8 @@ describe("HealthController", () => {
     controller = moduleFixture.get(HealthController);
   });
 
-  beforeEach(() => {
-    mockReset(healthCheckServiceMock);
-    mockReset(prismaHealthIndicatorMock);
-    mockReset(prismaServiceMock);
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test("should init", () => {
