@@ -1,12 +1,17 @@
-import { jest, beforeEach, describe, expect, test } from "@jest/globals";
+import {
+  jest,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  beforeAll,
+} from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import {
-  CreateAdSpacePayload,
   CreateAdSpaceUseCase,
   DeleteAdSpaceUseCase,
   GetAdSpaceUseCase,
   ListAdSpaceUseCase,
-  UpdateAdSpacePayload,
   UpdateAdSpaceUseCase,
 } from "@repo/fm-application";
 import {
@@ -19,6 +24,7 @@ import {
   generateCreateAdSpacePayload,
   generateUpdatedSpacePayload,
 } from "@repo/fm-mock-data";
+import { mock, MockProxy, mockReset } from "jest-mock-extended";
 import { v4 as uuid4 } from "uuid";
 
 import { AdSpaceControllerV1 } from "./adspace.controller.v1";
@@ -28,74 +34,42 @@ import { IdParams } from "../../common/dto/id.params";
 
 describe("AdSpaceControllerV1", () => {
   let controller: AdSpaceControllerV1;
-  let getAdSpaceUseCase: {
-    execute: jest.Mock<(id: string) => Promise<AdSpace>>;
-  };
-  let createAdSpaceUseCase: {
-    execute: jest.Mock<(payload: CreateAdSpacePayload) => Promise<AdSpace>>;
-  };
-  let updateAdSpaceUseCase: {
-    execute: jest.Mock<
-      (payload: UpdateAdSpacePayload) => Promise<AdSpace | null>
-    >;
-  };
-  let deleteAdSpaceUseCase: {
-    execute: jest.Mock<(id: string) => Promise<AdSpace>>;
-  };
-  let listAdSpaceUseCase: {
-    execute: jest.Mock<
-      (
-        paginationParams: IListPaginationParams,
-      ) => Promise<IListPaginationResult<AdSpace>>
-    >;
-  };
-  let mapper: { to: jest.Mock; toList: jest.Mock };
+  let getAdSpaceUseCaseMock: MockProxy<GetAdSpaceUseCase>;
+  let createAdSpaceUseCaseMock: MockProxy<CreateAdSpaceUseCase>;
+  let updateAdSpaceUseCaseMock: MockProxy<UpdateAdSpaceUseCase>;
+  let deleteAdSpaceUseCaseMock: MockProxy<DeleteAdSpaceUseCase>;
+  let listAdSpaceUseCaseMock: MockProxy<ListAdSpaceUseCase>;
+  let mapperMock: MockProxy<AdSpaceMapper>;
 
-  beforeEach(async () => {
-    const mockGetAdSpaceUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockCreateAdSpaceUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockUpdateAdSpaceUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockDeleteAdSpaceUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockListAdSpaceUseCase = {
-      execute: jest.fn(),
-    };
-
-    const mockMapper = {
-      to: jest.fn(),
-      toList: jest.fn(),
-    };
+  beforeAll(async () => {
+    getAdSpaceUseCaseMock = mock<GetAdSpaceUseCase>();
+    createAdSpaceUseCaseMock = mock<CreateAdSpaceUseCase>();
+    deleteAdSpaceUseCaseMock = mock<DeleteAdSpaceUseCase>();
+    updateAdSpaceUseCaseMock = mock<UpdateAdSpaceUseCase>();
+    listAdSpaceUseCaseMock = mock<ListAdSpaceUseCase>();
+    mapperMock = mock<AdSpaceMapper>();
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdSpaceControllerV1],
       providers: [
-        { provide: GetAdSpaceUseCase, useValue: mockGetAdSpaceUseCase },
-        { provide: CreateAdSpaceUseCase, useValue: mockCreateAdSpaceUseCase },
-        { provide: UpdateAdSpaceUseCase, useValue: mockUpdateAdSpaceUseCase },
-        { provide: DeleteAdSpaceUseCase, useValue: mockDeleteAdSpaceUseCase },
-        { provide: ListAdSpaceUseCase, useValue: mockListAdSpaceUseCase },
-        { provide: AdSpaceMapper, useValue: mockMapper },
+        { provide: GetAdSpaceUseCase, useValue: getAdSpaceUseCaseMock },
+        { provide: CreateAdSpaceUseCase, useValue: createAdSpaceUseCaseMock },
+        { provide: UpdateAdSpaceUseCase, useValue: updateAdSpaceUseCaseMock },
+        { provide: DeleteAdSpaceUseCase, useValue: deleteAdSpaceUseCaseMock },
+        { provide: ListAdSpaceUseCase, useValue: listAdSpaceUseCaseMock },
+        { provide: AdSpaceMapper, useValue: mapperMock },
       ],
     }).compile();
 
     controller = module.get<AdSpaceControllerV1>(AdSpaceControllerV1);
-    getAdSpaceUseCase = module.get(GetAdSpaceUseCase);
-    createAdSpaceUseCase = module.get(CreateAdSpaceUseCase);
-    updateAdSpaceUseCase = module.get(UpdateAdSpaceUseCase);
-    deleteAdSpaceUseCase = module.get(DeleteAdSpaceUseCase);
-    listAdSpaceUseCase = module.get(ListAdSpaceUseCase);
-    mapper = module.get(AdSpaceMapper);
+  });
+
+  beforeEach(() => {
+    mockReset(getAdSpaceUseCaseMock);
+    mockReset(createAdSpaceUseCaseMock);
+    mockReset(updateAdSpaceUseCaseMock);
+    mockReset(deleteAdSpaceUseCaseMock);
+    mockReset(listAdSpaceUseCaseMock);
   });
 
   test("should be defined", () => {
@@ -124,14 +98,14 @@ describe("AdSpaceControllerV1", () => {
 
       const controllerSpy = jest.spyOn(controller, "listPagination");
 
-      listAdSpaceUseCase.execute.mockResolvedValue(mockResponse);
-      mapper.toList.mockReturnValue(mockDtos);
+      listAdSpaceUseCaseMock.execute.mockResolvedValue(mockResponse);
+      mapperMock.toList.mockReturnValue(mockDtos);
 
       const result = await controller.listPagination(mockParams);
 
       expect(controllerSpy).toHaveBeenLastCalledWith(mockParams);
-      expect(listAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams);
-      expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, mockEntities);
+      expect(listAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(mockParams);
+      expect(mapperMock.toList).toHaveBeenCalledWith(AdSpaceDto, mockEntities);
       expect(result).toEqual({
         data: mockDtos,
         meta: {
@@ -158,13 +132,13 @@ describe("AdSpaceControllerV1", () => {
         },
       };
 
-      listAdSpaceUseCase.execute.mockResolvedValue(mockResponse);
-      mapper.toList.mockReturnValue([]);
+      listAdSpaceUseCaseMock.execute.mockResolvedValue(mockResponse);
+      mapperMock.toList.mockReturnValue([]);
 
       const result = await controller.listPagination(mockParams);
 
-      expect(listAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams);
-      expect(mapper.toList).toHaveBeenCalledWith(AdSpaceDto, []);
+      expect(listAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(mockParams);
+      expect(mapperMock.toList).toHaveBeenCalledWith(AdSpaceDto, []);
       expect(result).toEqual({
         data: [],
         meta: {
@@ -187,14 +161,14 @@ describe("AdSpaceControllerV1", () => {
       const mockResponse = { ...mockEntity } as AdSpaceDto;
       const controllerSpy = jest.spyOn(controller, "get");
 
-      getAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
-      mapper.to.mockReturnValue(mockResponse);
+      getAdSpaceUseCaseMock.execute.mockResolvedValue(mockEntity);
+      mapperMock.to.mockReturnValue(mockResponse);
 
       const result = await controller.get(mockParams);
 
       expect(controllerSpy).toHaveBeenLastCalledWith(mockParams);
-      expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
-      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(getAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(mockParams.id);
+      expect(mapperMock.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
       expect(result).toEqual(mockResponse);
     });
 
@@ -205,10 +179,10 @@ describe("AdSpaceControllerV1", () => {
       };
       const error = new Error("Ad space not found");
 
-      getAdSpaceUseCase.execute.mockRejectedValue(error);
+      getAdSpaceUseCaseMock.execute.mockRejectedValue(error);
 
       await expect(controller.get(mockParams)).rejects.toThrow(error);
-      expect(getAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
+      expect(getAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(mockParams.id);
     });
   });
 
@@ -220,14 +194,16 @@ describe("AdSpaceControllerV1", () => {
 
       const controllerSpy = jest.spyOn(controller, "create");
 
-      createAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
-      mapper.to.mockReturnValue(mockResponse);
+      createAdSpaceUseCaseMock.execute.mockResolvedValue(mockEntity);
+      mapperMock.to.mockReturnValue(mockResponse);
 
       const result = await controller.create(mockPayload);
 
       expect(controllerSpy).toHaveBeenCalledWith(mockPayload);
-      expect(createAdSpaceUseCase.execute).toHaveBeenCalledWith(mockPayload);
-      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(createAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(
+        mockPayload,
+      );
+      expect(mapperMock.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
       expect(result).toEqual(mockResponse);
     });
   });
@@ -248,14 +224,14 @@ describe("AdSpaceControllerV1", () => {
 
       const controllerUpdateSpy = jest.spyOn(controller, "update");
 
-      mapper.to.mockReturnValue(mockResponse);
-      updateAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+      mapperMock.to.mockReturnValue(mockResponse);
+      updateAdSpaceUseCaseMock.execute.mockResolvedValue(mockEntity);
 
       const result = await controller.update(mockParams, mockPayload);
 
       expect(controllerUpdateSpy).toHaveBeenCalledWith(mockParams, mockPayload);
-      expect(mapper.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
-      expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
+      expect(mapperMock.to).toHaveBeenCalledWith(AdSpaceDto, mockEntity);
+      expect(updateAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(
         mockId,
         mockPayload,
       );
@@ -270,12 +246,12 @@ describe("AdSpaceControllerV1", () => {
       const mockPayload = generateUpdatedSpacePayload();
       const error = new Error("Ad space not found");
 
-      updateAdSpaceUseCase.execute.mockRejectedValue(error);
+      updateAdSpaceUseCaseMock.execute.mockRejectedValue(error);
 
       await expect(controller.update(mockParams, mockPayload)).rejects.toThrow(
         error,
       );
-      expect(updateAdSpaceUseCase.execute).toHaveBeenCalledWith(
+      expect(updateAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(
         mockId,
         mockPayload,
       );
@@ -293,12 +269,14 @@ describe("AdSpaceControllerV1", () => {
 
       const controllerSpy = jest.spyOn(controller, "delete");
 
-      deleteAdSpaceUseCase.execute.mockResolvedValue(mockEntity);
+      deleteAdSpaceUseCaseMock.execute.mockResolvedValue(mockEntity);
 
       await controller.delete(mockParamas);
 
       expect(controllerSpy).toHaveBeenLastCalledWith(mockParamas);
-      expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParamas.id);
+      expect(deleteAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(
+        mockParamas.id,
+      );
     });
 
     test("should throw an error when ad space with specified ID does not exist", async () => {
@@ -308,10 +286,12 @@ describe("AdSpaceControllerV1", () => {
       };
       const error = new Error("Ad space not found");
 
-      deleteAdSpaceUseCase.execute.mockRejectedValue(error);
+      deleteAdSpaceUseCaseMock.execute.mockRejectedValue(error);
 
       await expect(controller.delete(mockParams)).rejects.toThrow(error);
-      expect(deleteAdSpaceUseCase.execute).toHaveBeenCalledWith(mockParams.id);
+      expect(deleteAdSpaceUseCaseMock.execute).toHaveBeenCalledWith(
+        mockParams.id,
+      );
     });
   });
 });
