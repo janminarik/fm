@@ -95,7 +95,7 @@ export class AuthController {
   @AuthCheckAuthDoc()
   @UseGuards(JwtAccessGuard)
   @Get("/checkAuth")
-  checkAuth() {
-    return { isAuthenticated: true };
+  async checkAuth(): Promise<{ isAuthenticated: boolean }> {
+    return Promise.resolve({ isAuthenticated: true });
   }
 }
