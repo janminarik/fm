@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm tsc -b && vite build && pnpm run i18n-copy",
+    "build": "pnpm tsc -b && vite build && pnpm run i18n-copy 1",
     "build:staging": "vite build --mode staging",
     "clean": "pnpm dlx rimraf node_modules dist .turbo tsconfig.tsbuildinfo",
     "dev": "npm run i18n-generate-types && npm run i18n-copy && concurrently \"npm run i18n-watch\" \"vite\"",
@@ -12,6 +12,8 @@
     "i18n-copy": "cpx \"src/i18n/translations/**/*\" public/i18n/translations",
     "i18n-generate-types": "i18next-resources-for-ts interface -i ./src/i18n/translations -o ./src/i18n/resources.d.ts",
     "i18n-watch": "cpx \"src/i18n/translations/**/*\" public/i18n/translations --watch",
+    "lint": "eslint --print-config \"{src,test}/**/*.ts\"",
+    "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "preview": "vite preview"
   },
   "dependencies": {
