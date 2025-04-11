@@ -357,4 +357,12 @@ describe("AuthController", () => {
       ).rejects.toThrow(error);
     });
   });
+
+  describe("checkAuth", () => {
+    test("user is valid", () => {
+      const response = controller.checkAuth();
+      expect(response).toBeDefined();
+      expect(response.isAuthenticated).toBe(true);
+    });
+  });
 });
