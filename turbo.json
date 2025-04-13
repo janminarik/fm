@@ -56,7 +56,7 @@
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
-        "./packages/eslint-config/**"
+        "./packages/config-eslint/**"
       ]
     },
     "lint:fix": {
@@ -65,7 +65,7 @@
       ],
       "inputs": [
         "$TURBO_DEFAULT$",
-        "./packages/eslint-config/**"
+        "./packages/config-eslint/**"
       ]
     },
     "format": {
